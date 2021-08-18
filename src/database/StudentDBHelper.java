@@ -34,6 +34,13 @@ public class StudentDBHelper implements StudentTableOperations {
     private static final String createTableQuery = "create table student(student_id varchar(10) PRIMARY KEY,password varchar(50),name varchar(20),std varchar(20),email varchar(30) UNIQUE,gender varchar(50),dob varchar(15),phone varchar(10),fees int)";
     private static Connection connection;
 
+    public static void main(String[] args) throws SQLException {
+        System.out.println(new StudentDBHelper().checkStudentExists("19eucs001"));
+        Student student = new Student("19eucs001","12345","Abiraj","10","abi@gmail.com","Male","30-11-2001","9655047766",10000);
+        System.out.println(new StudentDBHelper().createStudent(student));
+        System.out.println(new StudentDBHelper().checkStudentExists("19eucs001"));
+    }
+
     public static Connection getConnection() {
         try {
             Class.forName(driverName);
