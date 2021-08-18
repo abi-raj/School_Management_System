@@ -8,7 +8,7 @@ interface StudentTableOperations {
     void payFees(int amount);
 
     //Data types for below void methods are yet to be defined
-    void askQuestion();
+    void askQuestion(String id,String description);
     void getQuestionResponse();
     void applyLeave();
     void getLeaveStatus();
@@ -93,9 +93,11 @@ public class StudentDBHelper implements StudentTableOperations {
     }
 
     @Override
-    public void askQuestion() {
+    public void askQuestion(String id, String description) {
 
     }
+
+
 
     @Override
     public void getQuestionResponse() {

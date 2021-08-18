@@ -15,6 +15,15 @@ interface TeacherTableOperations{
     Teacher viewTeacher(String id);
     boolean updateTeacher(Teacher user);
     boolean deleteTeacher(String id,String password);
+
+
+    //Data types for below void methods are yet to be defined
+    void replyQuestion();
+    void markAttendance();
+    void editStudent();
+    void postMaterials();
+    void addGrades();
+    void approveLeave();
    // boolean teacherExist(String id);
 
 }
@@ -47,7 +56,7 @@ public class TeacherDBHelper implements TeacherTableOperations{
             System.out.println("Table Teacher created");
             conn.close();
         }catch(Exception e){
-            System.out.println("Exception Occured:"+e);
+            System.out.println("Exception Occured: "+e);
         }
     }
     @Override
@@ -186,6 +195,36 @@ public class TeacherDBHelper implements TeacherTableOperations{
             System.out.println("Exception : " + e.getMessage());
         }
         return false;
+    }
+
+    @Override
+    public void replyQuestion() {
+
+    }
+
+    @Override
+    public void markAttendance() {
+
+    }
+
+    @Override
+    public void editStudent() {
+
+    }
+
+    @Override
+    public void postMaterials() {
+
+    }
+
+    @Override
+    public void addGrades() {
+
+    }
+
+    @Override
+    public void approveLeave() {
+
     }
 
     public static void main(String[] args) throws Exception {
