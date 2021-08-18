@@ -1,6 +1,7 @@
 package database;
 
 import models.Student;
+import models.Teacher;
 
 import java.sql.*;
 
@@ -14,6 +15,7 @@ interface StudentTableOperations {
     void getLeaveStatus();
     void getMaterials();
     void viewGrades();
+
 
     boolean createStudent(Student student);
 
@@ -35,10 +37,11 @@ public class StudentDBHelper implements StudentTableOperations {
     private Connection connection = null;
 
     public static void main(String[] args) throws SQLException {
-        System.out.println(new StudentDBHelper().checkStudentExists("19eucs001"));
-        Student student = new Student("19eucs001","12345","Abiraj","10","abi@gmail.com","Male","30-11-2001","9655047766",10000);
-        System.out.println(new StudentDBHelper().createStudent(student));
-        System.out.println(new StudentDBHelper().checkStudentExists("19eucs001"));
+//        System.out.println(new StudentDBHelper().viewProfile("19eucs001").getFees());
+Student student = new Student("19eucs001","12345","Abiraj Rajendran","10","abi@gmail.com","Male","30-11-2001","9655047766",10000);
+        System.out.println(new StudentDBHelper().updateStudent(student));
+//        System.out.println(new StudentDBHelper().createStudent(student));
+//        System.out.println(new StudentDBHelper().checkStudentExists("19eucs001"));
     }
 
     public Connection getConnection() {
@@ -123,6 +126,9 @@ public class StudentDBHelper implements StudentTableOperations {
 
     }
 
+
+
+
     @Override
     public boolean createStudent(Student student) {
         tableExists();
@@ -174,6 +180,15 @@ public class StudentDBHelper implements StudentTableOperations {
 
     @Override
     public boolean updateStudent(Student student) {
+        try{
+            Connection conn = getConnection();
+            String updateQuery = String.format("update student set password='%s',name='%s',std='%s',email='%s',gender='%s',dob='%s',phone='%s',fees='%d' where student_id='%s'",student.getPassword(),student.getName(),student.getStd(),student.getEmail(),student.getGender(),student.getDob(),student.getPhone(),student.getFees(),student.getId() );
+            PreparedStatement stmt = conn.prepareStatement(updateQuery);
+            stmt.executeUpdate();
+            return true;
+        }catch (Exception e){
+            System.out.println("Exception occurred " + e.getMessage());
+        }
         return false;
     }
 
@@ -194,6 +209,21 @@ public class StudentDBHelper implements StudentTableOperations {
 
     @Override
     public Student viewProfile(String id) {
-        return null;
+        Student student = null;
+        tableExists();
+        try {
+            Connection con = getConnection();
+            String selectUserQuery = String.format("select * from student where student_id='%s'", id);
+            PreparedStatement stmt = con.prepareStatement(selectUserQuery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                student =new Student(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),rs.getInt(9));
+//                System.out.println(rs.getString(3));
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return student;
     }
 }
