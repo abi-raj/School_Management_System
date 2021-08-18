@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class TeacherDBHelper {
-    private static final String url = "jdbc:postgresql://localhost:5432/teacher";
+    private static final String url = "jdbc:postgresql://localhost:5432/bootathon";
     private static final String driverName = "org.postgresql.Driver";
     private static final String username = "postgres";
-    private static final String password = "12345";
+    private static final String password = "Test@123";
     private static final String createTableQuery = "create table teacher_details(teacher_id varchar(10) PRIMARY KEY,password varchar(50),name varchar(20),email varchar(30) UNIQUE,experience int,phone varchar(10),salary int)";
     private static Connection connection;
     public static Connection getConnection(){
