@@ -31,8 +31,15 @@ public class StudentDBHelper implements StudentTableOperations {
     private static final String driverName = "org.postgresql.Driver";
     private static final String username = "postgres";
     private static final String password = "Test@123";
-    private static final String createTableQuery = "create table student(student_id varchar(10) PRIMARY KEY,password varchar(50),name varchar(20),std varchar(20),email varchar(30) UNIQUE,gender varchar(50),dob varchar(15),phone varchar(10),fees int)";
+//    private static final String createTableQuery = "";
     private static Connection connection;
+
+    public static void main(String[] args) throws SQLException {
+        System.out.println(new StudentDBHelper().checkStudentExists("19eucs001"));
+        Student student = new Student("19eucs001","12345","Abiraj","10","abi@gmail.com","Male","30-11-2001","9655047766",10000);
+        System.out.println(new StudentDBHelper().createStudent(student));
+        System.out.println(new StudentDBHelper().checkStudentExists("19eucs001"));
+    }
 
     public static Connection getConnection() {
         try {
@@ -50,7 +57,7 @@ public class StudentDBHelper implements StudentTableOperations {
         Connection conn = getConnection();
         Statement stmt = conn.createStatement();
 
-        stmt.executeUpdate(createTableQuery);
+        stmt.executeUpdate(CreateQueries.createStudent);
         System.out.println("Student table created");
         conn.close();
     }

@@ -23,7 +23,6 @@ public class TeacherDBHelper implements TeacherTableOperations{
     private static final String driverName = "org.postgresql.Driver";
     private static final String username = "postgres";
     private static final String password = "12345";
-    private static final String createTableQuery = "create table teacher_details(teacher_id varchar(10) PRIMARY KEY,password varchar(50),name varchar(20),email varchar(30) UNIQUE,experience int,phone varchar(10),salary int)";
     private static Connection connection;
 
     public static Connection getConnection(){
@@ -43,7 +42,7 @@ public class TeacherDBHelper implements TeacherTableOperations{
             Connection conn = getConnection();
             Statement stmt = conn.createStatement();
 
-            stmt.executeUpdate(createTableQuery);
+            stmt.executeUpdate(CreateQueries.createTeacher);
             System.out.println("Table Teacher created");
             conn.close();
         }catch(Exception e){
@@ -190,10 +189,11 @@ public class TeacherDBHelper implements TeacherTableOperations{
 
     public static void main(String[] args) throws Exception {
        // createTable();
-        Teacher t=new Teacher("19eucs005","123","ajai","abc@gmail",3,"96325648",24000);
-       //new TeacherDBHelper().createTeacher(t);
-//        Teacher u=new TeacherDBHelper().viewTeacher("19eucs005");
-//        System.out.println(u.getName());
+        new TeacherDBHelper().teacher_tableExists();
+        Teacher t=new Teacher("19eucs007","123","ajai","abc@gmail",3,"96325648",24000);
+       new TeacherDBHelper().createTeacher(t);
+       //Teacher u=new TeacherDBHelper().viewTeacher("19eucs005");
+        //System.out.println(u.getName());
         //Teacher t=new Teacher("19eucs005","1234","pradeep","abc@gmail",3,"96325648",24000);
         //new TeacherDBHelper().deleteTeacher("19eucs005","123");
 
