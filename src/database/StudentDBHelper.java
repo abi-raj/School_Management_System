@@ -32,7 +32,7 @@ public class StudentDBHelper implements StudentTableOperations {
     private static final String username = "postgres";
     private static final String password = "Test@123";
     private static final String createTableQuery = "create table student(student_id varchar(10) PRIMARY KEY,password varchar(50),name varchar(20),std varchar(20),email varchar(30) UNIQUE,gender varchar(50),dob varchar(15),phone varchar(10),fees int)";
-    private static Connection connection;
+    private Connection connection = null;
 
     public static void main(String[] args) throws SQLException {
         System.out.println(new StudentDBHelper().checkStudentExists("19eucs001"));
@@ -41,11 +41,13 @@ public class StudentDBHelper implements StudentTableOperations {
         System.out.println(new StudentDBHelper().checkStudentExists("19eucs001"));
     }
 
-    public static Connection getConnection() {
+    public Connection getConnection() {
         try {
+            if(connection == null) {
             Class.forName(driverName);
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("Connected to Bootathon Database");
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -53,32 +55,29 @@ public class StudentDBHelper implements StudentTableOperations {
         return connection;
     }
 
-    public static void createTable() throws SQLException {
+    public void createTable() throws SQLException {
         Connection conn = getConnection();
         Statement stmt = conn.createStatement();
 
         stmt.executeUpdate(createTableQuery);
         System.out.println("Student table created");
-        conn.close();
     }
 
     public boolean tableExists() {
 
         try {
 
-            Connection con = StudentDBHelper.getConnection();
+            Connection con = getConnection();
 
             ResultSet tables = con.getMetaData().getTables(null, null, "student", null);
             if (tables.next()) {
                 System.out.println("Student table exists");
-                con.close();
                 return true;
             } else {
                 System.out.println("Student Table doesn't exist");
                 createTable();
 
             }
-            con.close();
             return true;
         } catch (Exception e) {
             System.out.println("Exception occured: " + e.getMessage());
@@ -132,7 +131,7 @@ public class StudentDBHelper implements StudentTableOperations {
 
             stmt.executeUpdate();
             System.out.println("Student record inserted");
-            conn.close();
+
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -148,7 +147,6 @@ public class StudentDBHelper implements StudentTableOperations {
             Connection conn = getConnection();
             PreparedStatement stmt = conn.prepareStatement(selectQuery);
             ResultSet rs = stmt.executeQuery();
-            conn.close();
             return rs.next();
         } catch (Exception e) {
             System.out.println("Exception occurred " + e.getMessage());
@@ -164,7 +162,6 @@ public class StudentDBHelper implements StudentTableOperations {
             Connection conn = getConnection();
             PreparedStatement stmt = conn.prepareStatement(selectQuery);
             ResultSet rs = stmt.executeQuery();
-            conn.close();
             return rs.next();
         } catch (Exception e) {
             System.out.println("Exception occurred " + e.getMessage());
@@ -186,7 +183,6 @@ public class StudentDBHelper implements StudentTableOperations {
             String deleteQuery = String.format("delete from student where regno='%s'", id);
             PreparedStatement stmt = conn.prepareStatement(deleteQuery);
             stmt.executeQuery();
-            conn.close();
             return true;
         } catch (Exception e) {
             System.out.println("Exception : " + e.getMessage());
