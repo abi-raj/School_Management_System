@@ -1,9 +1,10 @@
 package database;
 
+import models.Marks;
 import models.Teacher;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 
 interface TeacherTableOperations{
 
@@ -21,8 +22,8 @@ interface TeacherTableOperations{
     void replyQuestion();
     void markAttendance();
     void editStudent();
-    void postMaterials();
-    void addGrades();
+    boolean postMaterials(String id,String Class,String description);
+   // void addGrades(Marks std);
     void approveLeave();
    // boolean teacherExist(String id);
 
@@ -109,7 +110,7 @@ public class TeacherDBHelper implements TeacherTableOperations{
     @Override
     public boolean createTeacher(Teacher user){
         teacher_tableExists();
-        String insertQuery = String.format("insert into teacher_details values('%s','%s','%s','%s',%d,'%s',%d)", user.getTeacher_id(),user.getPassword(), user.getName(), user.getEmail(), user.getExperience(), user.getPhone(), user.getSalary());
+        String insertQuery = String.format("insert into teacher_details values('%s','%s','%s','%s','%s',%d,'%s',%d)", user.getTeacher_id(),user.getPassword(), user.getName(),user.gettClass(), user.getEmail(), user.getExperience(), user.getPhone(), user.getSalary());
 
         try {
             Connection conn = getConnection();
@@ -151,7 +152,7 @@ public class TeacherDBHelper implements TeacherTableOperations{
             PreparedStatement stmt = con.prepareStatement(selectUserQuery);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                user = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6), rs.getInt(7));
+                user = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8));
 //                System.out.println(rs.getString(3));
             }
 
@@ -166,7 +167,7 @@ public class TeacherDBHelper implements TeacherTableOperations{
         teacher_tableExists();
         try {
             Connection conn = getConnection();
-            String updateQuery =String.format( "update teacher_details set password='%s',name='%s',email='%s',experience=%d,phone='%s',salary=%d where teacher_id='%s'",user.getPassword(),user.getName(),user.getEmail(),user.getExperience(),user.getPhone(),user.getSalary(),user.getTeacher_id());
+            String updateQuery =String.format( "update teacher_details set password='%s',name='%s',class='%s',email='%s',experience=%d,phone='%s',salary=%d where teacher_id='%s'",user.getPassword(),user.getName(),user.gettClass(),user.getEmail(),user.getExperience(),user.getPhone(),user.getSalary(),user.getTeacher_id());
             PreparedStatement stmt = conn.prepareStatement(updateQuery);
             stmt.executeUpdate();
             conn.close();
@@ -212,12 +213,39 @@ public class TeacherDBHelper implements TeacherTableOperations{
     }
 
     @Override
-    public void postMaterials() {
+    public boolean postMaterials(String id,String Class,String description) {
+            try{
+                //table check yet to be defined
+                String insertmaterials=String.format("insert into materials values('%s','%s','%s')",id,Class,description);
+                String checkClass=String.format("select class from teacher_details where teacher_id='%s'",id);
+                Connection con=getConnection();
 
+                PreparedStatement stmt2 = con.prepareStatement(checkClass);
+                ResultSet rs=stmt2.executeQuery();
+
+                ArrayList<String> Allclasses=new ArrayList<>();
+                while(rs.next()){
+                    Allclasses.add(rs.getString(1));
+                }
+                if(Allclasses.contains(Class)){
+                    PreparedStatement stmt = con.prepareStatement(insertmaterials);
+                    stmt.executeUpdate();
+                    System.out.println("Materials posted");
+                    return true;
+                }
+                else{
+                    System.out.println("Enter Valid Details");
+                    return false;
+                }
+            }
+            catch(Exception e){
+                System.out.println("Exception:"+e);
+                return false;
+            }
     }
 
     @Override
-    public void addGrades() {
+    public void addGrades(Marks std) {
 
     }
 
@@ -228,13 +256,16 @@ public class TeacherDBHelper implements TeacherTableOperations{
 
     public static void main(String[] args) throws Exception {
        // createTable();
-        new TeacherDBHelper().teacher_tableExists();
-        Teacher t=new Teacher("19eucs007","123","ajai","abc@gmail",3,"96325648",24000);
-       new TeacherDBHelper().createTeacher(t);
-       //Teacher u=new TeacherDBHelper().viewTeacher("19eucs005");
-        //System.out.println(u.getName());
+//      new TeacherDBHelper().teacher_tableExists();
+      Teacher t=new Teacher("19eucs003","1234","ajai bhalaji","C","abcd@gmail",3,"96325648",24000);
+//       new TeacherDBHelper().createTeacher(t);
+    // new TeacherDBHelper().postMaterials("19eucs003","B","wvbwugeufjefbiu32fgr2iu");
+      //  new TeacherDBHelper().updateTeacher(t);
+//       Teacher u=new TeacherDBHelper().viewTeacher("19eucs007");
+//        System.out.println(u.getName());
         //Teacher t=new Teacher("19eucs005","1234","pradeep","abc@gmail",3,"96325648",24000);
-        //new TeacherDBHelper().deleteTeacher("19eucs005","123");
+        new TeacherDBHelper().deleteTeacher("19eucs003","1234");
+
 
     }
 }
