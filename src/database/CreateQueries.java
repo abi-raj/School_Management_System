@@ -2,7 +2,7 @@ package database;
 
 public class CreateQueries {
 
-    public static final String createAdmin="create table admin(admin_id varchar(20),password varchar(20))";
+    public static final String createAdmin="create table admin(admin_id varchar(20) PRIMARY KEY,password varchar(20))";
     public static final String createTeacher="create table teacher_details(teacher_id varchar(10) PRIMARY KEY,password varchar(50),name varchar(20),email varchar(30) UNIQUE,experience int,phone varchar(10),salary int)";
     public static final String createStudent="create table student(student_id varchar(10) PRIMARY KEY,password varchar(50),name varchar(20),std varchar(20),email varchar(30) UNIQUE,gender varchar(50),dob varchar(15),phone varchar(10),fees int)";
     public static final String createAttendance="create table attendance(std_id varchar(10),class varchar(20),date varchar(20),status varchar(20),FOREIGN KEY(std_id) references student(student_id))";
@@ -47,4 +47,15 @@ class ForumTable{
     public static  final String tableName = "forum";
     public static final String insertForum = "insert into forum values('%s','%s','%s')";
     public static final String selectStudentResponse = "select * from forum where std_id='%s'";
+}
+
+class AdminTable{
+    public static  final String tableName = "admin";
+    public static final String insertAdmin = "insert into admin values('%s','%s')";
+    public static final String checkAdminLogin = "select * from admin where admin_id='%s' and password='%s'";
+}
+
+class AttendanceTable{
+    public static  final String tableName = "admin";
+    public static final String getClassAttendance ="select * from attendance where class='%s'";
 }
