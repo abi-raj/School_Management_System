@@ -61,4 +61,12 @@ class TeacherTable{
     public  static  final String viewTeacher="select * from teacher_details where teacher_id='%s'";
     public  static  final String teacherLogin="select * from teacher_details where teacher_id='%s' and password='%s'";
 }
-
+class AdminTable{
+    public static  final String tableName = "admin";
+    public static final String insertAdmin = "insert into admin values('%s','%s')";
+    public static final String checkAdminLogin = "select * from admin where admin_id='%s' and password='%s'";
+}
+class AttendanceTable{
+    public static  final String tableName = "admin";
+    public static final String getClassAttendance ="select * from attendance where class='%s'";
+}
