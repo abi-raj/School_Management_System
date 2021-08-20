@@ -23,6 +23,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 public class StudentGUI extends JFrame {
 
@@ -69,7 +70,7 @@ public class StudentGUI extends JFrame {
 
             }
         });
-        lbl_profileIcon.setIcon(new ImageIcon(StudentGUI.class.getResource("icons/profileIcon.png")));
+        lbl_profileIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/profileIcon.png"))));
         lbl_profileIcon.setBounds(44, 77, 48, 51);
         lbl_profileIcon.setToolTipText("Profile\r\n");
         panel_side.add(lbl_profileIcon);
@@ -87,7 +88,7 @@ public class StudentGUI extends JFrame {
             }
         });
         lbl_gradeIcon.setToolTipText("Grades");
-        lbl_gradeIcon.setIcon(new ImageIcon(StudentGUI.class.getResource("icons/gradeIcon.png")));
+        lbl_gradeIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/gradeIcon.png"))));
         lbl_profileIcon.setToolTipText("Profile");
         lbl_gradeIcon.setBounds(44, 162, 53, 51);
         panel_side.add(lbl_gradeIcon);
@@ -105,7 +106,7 @@ public class StudentGUI extends JFrame {
             }
         });
         lbl_materialsIcon.setToolTipText("Learning Materials");
-        lbl_materialsIcon.setIcon(new ImageIcon(StudentGUI.class.getResource("icons/materialsIcon.png")));
+        lbl_materialsIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/materialsIcon.png"))));
         lbl_materialsIcon.setBounds(44, 251, 48, 51);
         panel_side.add(lbl_materialsIcon);
 
@@ -123,7 +124,7 @@ public class StudentGUI extends JFrame {
             }
         });
         lbl_leaveFormIcon.setToolTipText("Leave Form");
-        lbl_leaveFormIcon.setIcon(new ImageIcon(StudentGUI.class.getResource("icons/leaveFormIcon.png")));
+        lbl_leaveFormIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/leaveFormIcon.png"))));
         lbl_leaveFormIcon.setBounds(44, 340, 48, 51);
         panel_side.add(lbl_leaveFormIcon);
 
@@ -140,7 +141,7 @@ public class StudentGUI extends JFrame {
             }
         });
         lbl_InquiryIcon.setToolTipText("Inquiry");
-        lbl_InquiryIcon.setIcon(new ImageIcon(StudentGUI.class.getResource("icons/inquiryIcon.png")));
+        lbl_InquiryIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/inquiryIcon.png"))));
         lbl_InquiryIcon.setBounds(44, 426, 48, 51);
         panel_side.add(lbl_InquiryIcon);
 
@@ -157,7 +158,7 @@ public class StudentGUI extends JFrame {
             }
         });
         lbl_feeIcon.setToolTipText("Fee Payment");
-        lbl_feeIcon.setIcon(new ImageIcon(StudentGUI.class.getResource("icons/feeIcon.png")));
+        lbl_feeIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/feeIcon.png"))));
         lbl_feeIcon.setBounds(44, 512, 48, 51);
         panel_side.add(lbl_feeIcon);
 
