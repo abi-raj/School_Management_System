@@ -7,7 +7,17 @@ public class Attendance {
     private String std;
     private String date;
 
-    public Attendance(String student_id, String std, String date) {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    private String status;
+
+    public Attendance(String student_id, String std, String date,String status) {
         this.student_id = student_id;
         this.std = std;
         this.date = date;
