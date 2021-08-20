@@ -4,6 +4,16 @@ public class Teacher {
     private String teacher_id;
     private String password;
     private String name;
+    private String tClass;
+
+    public String gettClass() {
+        return tClass;
+    }
+
+    public void settClass(String tClass) {
+        this.tClass = tClass;
+    }
+
     private String email;
     private int experience;
     private String phone;
@@ -64,10 +74,11 @@ public class Teacher {
     public void setSalary(int salary) {
         this.salary = salary;
     }
-    Teacher(String id, String pwd, String name, String email, int experience, String phone, int salary){
+    public Teacher(String id, String pwd, String name, String tclass,String email, int experience, String phone, int salary){
         this.teacher_id=id;
         this.password=pwd;
         this.name=name;
+        this.tClass=tclass;
         this.email=email;
         this.experience=experience;
         this.phone=phone;
