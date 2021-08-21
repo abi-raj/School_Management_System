@@ -726,7 +726,7 @@ public class StudentGUI extends JFrame {
 
         panel_profileWindow.setVisible(true);
         setVisible(true);
-        //init methods
+        //init Data methods
         setStudent(student_id);
         setInitialProfileValues();
         setFeePaymentValues();
