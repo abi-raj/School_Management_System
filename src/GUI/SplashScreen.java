@@ -12,7 +12,7 @@ public class SplashScreen {
                 f.setLayout(null);
                 f.setVisible(true);
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
             f.dispose();
             new LoginGUI();
         } catch(Exception e) {
