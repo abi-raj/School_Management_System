@@ -22,6 +22,7 @@ interface StudentTableOperations {
     ArrayList<Marks> viewGrades(String id);
 
 
+
     boolean createStudent(Student student);
 
     boolean checkStudentExists(String id);
@@ -148,6 +149,8 @@ public class StudentDBHelper implements StudentTableOperations {
 
     @Override
     public boolean applyLeave(String id, String date, String reason) {
+
+
         try {
             String applyQuery = String.format(LeaveTable.insertLeave, id, date, reason, LeaveTable.statusPending);
             Connection conn = getConnection();
@@ -156,6 +159,18 @@ public class StudentDBHelper implements StudentTableOperations {
             System.out.println("Leave applied");
             return true;
         } catch (Exception e) {
+            System.out.println("Exception occurred : " + e.getMessage());
+        }
+        return false;
+    }
+    public boolean checkLeaveAlreadyPresent(String id,String date){
+        try{
+            String checkLeave = String.format(LeaveTable.checkLeaveExists,id,date);
+            Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(checkLeave);
+            ResultSet rs =stmt.executeQuery();
+            return rs.next();
+        }catch (Exception e) {
             System.out.println("Exception occurred : " + e.getMessage());
         }
         return false;

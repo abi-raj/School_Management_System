@@ -32,6 +32,7 @@ class LeaveTable{
     public static final String insertLeave = "insert into leave values('%s','%s','%s','%s')";
     public static final String leaveStatus="update leave set status='%s' where std_id='%s' and date='%s'";
     public static final String selectStudentLeave = "select * from leave where std_id='%s'";
+    public static final String checkLeaveExists = "select * from leave where std_id='%s' and date='%s'";
 }
 
 class MaterialsTable{
