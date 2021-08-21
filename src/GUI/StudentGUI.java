@@ -2,6 +2,7 @@ package GUI;
 import database.StudentDBHelper;
 import models.Forum;
 import models.Leave;
+import models.Materials;
 import models.Student;
 
 import java.awt.BorderLayout;
@@ -34,6 +35,7 @@ public class StudentGUI extends JFrame {
     Student student = null;
     ArrayList<Leave> alLeave;
     ArrayList<Forum> alForum;
+     ArrayList<Materials> alMaterials;
     JLabel lbl_name1;
     JLabel lbl_class1;
     JLabel lbl_email1;
@@ -52,12 +54,14 @@ public class StudentGUI extends JFrame {
     private JTextField textField_amount;
     private JTable table;
     private JTextArea textArea_material;
-    private JComboBox comboBox_materialno;
+    private JComboBox<String> comboBox_materialno;
     private JLabel lbl_LfStatus1;
     private JLabel lbl_LfDate1;
     private JComboBox<String> comboBox_Lfno;
     private JComboBox<String> comboBox_Ifno;
     private JLabel lb_view;
+
+
     public StudentGUI(String student_id) {
         sidePanel();
         profile();
@@ -75,6 +79,7 @@ public class StudentGUI extends JFrame {
         setFeePaymentValues();
         setLeaveFormComboBox();
         setInquiryComboBox();
+        setModelComboBox();
     }
     private void sidePanel() {
         panel_content = new JPanel();
@@ -588,8 +593,8 @@ public class StudentGUI extends JFrame {
         lbl_Materials.setBounds(10, 11, 248, 55);
         panel_MaterialsWindow.add(lbl_Materials);
 
-        JComboBox comboBox_materialno = new JComboBox();
-        comboBox_materialno.setBounds(698, 75, 68, 55);
+         comboBox_materialno = new JComboBox<>();
+        comboBox_materialno.setBounds(698, 80, 120, 40);
         panel_MaterialsWindow.add(comboBox_materialno);
 
         JPanel panel_selectMaterial = new JPanel();
@@ -612,7 +617,7 @@ public class StudentGUI extends JFrame {
         textArea_material.setBounds(10, 11, 776, 342);
         panel_material.add(textArea_material);
 
-        JPanel panel_view = new JPanel();
+        JButton panel_view = new JButton();
         panel_view.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -623,6 +628,14 @@ public class StudentGUI extends JFrame {
             public void mouseExited(MouseEvent e) {
                 panel_view.setBackground(new Color(240, 240, 240));
                 lb_view.setForeground(Color.BLACK);
+            }
+        });
+        panel_view.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = Integer.parseInt(comboBox_Lfno.getItemAt(comboBox_Lfno.getSelectedIndex())) - 1;
+                Materials material = alMaterials.get(index);
+                textArea_material.setText(material.getMaterialText());
             }
         });
         panel_view.setBounds(461, 165, 144, 54);
@@ -791,6 +804,12 @@ public class StudentGUI extends JFrame {
         for (int i = 1; i <= alForum.size(); i++) {
 
             comboBox_Ifno.addItem(i + "");
+        }
+    }
+    void setModelComboBox(){
+        alMaterials = studentDBHelper.getMaterials(student.getStd());
+        for (int i = 1; i <= alMaterials.size(); i++) {
+            comboBox_materialno.addItem(i+ "");
         }
     }
 }

@@ -18,7 +18,7 @@ class StudentTable{
     public static final String tableName = "student";
     public static final String createStudent="insert into student values('%s','%s','%s','%s','%s','%s','%s','%s','%d')";
     public static final String checkStudentPresent = "select * from student where student_id='%s'";
-    public static final String checkStudentLogin ="select * from student where student_id='%s' and password='%s'";
+    public static final String checkStudentLogin ="select * from student where email='%s' and password='%s'";
     public static final String updateStudent ="update student set password='%s',name='%s',std='%s',email='%s',gender='%s',dob='%s',phone='%s',fees='%d' where student_id='%s'";
     public static final String deleteStudent = "delete from student where regno='%s'";
     public static final String selectSingleStudent ="select * from student where student_id='%s'";
@@ -60,7 +60,7 @@ class TeacherTable{
     public  static  final String updateTeacher="update teacher_details set password='%s',name='%s',class='%s',email='%s',experience=%d,phone='%s',salary=%d where teacher_id='%s'";
     public  static  final String deleteTeacher="delete from teacher_details where teacher_id='%s'";
     public  static  final String viewTeacher="select * from teacher_details where teacher_id='%s'";
-    public  static  final String teacherLogin="select * from teacher_details where teacher_id='%s' and password='%s'";
+    public  static  final String teacherLogin="select * from teacher_details where email='%s' and password='%s'";
 }
 class AdminTable{
     public static  final String tableName = "admin";
