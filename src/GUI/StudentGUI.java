@@ -1,9 +1,6 @@
 package GUI;
 import database.StudentDBHelper;
-import models.Forum;
-import models.Leave;
-import models.Materials;
-import models.Student;
+import models.*;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -36,12 +33,15 @@ public class StudentGUI extends JFrame {
     ArrayList<Leave> alLeave;
     ArrayList<Forum> alForum;
      ArrayList<Materials> alMaterials;
-    JLabel lbl_name1;
+    ArrayList<Marks> alMarks;
+    String[][] marksArray;
+     JLabel lbl_name1;
     JLabel lbl_class1;
     JLabel lbl_email1;
     JLabel lbl_dob1;
     JLabel lbl_cno1;
     JLabel lbl_remainingFee1;
+
     public static void main(String[] args) {
 
         StudentGUI frame = new StudentGUI("19eucs001");
@@ -63,8 +63,10 @@ public class StudentGUI extends JFrame {
 
 
     public StudentGUI(String student_id) {
+        setStudent(student_id);
         sidePanel();
         profile();
+        setGradesTable(); //for a reason
         grade();
         leraningMaterials();
         leaveForm();
@@ -74,12 +76,13 @@ public class StudentGUI extends JFrame {
         setBounds(2, 2, 1237, 665);
         //setBounds(0, 0, 1350, 750);
         setVisible(true);
-        setStudent(student_id);
+
         setInitialProfileValues();
         setFeePaymentValues();
         setLeaveFormComboBox();
         setInquiryComboBox();
         setModelComboBox();
+
     }
     private void sidePanel() {
         panel_content = new JPanel();
@@ -246,15 +249,19 @@ public class StudentGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == panel_pay) {
-                    int amount_entered = Integer.parseInt(textField_amount.getText().toString());
-                    if (amount_entered < 0 || amount_entered > student.getFees() || !(studentDBHelper.payFees(student.getId(), amount_entered))) {
+                    String str = textField_amount.getText().toString().replaceAll("\\s","");
+                    if(str.length()==0){
+                        JOptionPane.showMessageDialog(StudentGUI.this, "Enter a valid number");
+                    }else{
+                    int amount_entered = Integer.parseInt(str);
+                    if ( amount_entered < 0 || amount_entered > student.getFees() || !(studentDBHelper.payFees(student.getId(), amount_entered))) {
                         JOptionPane.showMessageDialog(StudentGUI.this, "Payment Failure");
                     } else {
                         JOptionPane.showMessageDialog(StudentGUI.this, "Payment Success");
                         setStudent(student.getId());
                         setFeePaymentValues();
                         textField_amount.setText(" ");
-                    }
+                    }}
                 }
             }
         });
@@ -658,8 +665,8 @@ public class StudentGUI extends JFrame {
         lbl_Grade.setBounds(23, 25, 1052, 27);
         lbl_Grade.setFont(new Font("Tahoma", Font.BOLD, 22));
 
-        String column[] = {"Exam","Grades"};
-        String data[][] = {{"....","......"},{".....","......."},{".......","......"},{".......","......"},{".......","......"},{".......","......"}};
+        String[] column = {"Exam","Grades"};
+
         panel_gradeWindow.setLayout(null);
         panel_gradeWindow.add(lbl_Grade);
 
@@ -673,7 +680,7 @@ public class StudentGUI extends JFrame {
         scrollPane.setBackground(Color.WHITE);
         panel_Table.add(scrollPane);
 
-        table = new JTable(data,column);
+        table = new JTable(marksArray,column);
         int height = table.getRowHeight();
         table.setRowHeight(height+15);
         scrollPane.setViewportView(table);
@@ -810,6 +817,15 @@ public class StudentGUI extends JFrame {
         alMaterials = studentDBHelper.getMaterials(student.getStd());
         for (int i = 1; i <= alMaterials.size(); i++) {
             comboBox_materialno.addItem(i+ "");
+        }
+    }
+
+    void setGradesTable(){
+        alMarks = studentDBHelper.viewGrades(student.getId());
+         marksArray = new String[alMarks.size()][2];
+        for(int i =0;i<alMarks.size();i++){
+            marksArray[i][0]=alMarks.get(i).getExam_title();
+            marksArray[i][1]=alMarks.get(i).calcGrade();
         }
     }
 }
