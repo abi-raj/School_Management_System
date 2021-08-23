@@ -22,7 +22,6 @@ interface StudentTableOperations {
     ArrayList<Marks> viewGrades(String id);
 
 
-
     boolean createStudent(Student student);
 
     boolean checkStudentExists(String id);
@@ -49,8 +48,6 @@ public class StudentDBHelper implements StudentTableOperations {
 //        System.out.println(new StudentDBHelper().viewProfile("19eucs001").getFees());
         // Student student = new Student("19eucs001", "12345", "Abiraj Rajendran", "10", "abi@gmail.com", "Male", "30-11-2001", "9655047766", 10000);
         System.out.println(new StudentDBHelper().getLeaveStatus("19eucs001"));
-        //new StudentDBHelper().createStudent(new Student("19eucs002","123456","Abishek","B","19eucs002@skcet.ac.in","M","3-5-2001","6379285849",30000));
-        //new StudentDBHelper().applyLeave("19eucs002","12-12-12","Function");
 //        System.out.println(new StudentDBHelper().createStudent(student));
 //        System.out.println(new StudentDBHelper().checkStudentExists("19eucs001"));
     }
@@ -165,14 +162,15 @@ public class StudentDBHelper implements StudentTableOperations {
         }
         return false;
     }
-    public boolean checkLeaveAlreadyPresent(String id,String date){
-        try{
-            String checkLeave = String.format(LeaveTable.checkLeaveExists,id,date);
+
+    public boolean checkLeaveAlreadyPresent(String id, String date) {
+        try {
+            String checkLeave = String.format(LeaveTable.checkLeaveExists, id, date);
             Connection conn = getConnection();
             PreparedStatement stmt = conn.prepareStatement(checkLeave);
-            ResultSet rs =stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
             return rs.next();
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Exception occurred : " + e.getMessage());
         }
         return false;
@@ -332,5 +330,22 @@ public class StudentDBHelper implements StudentTableOperations {
             System.out.println(e.getMessage());
         }
         return student;
+    }
+
+    public Leave getSingleLeave(String id, String date) {
+        Leave leave = null;
+
+        try {
+            String checkLeave = String.format(LeaveTable.checkLeaveExists, id, date);
+            Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(checkLeave);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                leave = new Leave(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception occurred : " + e.getMessage());
+        }
+        return leave;
     }
 }

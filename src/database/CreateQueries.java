@@ -33,6 +33,9 @@ class LeaveTable{
     public static final String leaveStatus="update leave set status='%s' where std_id='%s' and date='%s'";
     public static final String selectStudentLeave = "select * from leave where std_id='%s'";
     public static final String checkLeaveExists = "select * from leave where std_id='%s' and date='%s'";
+    public static final String selectDistinctDate = "select distinct date from leave";
+    public static final String selectPendingLeaves = "select * from leave where date='%s' and status='Pending'";
+
     public static final String leaveCount="select count(date) from leave where std_id in(select student_id from student where std in (select class from teacher_details where email='%s'))";
 }
 
@@ -53,6 +56,7 @@ class ForumTable{
     public static final String insertForum = "insert into forum values('%s','%s','%s')";
     public static final String selectStudentResponse = "select * from forum where std_id='%s'";
     public static final String updateResponse="update forum set response='%s' where description='%s' and response='%s'";
+    public static final String selectForumNotResponded = "select * from forum where response='No response yet'";
 }
 
 class TeacherTable{
