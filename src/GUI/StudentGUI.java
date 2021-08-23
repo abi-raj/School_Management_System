@@ -565,7 +565,15 @@ public class StudentGUI extends JFrame {
                         Leave leave = alLeave.get(index);
 
                         lbl_LfDate1.setText(leave.getDate());
-                        lbl_LfStatus1.setText(leave.getStatus());
+                        if(leave.getStatus().contains("Pending")){
+                        lbl_LfStatus1.setForeground(Color.orange);
+                        lbl_LfStatus1.setText(leave.getStatus());}
+                        if(leave.getStatus().contains("Rejected")){
+                            lbl_LfStatus1.setForeground(Color.RED);
+                            lbl_LfStatus1.setText(leave.getStatus());}
+                        if(leave.getStatus().contains("Accepted")){
+                            lbl_LfStatus1.setForeground(Color.GREEN);
+                            lbl_LfStatus1.setText(leave.getStatus());}
 
                     }
                 }

@@ -38,10 +38,10 @@ interface StudentTableOperations {
 }
 
 public class StudentDBHelper implements StudentTableOperations {
-    private static final String url = "jdbc:postgresql://localhost:5432/bootathon";
+    private static final String url = "jdbc:postgresql://localhost:5432/teacher";
     private static final String driverName = "org.postgresql.Driver";
     private static final String username = "postgres";
-    private static final String password = "Test@123";
+    private static final String password = "12345";
    // private static final String createTableQuery = "create table student(student_id varchar(10) PRIMARY KEY,password varchar(50),name varchar(20),std varchar(20),email varchar(30) UNIQUE,gender varchar(50),dob varchar(15),phone varchar(10),fees int)";
     private Connection connection = null;
 
@@ -49,6 +49,8 @@ public class StudentDBHelper implements StudentTableOperations {
 //        System.out.println(new StudentDBHelper().viewProfile("19eucs001").getFees());
         // Student student = new Student("19eucs001", "12345", "Abiraj Rajendran", "10", "abi@gmail.com", "Male", "30-11-2001", "9655047766", 10000);
         System.out.println(new StudentDBHelper().getLeaveStatus("19eucs001"));
+        //new StudentDBHelper().createStudent(new Student("19eucs002","123456","Abishek","B","19eucs002@skcet.ac.in","M","3-5-2001","6379285849",30000));
+        //new StudentDBHelper().applyLeave("19eucs002","12-12-12","Function");
 //        System.out.println(new StudentDBHelper().createStudent(student));
 //        System.out.println(new StudentDBHelper().checkStudentExists("19eucs001"));
     }

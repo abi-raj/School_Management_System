@@ -26,15 +26,16 @@ interface TeacherTableOperations{
     void approveLeave(Leave user);
     void RejectLeave(Leave user);
     void LeavePending(Leave user);
+    int getLeaveCount(String email);
 
    // boolean teacherExist(String id);
 
 }
 public class TeacherDBHelper implements TeacherTableOperations{
-    private static final String url = "jdbc:postgresql://localhost:5432/bootathon";
+    private static final String url = "jdbc:postgresql://localhost:5432/teacher";
     private static final String driverName = "org.postgresql.Driver";
     private static final String username = "postgres";
-    private static final String password = "Test@123";
+    private static final String password = "12345";
     private static Connection connection;
 
     public static Connection getConnection(){
@@ -350,10 +351,28 @@ public class TeacherDBHelper implements TeacherTableOperations{
 
     }
 
+    @Override
+    public int getLeaveCount(String email) {
+        Connection con=getConnection();
+        int count=0;
+        try{
+            String countquery= String.format(LeaveTable.leaveCount,email);
+            PreparedStatement stmt=con.prepareStatement(countquery);
+            ResultSet rs=stmt.executeQuery();
+            while(rs.next()){
+                count=Integer.parseInt(rs.getString(1));
+            }
+        }
+        catch(Exception e){
+            System.out.println("Exception"+e);
+        }
+        return count;
+    }
+
     public static void main(String[] args) throws Exception {
       Teacher teacher = new Teacher("19tch001","12345","Ajai","10","ajai@skcet.edu",3,"9545454545",50000);
-        new TeacherDBHelper().createTeacher(teacher);
-
+        //new TeacherDBHelper().createTeacher(teacher);
+        System.out.println(new TeacherDBHelper().getLeaveCount("abcd@gmail"));
 
     }
 }
