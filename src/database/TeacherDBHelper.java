@@ -28,7 +28,7 @@ interface TeacherTableOperations{
     void LeavePending(Leave user);
 
    // boolean teacherExist(String id);
-
+ArrayList<Forum> allUnrespondedQueries();
 }
 public class TeacherDBHelper implements TeacherTableOperations{
     private static final String url = "jdbc:postgresql://localhost:5432/bootathon";
@@ -350,6 +350,25 @@ public class TeacherDBHelper implements TeacherTableOperations{
 
     }
 
+    @Override
+    public ArrayList<Forum> allUnrespondedQueries() {
+        ArrayList<Forum> alForum = new ArrayList<Forum>();
+
+        try {
+            Connection con = getConnection();
+            String query = ForumTable.selectForumNotResponded;
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                Forum forum = new Forum(rs.getString(1),rs.getString(2), rs.getString(3));
+                alForum.add(forum);
+            }
+        }catch (Exception e){
+            System.out.println("Exception occurred : "+e.getMessage());
+        }
+        return alForum;
+    }
+
     public static void main(String[] args) throws Exception {
       Teacher teacher = new Teacher("19tch001","12345","Ajai","10","ajai@skcet.edu",3,"9545454545",50000);
         new TeacherDBHelper().createTeacher(teacher);
@@ -360,7 +379,7 @@ public class TeacherDBHelper implements TeacherTableOperations{
         ArrayList<String> dates= new ArrayList<String>();
         try{
             Connection con = getConnection();
-            String dateQuery = String.format(LeaveTable.selectDistinctDate);
+            String dateQuery = LeaveTable.selectDistinctDate;
             PreparedStatement stmt = con.prepareStatement(dateQuery);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
@@ -390,4 +409,5 @@ public class TeacherDBHelper implements TeacherTableOperations{
 
         return  pendingLeaves;
     }
+
 }

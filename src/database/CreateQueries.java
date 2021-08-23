@@ -55,6 +55,7 @@ class ForumTable{
     public static final String insertForum = "insert into forum values('%s','%s','%s')";
     public static final String selectStudentResponse = "select * from forum where std_id='%s'";
     public static final String updateResponse="update forum set response='%s' where description='%s' and response='%s'";
+    public static final String selectForumNotResponded = "select * from forum where response='No response yet'";
 }
 
 class TeacherTable{
