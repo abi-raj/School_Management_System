@@ -1,38 +1,53 @@
 package GUI;
 
+import com.sun.deploy.panel.JavaPanel;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import database.StudentDBHelper;
 import database.TeacherDBHelper;
+import models.Leave;
 import models.Leave;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.util.Objects;
+
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.awt.event.ActionEvent;
+import javax.swing.table.DefaultTableModel;
 
-public class TeacherGUI {
+public class TeacherGUI  {
 
     TeacherDBHelper teacherDBHelper = new TeacherDBHelper();
     JComboBox<String> cb_2;
     JComboBox<String> cb;
     JPanel contentPane;
-    JPanel homepanel;
+    JPanel homepanel ;
     JPanel attendancepanel;
-    JPanel gradespanel;
-    JPanel leaveformpanel;
-    JPanel studentpanel;
+    JPanel gradespanel ;
+    JPanel leaveformpanel ;
+    JPanel studentpanel ;
     JPanel learningpanel;
-    JPanel forumpanel;
-    JPanel payrollpanel;
+    JPanel forumpanel ;
+    JPanel payrollpanel ;
     private JTextField a_stu_name;
     private JTextField a_student_date;
 
+
     public TeacherGUI() {
-        JFrame f = new JFrame();
+        JFrame f=new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setBounds(100, 100, 1336, 814);
         contentPane = new JPanel();
@@ -47,16 +62,19 @@ public class TeacherGUI {
         contentPane.add(p);
 
         JPanel sidebar = new JPanel();
-        sidebar.setBackground(new Color(29, 217, 171));
+        sidebar.setBackground(new Color(29,217,171));
         sidebar.setBounds(0, 0, 120, 814);
         p.add(sidebar);
         sidebar.setLayout(null);
+
+        UIManager.put("ToolTip.background", new Color(253,253,150));
+
 
         JButton home = new JButton();
         home.setBounds(41, 58, 43, 63);
         home.setToolTipText("Home");
         home.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/home profile.png"))));
-        home.setBackground(new Color(29, 217, 171));
+        home.setBackground(new Color(29,217,171));
         home.setLayout(null);
         home.setFocusPainted(false);
         home.setBorder(null);
@@ -65,12 +83,12 @@ public class TeacherGUI {
             public void actionPerformed(ActionEvent e) {
                 homepanel.setVisible(true);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false);
-                leaveformpanel.setVisible(false);
-                studentpanel.setVisible(false);
+                gradespanel.setVisible(false) ;
+                leaveformpanel.setVisible(false) ;
+                studentpanel.setVisible(false) ;
                 learningpanel.setVisible(false);
-                forumpanel.setVisible(false);
-                payrollpanel.setVisible(false);
+                forumpanel.setVisible(false) ;
+                payrollpanel.setVisible(false) ;
 
             }
         });
@@ -80,19 +98,19 @@ public class TeacherGUI {
             public void actionPerformed(ActionEvent e) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(true);
-                gradespanel.setVisible(false);
-                leaveformpanel.setVisible(false);
-                studentpanel.setVisible(false);
+                gradespanel.setVisible(false) ;
+                leaveformpanel.setVisible(false) ;
+                studentpanel.setVisible(false) ;
                 learningpanel.setVisible(false);
-                forumpanel.setVisible(false);
-                payrollpanel.setVisible(false);
+                forumpanel.setVisible(false) ;
+                payrollpanel.setVisible(false) ;
             }
 
         });
         attendance.setBounds(41, 224, 45, 63);
         attendance.setToolTipText("Attendance");
         attendance.setIcon(new ImageIcon((Objects.requireNonNull(getClass().getResource("images/attendance.png")))));
-        attendance.setBackground(new Color(29, 217, 171));
+        attendance.setBackground(new Color(29,217,171));
         attendance.setLayout(null);
         attendance.setFocusPainted(false);
         attendance.setBorder(null);
@@ -103,17 +121,17 @@ public class TeacherGUI {
             public void actionPerformed(ActionEvent arg0) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(true);
-                leaveformpanel.setVisible(false);
-                studentpanel.setVisible(false);
+                gradespanel.setVisible(true) ;
+                leaveformpanel.setVisible(false) ;
+                studentpanel.setVisible(false) ;
                 learningpanel.setVisible(false);
-                forumpanel.setVisible(false);
-                payrollpanel.setVisible(false);
+                forumpanel.setVisible(false) ;
+                payrollpanel.setVisible(false) ;
             }
         });
         grade.setBounds(39, 310, 45, 56);
         grade.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/grade.png"))));
-        grade.setBackground(new Color(29, 217, 171));
+        grade.setBackground(new Color(29,217,171));
         grade.setLayout(null);
         grade.setFocusPainted(false);
         grade.setBorder(null);
@@ -125,12 +143,12 @@ public class TeacherGUI {
             public void actionPerformed(ActionEvent e) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false);
-                leaveformpanel.setVisible(false);
-                studentpanel.setVisible(true);
+                gradespanel.setVisible(false) ;
+                leaveformpanel.setVisible(false) ;
+                studentpanel.setVisible(true) ;
                 learningpanel.setVisible(false);
-                forumpanel.setVisible(false);
-                payrollpanel.setVisible(false);
+                forumpanel.setVisible(false) ;
+                payrollpanel.setVisible(false) ;
             }
         });
         student.setBounds(39, 151, 45, 47);
@@ -138,7 +156,7 @@ public class TeacherGUI {
         student.setLayout(null);
         student.setFocusPainted(false);
         student.setBorder(null);
-        student.setBackground(new Color(29, 217, 171));
+        student.setBackground(new Color(29,217,171));
         student.setToolTipText("Student Details\r\n");
         sidebar.add(student);
 
@@ -148,19 +166,19 @@ public class TeacherGUI {
 
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false);
-                leaveformpanel.setVisible(true);
-                studentpanel.setVisible(false);
+                gradespanel.setVisible(false) ;
+                leaveformpanel.setVisible(true) ;
+                studentpanel.setVisible(false) ;
                 learningpanel.setVisible(false);
-                forumpanel.setVisible(false);
-                payrollpanel.setVisible(false);
+                forumpanel.setVisible(false) ;
+                payrollpanel.setVisible(false) ;
             }
 
         });
         leaveform.setToolTipText("Leave Form");
         leaveform.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/leave.png"))));
         leaveform.setLayout(null);
-        leaveform.setBackground(new Color(29, 217, 171));
+        leaveform.setBackground(new Color(29,217,171));
         leaveform.setFocusPainted(false);
         leaveform.setBorder(null);
         leaveform.setBounds(41, 475, 45, 56);
@@ -171,17 +189,17 @@ public class TeacherGUI {
             public void actionPerformed(ActionEvent arg0) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false);
-                leaveformpanel.setVisible(false);
-                studentpanel.setVisible(false);
+                gradespanel.setVisible(false) ;
+                leaveformpanel.setVisible(false) ;
+                studentpanel.setVisible(false) ;
                 learningpanel.setVisible(false);
-                forumpanel.setVisible(true);
-                payrollpanel.setVisible(false);
+                forumpanel.setVisible(true) ;
+                payrollpanel.setVisible(false) ;
             }
         });
         inquiry.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/chat icon.png"))));
         inquiry.setToolTipText("Inquiry Forum");
-        inquiry.setBackground(new Color(29, 217, 171));
+        inquiry.setBackground(new Color(29,217,171));
         inquiry.setLayout(null);
         inquiry.setFocusPainted(false);
         inquiry.setBorder(null);
@@ -193,17 +211,17 @@ public class TeacherGUI {
             public void actionPerformed(ActionEvent arg0) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false);
-                leaveformpanel.setVisible(false);
-                studentpanel.setVisible(false);
+                gradespanel.setVisible(false) ;
+                leaveformpanel.setVisible(false) ;
+                studentpanel.setVisible(false) ;
                 learningpanel.setVisible(true);
-                forumpanel.setVisible(false);
-                payrollpanel.setVisible(false);
+                forumpanel.setVisible(false) ;
+                payrollpanel.setVisible(false) ;
             }
         });
         learning.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/learning.png"))));
         learning.setToolTipText("Learning Materials");
-        learning.setBackground(new Color(29, 217, 171));
+        learning.setBackground(new Color(29,217,171));
         learning.setLayout(null);
         learning.setFocusPainted(false);
         learning.setBorder(null);
@@ -215,12 +233,12 @@ public class TeacherGUI {
             public void actionPerformed(ActionEvent arg0) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false);
-                leaveformpanel.setVisible(false);
-                studentpanel.setVisible(false);
+                gradespanel.setVisible(false) ;
+                leaveformpanel.setVisible(false) ;
+                studentpanel.setVisible(false) ;
                 learningpanel.setVisible(false);
-                forumpanel.setVisible(false);
-                payrollpanel.setVisible(true);
+                forumpanel.setVisible(false) ;
+                payrollpanel.setVisible(true) ;
 
             }
         });
@@ -230,8 +248,10 @@ public class TeacherGUI {
         payroll.setFocusPainted(false);
         payroll.setBorder(null);
         payroll.setBounds(41, 644, 45, 63);
-        payroll.setBackground(new Color(29, 217, 171));
+        payroll.setBackground(new Color(29,217,171));
         sidebar.add(payroll);
+
+
 
 
         homepanel = new JPanel();
@@ -241,49 +261,50 @@ public class TeacherGUI {
         p.add(homepanel);
 
 
-        JLabel teacher_name = new JLabel("Teacher Name");
-        teacher_name.setBounds(400, 271, 300, 40);
-        teacher_name.setFont(new Font("Segoe UI", Font.BOLD, 36));
+
+        JLabel teacher_name=new JLabel("Teacher Name");
+        teacher_name.setBounds(400,271,300,40);
+        teacher_name.setFont(new Font("Segoe UI",Font.BOLD, 36));
         teacher_name.setForeground(new Color(102, 102, 102));
         homepanel.add(teacher_name);
 
 
-        JLabel teacher_email = new JLabel("emailaddress@schoolname.com");
-        teacher_email.setBounds(400, 321, 300, 40);
-        teacher_email.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        JLabel teacher_email=new JLabel("emailaddress@schoolname.com");
+        teacher_email.setBounds(400,321,300,40);
+        teacher_email.setFont(new Font("Segoe UI",Font.PLAIN, 18));
         teacher_email.setForeground(new Color(102, 102, 102));
         homepanel.add(teacher_email);
 
 
-        JLabel teacher_phone = new JLabel("9876543210");
-        teacher_phone.setBounds(400, 371, 300, 40);
-        teacher_phone.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        JLabel teacher_phone=new JLabel("9876543210");
+        teacher_phone.setBounds(400,371,300,40);
+        teacher_phone.setFont(new Font("Segoe UI",Font.PLAIN, 18));
         teacher_phone.setForeground(new Color(102, 102, 102));
         homepanel.add(teacher_phone);
 
 
-        JLabel teacher_work_exp = new JLabel("5 years work experience");
-        teacher_work_exp.setBounds(400, 421, 300, 40);
-        teacher_work_exp.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        JLabel teacher_work_exp=new JLabel("5 years work experience");
+        teacher_work_exp.setBounds(400,421,300,40);
+        teacher_work_exp.setFont(new Font("Segoe UI",Font.PLAIN, 18));
         teacher_work_exp.setForeground(new Color(102, 102, 102));
         homepanel.add(teacher_work_exp);
 
 
-        JLabel teacher_profile = new JLabel();
+        JLabel teacher_profile=new JLabel();
         teacher_profile.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/avatar.png"))));
-        teacher_profile.setBounds(100, 230, 300, 281);
-        teacher_profile.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        teacher_profile.setBounds(100,230,300,281);
+        teacher_profile.setFont(new Font("Segoe UI",Font.PLAIN, 18));
         teacher_profile.setForeground(new Color(102, 102, 102));
         homepanel.add(teacher_profile);
 
         JPanel welcometext = new JPanel();
         welcometext.setBounds(50, 20, 1100, 154);
-        welcometext.setBackground(new Color(250, 250, 250));
+        welcometext.setBackground(new Color(250,250,250));
         welcometext.setLayout(null);
         homepanel.add(welcometext);
 
         JLabel text1 = new JLabel("Welcome Teacher !");
-        text1.setForeground(new Color(52, 52, 52));
+        text1.setForeground(new Color(52,52,52));
         text1.setFont(new Font("Segoe UI", Font.BOLD, 36));
         text1.setBounds(60, 21, 454, 46);
         welcometext.add(text1);
@@ -295,11 +316,13 @@ public class TeacherGUI {
         welcometext.add(text2);
 
 
-        JButton schedule_events_button = new JButton("View Important Schedules & Events");
+
+
+        JButton schedule_events_button=new JButton("View Important Schedules & Events");
         schedule_events_button.setLayout(null);
         schedule_events_button.setFont(new Font("Segoe UI", Font.BOLD, 18));
         schedule_events_button.setForeground(Color.WHITE);
-        schedule_events_button.setBackground(new Color(29, 217, 171));
+        schedule_events_button.setBackground(new Color(29,217,171));
         schedule_events_button.setBounds(800, 230, 350, 70);
         schedule_events_button.setFocusPainted(false);
         schedule_events_button.setBorder(null);
@@ -312,37 +335,47 @@ public class TeacherGUI {
 
         homepanel.add(schedule_events_button);
 
-        JLabel class_text_lbl = new JLabel("Class Summary");
+        JLabel class_text_lbl=new JLabel("Class Summary");
         class_text_lbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
         class_text_lbl.setForeground(Color.BLACK);
-        class_text_lbl.setBounds(800, 350, 300, 50);
+        class_text_lbl.setBounds(800,350 , 300, 50);
         homepanel.add(class_text_lbl);
 
 
-        JLabel class_name_lbl = new JLabel("Class 10", SwingConstants.CENTER);
+        JLabel class_name_lbl=new JLabel("Class 10",SwingConstants.CENTER);
         class_name_lbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
         class_name_lbl.setForeground(Color.BLACK);
-        class_name_lbl.setBounds(800, 410, 350, 50);
+        class_name_lbl.setBounds(800,410 , 350, 50);
         Border blackline = BorderFactory.createLineBorder(Color.black);
         class_name_lbl.setBorder(blackline);
         homepanel.add(class_name_lbl);
 
         JTable class_summary_table = new JTable();
         class_summary_table.setModel(new DefaultTableModel(
-                new Object[][]{
-                        {"Total Students", "54"}, {"Total Subjects", "3"}
+                new Object[][] {
+                        {"Total Students","54"},{"Total Subjects","3"}
 
-                },
-                new String[]{
-                        "", ""
-                }
-        ));
-        class_summary_table.setBorder(new LineBorder(new Color(0, 0, 0)));
-        class_summary_table.setBounds(800, 500, 350, 90);
-        class_summary_table.setRowHeight(class_summary_table.getRowHeight() + 30);
-        class_summary_table.setFont(new Font("Segoe UI", Font.BOLD, 20));
+
+        JPanel class_summary_table =new JPanel();
+        class_summary_table.setBounds(800, 480, 350, 200);
+        class_summary_table.setLayout(null);
+        class_summary_table.setBackground(new Color(255,109,106));
         homepanel.add(class_summary_table);
 
+        JTextArea tot_student_text=new JTextArea("Total Students in your Class        ...");
+        tot_student_text.setBounds(20,20,300,50);
+        tot_student_text.setLineWrap(true);
+        tot_student_text.setWrapStyleWord(true);
+        tot_student_text.setForeground(Color.white);
+        tot_student_text.setBackground(new Color(255,109,106));
+        tot_student_text.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        class_summary_table.add(tot_student_text);
+
+        JLabel tot_students =new JLabel("54");
+        tot_students.setBounds(20,80,100,80);
+        tot_students.setFont(new Font("Segoe UI", Font.BOLD, 80));
+        tot_students.setForeground(Color.white);
+        class_summary_table.add(tot_students);
 
         attendancepanel = new JPanel();
         attendancepanel.setBackground(new Color(250, 250, 250));
@@ -361,27 +394,51 @@ public class TeacherGUI {
         updateAttendance.add(l1);
         l1.setFont(new Font("Segoe UI", Font.BOLD, 36));
 
-        JLabel a_student = new JLabel("Student Name");
-        a_student.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        JLabel a_student = new JLabel("Student ID:");
+        a_student.setFont(new Font("Segoe UI", Font.BOLD, 18));
         a_student.setBounds(70, 114, 279, 31);
         updateAttendance.add(a_student);
 
-        JLabel a_date = new JLabel("Date");
-        a_date.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        a_date.setBounds(546, 114, 150, 30);
+        String s_id[]={"001","002","003","004"};
+        JComboBox a_stu_id = new JComboBox(s_id);
+        a_stu_id.setBounds(70, 164, 200, 47);
+        a_stu_id.setBackground(Color.white);
+        a_stu_id.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        updateAttendance.add(a_stu_id);
+
+        JLabel a_date = new JLabel("Date:");
+        a_date.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        a_date.setBounds(350, 114, 100, 30);
         updateAttendance.add(a_date);
 
-        a_stu_name = new JTextField();
-        a_stu_name.setBounds(70, 164, 342, 47);
-        updateAttendance.add(a_stu_name);
-        a_stu_name.setMargin(new Insets(5, 10, 5, 5));
-        a_stu_name.setColumns(10);
 
         a_student_date = new JTextField();
-        a_student_date.setBounds(546, 164, 300, 47);
+        a_student_date.setBounds(350, 164, 200, 47);
         updateAttendance.add(a_student_date);
-        a_stu_name.setMargin(new Insets(5, 10, 5, 5));
+        a_student_date.setMargin(new Insets(5, 10, 5, 5));
+        a_student_date.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         a_student_date.setColumns(10);
+
+        JLabel a_mark_p_or_ab = new JLabel("Mark Present/Absent:");
+        a_mark_p_or_ab.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        a_mark_p_or_ab.setBounds(600, 114, 300, 30);
+        updateAttendance.add(a_mark_p_or_ab);
+
+        JRadioButton present=new JRadioButton("Present");
+        JRadioButton absent=new JRadioButton("Absent");
+        present.setBounds(600,164,100,50);
+        absent.setBounds(730,164,100,50);
+        present.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        present.setBorder(null);
+        absent.setBorder(null);
+        present.setBackground(Color.WHITE);
+        absent.setBackground(Color.WHITE);
+        absent.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        ButtonGroup bg=new ButtonGroup();
+        bg.add(present);bg.add(absent);
+        updateAttendance.add(present);
+        updateAttendance.add(absent);
+
 
         JButton updatebutton = new JButton("Update");
         updatebutton.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -483,6 +540,7 @@ public class TeacherGUI {
         gradespanel.add(g_jt);
 
 
+
         studentpanel = new JPanel();
         studentpanel.setBackground(Color.white);
         studentpanel.setBounds(124, 0, 1336, 1000);
@@ -526,16 +584,17 @@ public class TeacherGUI {
                         {null, null, null, null, null, null, null, null}
 
                 },
-                new String[]{
-                        "SNO", "ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE"
+                new String[] {
+                        "SNO","ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE"
                 }
         ));
         s_jt.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         s_jt.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        s_jt.setBounds(60, 312, 1100, 421);
+        s_jt.setBounds(60,312,1100,421);
         s_jt.setBackground(Color.white);
         s_jt.setRowHeight(s_jt.getRowHeight() + 20);
         studentpanel.add(s_jt);
+
 
 
         learningpanel = new JPanel();
@@ -724,15 +783,18 @@ public class TeacherGUI {
         leave_apply_panel.add(leave_req_ta);
 
 
+
+
         JLabel label1 = new JLabel("Requests for Leave");
         label1.setFont(new Font("Segoe UI", Font.BOLD, 28));
         label1.setBounds(65, 26, 295, 49);
         leave_apply_panel.add(label1);
 
 
+
         JButton d1 = new JButton("Disapprove");
         d1.setForeground(Color.WHITE);
-        d1.setBackground(new Color(250, 69, 89));
+        d1.setBackground(new Color(250,69,89));
         d1.setFont(new Font("Segoe UI", Font.BOLD, 16));
         d1.setBounds(750, 320, 138, 41);
         d1.setLayout(null);
@@ -743,7 +805,7 @@ public class TeacherGUI {
         JButton a1 = new JButton("Approve");
         a1.setForeground(Color.WHITE);
         a1.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        a1.setBackground(new Color(46, 185, 115));
+        a1.setBackground(new Color(46,185,115));
         a1.setBounds(600, 320, 138, 41);
         a1.setLayout(null);
         a1.setFocusPainted(false);
@@ -788,8 +850,8 @@ public class TeacherGUI {
         p.add(forumpanel);
 
         JPanel panel_2 = new JPanel();
-        panel_2.setBounds(24, 21, 1012, 120);
-        panel_2.setBackground(new Color(250, 250, 250));
+        panel_2.setBounds(24, 21, 1100, 130);
+        panel_2.setBackground(new Color(250,250,250));
         panel_2.setLayout(null);
         forumpanel.add(panel_2);
 
@@ -813,67 +875,78 @@ public class TeacherGUI {
         forum_response_panel.setLayout(null);
 
         JLabel forum_info_text = new JLabel("All Student Inquiries");
-        forum_info_text.setBounds(50, 40, 381, 51);
+        forum_info_text.setBounds(14, 80, 381, 40);
         forum_info_text.setFont(new Font("Segoe UI", Font.BOLD, 24));
         forum_response_panel.add(forum_info_text);
 
 
+
         JLabel inq_s_id_head = new JLabel("Student ID:");
-        inq_s_id_head.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        inq_s_id_head.setBounds(44, 113, 116, 31);
+        inq_s_id_head.setFont(new Font("Segoe UI", Font.BOLD, 17));
+        inq_s_id_head.setBounds(400, 150, 116, 31);
         forum_response_panel.add(inq_s_id_head);
 
-        JLabel inq_recieved_head = new JLabel("Inquiry:");
-        inq_recieved_head.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        inq_recieved_head.setBounds(164, 115, 89, 20);
+        JTextField t_inq_s_id = new JTextField();
+        t_inq_s_id.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        t_inq_s_id.setBounds(510, 150, 50, 40);
+        forum_response_panel.add(t_inq_s_id);
+
+
+        JLabel inq_recieved_head = new JLabel("Inquiry ID:");
+        inq_recieved_head.setFont(new Font("Segoe UI", Font.BOLD, 17));
+        inq_recieved_head.setBounds(14, 152, 89, 20);
         forum_response_panel.add(inq_recieved_head);
+
+        String forum_id[]={"101","102","103","104"};
+        JComboBox f_id_cb=new JComboBox(forum_id);
+        f_id_cb.setBounds(130, 150,200,40);
+        f_id_cb.setBackground(Color.white);
+        f_id_cb.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        forum_response_panel.add(f_id_cb);
+
 
 
         JTextArea inquiry_textarea = new JTextArea();
         inquiry_textarea.setBackground(new Color(248, 248, 255));
         inquiry_textarea.setWrapStyleWord(true);
         inquiry_textarea.setRows(3);
+        inquiry_textarea.setMargin(new Insets(10,15,10,10));
         inquiry_textarea.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        inquiry_textarea.setBounds(164, 150, 492, 163);
+        inquiry_textarea.setBounds(14, 220, 540, 163);
         forum_response_panel.add(inquiry_textarea);
 
-        JButton respond_btn_1 = new JButton("Reply");
+        /*JButton respond_btn_1 = new JButton("Reply");
         respond_btn_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
         respond_btn_1.setBackground(new Color(250, 128, 114));
         respond_btn_1.setForeground(Color.white);
-        respond_btn_1.setBounds(164, 330, 124, 31);
+        respond_btn_1.setBounds(14, 390, 124, 31);
         respond_btn_1.setLayout(null);
         respond_btn_1.setFocusPainted(false);
         respond_btn_1.setBorder(null);
-        forum_response_panel.add(respond_btn_1);
+        forum_response_panel.add(respond_btn_1);*/
 
-        JLabel forum_s_id_1 = new JLabel("001");
-        forum_s_id_1.setFont(new Font("Segoe UI", Font.BOLD, 23));
-        forum_s_id_1.setBounds(44, 210, 45, 40);
-        forum_response_panel.add(forum_s_id_1);
 
-        JTextArea inquiry_textarea_2 = new JTextArea();
+
+        JTextArea inquiry_textarea_2 = new JTextArea("Respond to Inquiry here....");
         inquiry_textarea_2.setBackground(new Color(248, 248, 255));
         inquiry_textarea_2.setWrapStyleWord(true);
         inquiry_textarea_2.setRows(3);
-        inquiry_textarea_2.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        inquiry_textarea_2.setBounds(164, 380, 492, 163);
+        inquiry_textarea_2.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        inquiry_textarea_2.setForeground(Color.gray);
+        inquiry_textarea_2.setMargin(new Insets(10,15,10,10));
+        inquiry_textarea_2.setBounds(14, 420, 540, 163);
         forum_response_panel.add(inquiry_textarea_2);
 
-        JButton respond_btn_2 = new JButton("Reply");
+        JButton respond_btn_2 = new JButton("Submit Response");
         respond_btn_2.setFont(new Font("Segoe UI", Font.BOLD, 14));
         respond_btn_2.setBackground(new Color(250, 128, 114));
-        respond_btn_2.setBounds(164, 550, 124, 31);
+        respond_btn_2.setBounds(14, 600,200,40);
         respond_btn_2.setLayout(null);
         respond_btn_2.setForeground(Color.white);
         respond_btn_2.setFocusPainted(false);
         respond_btn_2.setBorder(null);
         forum_response_panel.add(respond_btn_2);
 
-        JLabel forum_s_id_2 = new JLabel("002");
-        forum_s_id_2.setFont(new Font("Segoe UI", Font.BOLD, 23));
-        forum_s_id_2.setBounds(44, 450, 100, 30);
-        forum_response_panel.add(forum_s_id_2);
 
         JPanel inquiry_rec_panel = new JPanel();
         inquiry_rec_panel.setBackground(new Color(255, 160, 122));
