@@ -44,7 +44,7 @@ public class StudentGUI extends JFrame {
 
     public static void main(String[] args) {
 
-        StudentGUI frame = new StudentGUI("19eucs001");
+        StudentGUI frame = new StudentGUI("19eucs005");
 
     }
 
@@ -572,7 +572,15 @@ public class StudentGUI extends JFrame {
                         Leave leave = alLeave.get(index);
 
                         lbl_LfDate1.setText(leave.getDate());
-                        lbl_LfStatus1.setText(leave.getStatus());
+                        if(leave.getStatus().contains("Pending")){
+                        lbl_LfStatus1.setForeground(Color.orange);
+                        lbl_LfStatus1.setText(leave.getStatus());}
+                        if(leave.getStatus().contains("Rejected")){
+                            lbl_LfStatus1.setForeground(Color.RED);
+                            lbl_LfStatus1.setText(leave.getStatus());}
+                        if(leave.getStatus().contains("Accepted")||leave.getStatus().contains("Approved")){
+                            lbl_LfStatus1.setForeground(Color.GREEN);
+                            lbl_LfStatus1.setText(leave.getStatus());}
 
                     }
                 }
@@ -809,7 +817,6 @@ public class StudentGUI extends JFrame {
         comboBox_Ifno.removeAllItems();
         alForum = studentDBHelper.getQuestionsResponse(student.getId());
         for (int i = 1; i <= alForum.size(); i++) {
-
             comboBox_Ifno.addItem(i + "");
         }
     }

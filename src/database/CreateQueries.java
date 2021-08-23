@@ -36,6 +36,7 @@ class LeaveTable{
     public static final String selectDistinctDate = "select distinct date from leave";
     public static final String selectPendingLeaves = "select * from leave where date='%s' and status='Pending'";
 
+    public static final String leaveCount="select count(date) from leave where std_id in(select student_id from student where std in (select class from teacher_details where email='%s'))";
 }
 
 class MaterialsTable{
@@ -65,6 +66,8 @@ class TeacherTable{
     public  static  final String deleteTeacher="delete from teacher_details where teacher_id='%s'";
     public  static  final String viewTeacher="select * from teacher_details where teacher_id='%s'";
     public  static  final String teacherLogin="select * from teacher_details where email='%s' and password='%s'";
+    public  static  final String fetchid="select * from teacher_details where email='%s'";
+    public static final String totStudents="select count(name) from student where std='%s'";
 }
 class AdminTable{
     public static  final String tableName = "admin";

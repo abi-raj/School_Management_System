@@ -1,16 +1,24 @@
 package GUI;
 
+import database.AdminDBHelper;
+import database.StudentDBHelper;
+import database.TeacherDBHelper;
+import database.re;
+import models.Teacher;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
  * @author Grace
  */
-public class LoginGUI  {
+public class LoginGUI extends JFrame {
 
 
     private JLabel img;
@@ -117,8 +125,56 @@ public class LoginGUI  {
         p.add(b);
         b.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new TeacherGUI();
-                f.dispose();
+                String email=t_email.getText();
+                String pwd=t_pwd.getText();
+                if(validateempty(email,pwd)){
+                    JOptionPane.showMessageDialog(LoginGUI.this,"Enter All Details");
+                }else if(!validateemail(email)){
+                    l_email.setForeground(Color.red);
+                    JOptionPane.showMessageDialog(LoginGUI.this,"Invalid email");
+                }
+                else if(pwd.length()<5||pwd.length()>10){
+                    l_pwd.setForeground(Color.red);
+                    JOptionPane.showMessageDialog(LoginGUI.this,"Invalid Password");
+                }else{
+                    Matcher m=re.email.matcher(email);
+                    if(email.contains("admin")){
+                        if(new AdminDBHelper().checkAdminLogin(email,pwd)){
+                            JOptionPane.showMessageDialog(LoginGUI.this,"Welcome");
+                            f.dispose();
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(LoginGUI.this,"Admin Login Failed");
+                        }
+                    }
+                    else if(email.matches("^\\d{2}[a-zA-z]+\\d+@skcet\\.ac\\.in$")){
+                        if(new StudentDBHelper().checkStudentLogin(email,pwd)){
+                            JOptionPane.showMessageDialog(LoginGUI.this,"Welcome");
+                            f.dispose();
+                            int ind=findindex(email);
+                            String id=email.substring(0,ind);
+                            System.out.println(id);
+                            new StudentGUI(id);
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(LoginGUI.this,"Student Login Failed");
+                        }
+                    }
+                    else{
+                        if(new TeacherDBHelper().checkTeacherLogin(email,pwd)){
+                            JOptionPane.showMessageDialog(LoginGUI.this,"Welcome");
+                            Teacher user=new TeacherDBHelper().getTeacherId(email);
+
+
+                            f.dispose();
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(LoginGUI.this,"Login Failed");
+                        }
+                    }
+
+                }
+                //
             }
         });
 
@@ -129,6 +185,29 @@ public class LoginGUI  {
         f.setResizable(false);
 
     }
+    public static boolean validateempty(String email,String pwd){
+        if(email.length()==0||pwd.length()==0){
+            return true;
+        }
+        return false;
+    }
+    public static  boolean validateemail(String email){
+        Matcher m=re.email.matcher(email);
+       if(Pattern.matches(".+\\@.+\\..+",email)||m.matches()||email.contains("admin")){
+           return true;
+       }
+       return false;
+    }
+    public static int findindex(String email){
+        int i=0;
+        for(i=0;i<email.length();i++){
+            if(email.charAt(i)=='@'){
+                break;
+            }
+        }
+        return i;
+    }
+
 
 
 
