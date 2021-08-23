@@ -1,6 +1,6 @@
 package GUI;
 
-import com.sun.deploy.panel.JavaPanel;
+
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -32,8 +32,8 @@ public class TeacherGUI  {
     JPanel learningpanel;
     JPanel forumpanel ;
     JPanel payrollpanel ;
-    private JTextField a_stu_name;
-    private JTextField a_student_date;
+
+
 
 
     public TeacherGUI() {
@@ -398,7 +398,7 @@ public class TeacherGUI  {
         updateAttendance.add(a_date);
 
 
-        a_student_date = new JTextField();
+        JTextField a_student_date = new JTextField();
         a_student_date.setBounds(350, 164, 200, 47);
         updateAttendance.add(a_student_date);
         a_student_date.setMargin(new Insets(5, 10, 5, 5));
@@ -437,6 +437,7 @@ public class TeacherGUI  {
         updateAttendance.add(updatebutton);
 
 
+
         String data[][]={ {"001","Aisha","P"},
                 {"102","Jay","P"},
                 {"101","Steafn","A"}};
@@ -454,12 +455,8 @@ public class TeacherGUI  {
                         {null, null, null},
                         {null, null, null},
                         {null, null, null},
-                        {null, null, null},
-                        {null, null, null},
-                        {null, null, null},
-                        {null, null, null},
-                        {null, null, null},
-                        {null, null, null},
+
+
                 },
                 new String[] {
                         "ID", "NAME", "P/A"
@@ -468,7 +465,7 @@ public class TeacherGUI  {
         jt.setRowHeight(jt.getRowHeight() + 20);
         jt.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
         jt.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        jt.setBounds(40,389,1100,349);
+        jt.setBounds(40,400,1100,350);
         attendancepanel.add(jt);
 
 
@@ -484,7 +481,7 @@ public class TeacherGUI  {
         grade_info.setLayout(null);
         gradespanel.add(grade_info);
 
-        JLabel g_l1 = new JLabel("Student Grade Record");
+        JLabel g_l1 = new JLabel("Student Grades");
         g_l1.setFont(new Font("Segoe UI", Font.BOLD, 28));
         g_l1.setBounds(47, 31, 694, 47);
         grade_info.add(g_l1);
@@ -495,35 +492,83 @@ public class TeacherGUI  {
         g_l2.setBounds(57, 84, 398, 33);
         grade_info.add(g_l2);
 
-        String g_data[][]={ {"19eucs001","Abiraj","10","98","100","78","56","99"}};
-        String g_column[]={"ID","NAME","STD","SCIENCE","MATHS","ENGLISH","TAMIL","SOCIAL"};
+        JLabel exam_name_lbl=new JLabel("Examination Name:");
+        exam_name_lbl.setBounds(24,200,200,40);
+        exam_name_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        gradespanel.add(exam_name_lbl);
+
+        String exam_name[]={"Quarterly Exam","Half Yearly Exam"};
+        JComboBox grades_exam_name_cb=new JComboBox(exam_name);
+        grades_exam_name_cb.setBounds(220, 200,200,40);
+        grades_exam_name_cb.setBackground(Color.white);
+        grades_exam_name_cb.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        gradespanel.add(grades_exam_name_cb);
+
+        JLabel student_id_lbl=new JLabel("Student ID:");
+        student_id_lbl.setBounds(460,200,200,40);
+        student_id_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        gradespanel.add(student_id_lbl);
+
+        String grade_student_id[]={"001","002","003","004"};
+        JComboBox grade_student_id_cb=new JComboBox(grade_student_id);
+        grade_student_id_cb.setBounds(580, 200,200,40);
+        grade_student_id_cb.setBackground(Color.white);
+        grade_student_id_cb.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        gradespanel.add(grade_student_id_cb);
+
+        JLabel subject_name_lbl=new JLabel("Subject Name                                   Grades");
+        subject_name_lbl.setBounds(24,350,500,40);
+        subject_name_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        gradespanel.add(subject_name_lbl);
+
+        JSeparator s = new JSeparator();
+        s.setOrientation(SwingConstants.HORIZONTAL);
+        s.setForeground(Color.BLACK);
+        s.setBounds(24,400,500,40);
+        gradespanel.add(s);
+
+        JLabel sub_name_science_lbl =new JLabel("Science");
+        sub_name_science_lbl.setBounds(24,450,200,40);
+        sub_name_science_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        gradespanel.add(sub_name_science_lbl);
+
+        JLabel sub_name_maths_lbl =new JLabel("Maths");
+        sub_name_maths_lbl.setBounds(24,500,200,40);
+        sub_name_maths_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        gradespanel.add(sub_name_maths_lbl);
+
+        JLabel sub_name_social_lbl =new JLabel("Social");
+        sub_name_maths_lbl.setBounds(24,550,200,40);
+        sub_name_maths_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        gradespanel.add(sub_name_maths_lbl);
+
+
+
+
+
+
+
+        /*String g_data[][]={ {"19eucs001","Abiraj","10","98","100","78"}};
+        String g_column[]={"ID","NAME","STD","SCIENCE","MATHS","SOCIAL"};
         JTable g_jt=new JTable(g_data,g_column);
         g_jt.setBorder(new LineBorder(new Color(0, 0, 0)));
         g_jt.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         g_jt.setRowHeight(jt.getRowHeight() + 20);
         g_jt.setModel(new DefaultTableModel(
                 new Object[][] {
-                        {"ID","NAME","STD","SCIENCE","MATHS","ENGLISH","TAMIL","SOCIAL"},
-                        {"19eucs001", "Abiraj", "10", "98", "100", "78", "56", "99", null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null},
+                        {"ID","NAME","STD","SCIENCE","MATHS","SOCIAL"},
+                        {"19eucs001", "Abiraj", "10", "98", "100","78"},
+                        {null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null},
+
                 },
                 new String[] {
-                        "ID", "NAME", "STD", "SCIENCE", "MATHS", "ENGLISH", "TAMIL", "SOCIAL", "New column", "New column", "New column"
+                        "ID", "NAME", "STD", "SCIENCE", "MATHS", "SOCIAL", "GRADE", "", "New column"
                 }
         ));
-        g_jt.setBounds(27,277,1150,437);
-        gradespanel.add(g_jt);
+        g_jt.setBounds(27,500,1150,225);
+        gradespanel.add(g_jt);*/
 
 
 
@@ -814,35 +859,36 @@ public class TeacherGUI  {
         forum_info_text.setFont(new Font("Segoe UI", Font.BOLD, 24));
         forum_response_panel.add(forum_info_text);
 
-
-
-        JLabel inq_s_id_head = new JLabel("Student ID:");
-        inq_s_id_head.setFont(new Font("Segoe UI", Font.BOLD, 17));
-        inq_s_id_head.setBounds(400, 150, 116, 31);
-        forum_response_panel.add(inq_s_id_head);
-
-        JTextField t_inq_s_id = new JTextField();
-        t_inq_s_id.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        t_inq_s_id.setBounds(510, 150, 50, 40);
-        forum_response_panel.add(t_inq_s_id);
-
-
         JLabel inq_recieved_head = new JLabel("Inquiry ID:");
         inq_recieved_head.setFont(new Font("Segoe UI", Font.BOLD, 17));
-        inq_recieved_head.setBounds(14, 152, 89, 20);
+        inq_recieved_head.setBounds(14, 155, 89, 20);
         forum_response_panel.add(inq_recieved_head);
 
         String forum_id[]={"101","102","103","104"};
         JComboBox f_id_cb=new JComboBox(forum_id);
-        f_id_cb.setBounds(130, 150,200,40);
+        f_id_cb.setBounds(120, 150,100,40);
         f_id_cb.setBackground(Color.white);
         f_id_cb.setFont(new Font("Segoe UI", Font.BOLD, 18));
         forum_response_panel.add(f_id_cb);
 
 
+        JLabel inq_s_id_head = new JLabel("Student ID:");
+        inq_s_id_head.setFont(new Font("Segoe UI", Font.BOLD, 17));
+        inq_s_id_head.setBounds(260, 155, 116, 20);
+        forum_response_panel.add(inq_s_id_head);
+
+        JTextField t_inq_s_id = new JTextField();
+        t_inq_s_id.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        t_inq_s_id.setBounds(360, 150, 200, 40);
+        t_inq_s_id.setMargin(new Insets(10,10,10,10));
+        forum_response_panel.add(t_inq_s_id);
+
+
+
+
 
         JTextArea inquiry_textarea = new JTextArea();
-        inquiry_textarea.setBackground(new Color(248, 248, 255));
+        inquiry_textarea.setBackground(new Color(240, 240, 255));
         inquiry_textarea.setWrapStyleWord(true);
         inquiry_textarea.setRows(3);
         inquiry_textarea.setMargin(new Insets(10,15,10,10));
@@ -850,20 +896,9 @@ public class TeacherGUI  {
         inquiry_textarea.setBounds(14, 220, 540, 163);
         forum_response_panel.add(inquiry_textarea);
 
-        /*JButton respond_btn_1 = new JButton("Reply");
-        respond_btn_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        respond_btn_1.setBackground(new Color(250, 128, 114));
-        respond_btn_1.setForeground(Color.white);
-        respond_btn_1.setBounds(14, 390, 124, 31);
-        respond_btn_1.setLayout(null);
-        respond_btn_1.setFocusPainted(false);
-        respond_btn_1.setBorder(null);
-        forum_response_panel.add(respond_btn_1);*/
-
-
 
         JTextArea inquiry_textarea_2 = new JTextArea("Respond to Inquiry here....");
-        inquiry_textarea_2.setBackground(new Color(248, 248, 255));
+        inquiry_textarea_2.setBackground(new Color(240, 240, 255));
         inquiry_textarea_2.setWrapStyleWord(true);
         inquiry_textarea_2.setRows(3);
         inquiry_textarea_2.setFont(new Font("Segoe UI", Font.PLAIN, 14));
