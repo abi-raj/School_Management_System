@@ -163,6 +163,8 @@ public class LoginGUI extends JFrame {
                     else{
                         if(new TeacherDBHelper().checkTeacherLogin(email,pwd)){
                             JOptionPane.showMessageDialog(LoginGUI.this,"Welcome");
+                            Teacher user=new TeacherDBHelper().getTeacherId(email);
+
 
                             f.dispose();
                         }

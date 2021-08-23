@@ -372,7 +372,21 @@ public class TeacherDBHelper implements TeacherTableOperations{
 
     @Override
     public Teacher getTeacherId(String email) {
-        return null;
+        Teacher user=null;
+        try {
+            Connection con = getConnection();
+            String selectUserQuery = String.format(TeacherTable.fetchid, email);
+            PreparedStatement stmt = con.prepareStatement(selectUserQuery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                user = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8));
+//                System.out.println(rs.getString(3));
+            }
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        return user;
     }
 
     @Override
@@ -433,6 +447,23 @@ public class TeacherDBHelper implements TeacherTableOperations{
 
 
         return  pendingLeaves;
+    }
+    public String totalStudents(String std){
+        Connection con=getConnection();
+        String count=null;
+        try{
+            String countQuery=String.format(TeacherTable.totStudents,std);
+            PreparedStatement stmt=con.prepareStatement(countQuery);
+            ResultSet rs=stmt.executeQuery();
+            while(rs.next()){
+                count=rs.getString(1);
+            }
+
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        return  count;
     }
 
 }
