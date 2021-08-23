@@ -356,4 +356,38 @@ public class TeacherDBHelper implements TeacherTableOperations{
 
 
     }
+    public ArrayList<String> getDistinctDates(){
+        ArrayList<String> dates= new ArrayList<String>();
+        try{
+            Connection con = getConnection();
+            String dateQuery = String.format(LeaveTable.selectDistinctDate);
+            PreparedStatement stmt = con.prepareStatement(dateQuery);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                dates.add(rs.getString(1));
+            }
+        }catch (Exception e){
+            System.out.println("exception occurred "+e.getMessage());
+        }
+
+        return dates;
+    }
+    public ArrayList<Leave> getPendingLeavesFromDate(String date){
+        ArrayList<Leave> pendingLeaves = new ArrayList<>();
+        try{
+            Connection con = getConnection();
+            String dateQuery = String.format(LeaveTable.selectPendingLeaves,date);
+            PreparedStatement stmt = con.prepareStatement(dateQuery);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                Leave leave = new Leave(rs.getString(1),rs.getString(2),rs.getString(3), rs.getString(4));
+                pendingLeaves.add(leave);
+            }
+        }catch (Exception e){
+            System.out.println("exception occurred "+e.getMessage());
+        }
+
+
+        return  pendingLeaves;
+    }
 }

@@ -33,6 +33,9 @@ class LeaveTable{
     public static final String leaveStatus="update leave set status='%s' where std_id='%s' and date='%s'";
     public static final String selectStudentLeave = "select * from leave where std_id='%s'";
     public static final String checkLeaveExists = "select * from leave where std_id='%s' and date='%s'";
+    public static final String selectDistinctDate = "select distinct date from leave";
+    public static final String selectPendingLeaves = "select * from leave where date='%s' and status='Pending'";
+
 }
 
 class MaterialsTable{
