@@ -27,6 +27,7 @@ interface TeacherTableOperations{
     void RejectLeave(Leave user);
     void LeavePending(Leave user);
     int getLeaveCount(String email);
+    Teacher getTeacherId(String email);
 
    // boolean teacherExist(String id);
 ArrayList<Forum> allUnrespondedQueries();
@@ -367,6 +368,11 @@ public class TeacherDBHelper implements TeacherTableOperations{
             System.out.println("Exception"+e);
         }
         return count;
+    }
+
+    @Override
+    public Teacher getTeacherId(String email) {
+        return null;
     }
 
     @Override

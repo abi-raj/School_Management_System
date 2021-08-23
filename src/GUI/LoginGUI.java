@@ -4,6 +4,7 @@ import database.AdminDBHelper;
 import database.StudentDBHelper;
 import database.TeacherDBHelper;
 import database.re;
+import models.Teacher;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ import java.util.regex.Pattern;
  *
  * @author Grace
  */
-public class LoginGUI  {
+public class LoginGUI extends JFrame {
 
 
     private JLabel img;
@@ -127,28 +128,28 @@ public class LoginGUI  {
                 String email=t_email.getText();
                 String pwd=t_pwd.getText();
                 if(validateempty(email,pwd)){
-                    JOptionPane.showMessageDialog(new JButton(),"Enter All Details");
+                    JOptionPane.showMessageDialog(LoginGUI.this,"Enter All Details");
                 }else if(!validateemail(email)){
                     l_email.setForeground(Color.red);
-                    JOptionPane.showMessageDialog(new JButton(),"Invalid email");
+                    JOptionPane.showMessageDialog(LoginGUI.this,"Invalid email");
                 }
                 else if(pwd.length()<5||pwd.length()>10){
                     l_pwd.setForeground(Color.red);
-                    JOptionPane.showMessageDialog(new JButton(),"Invalid Password");
+                    JOptionPane.showMessageDialog(LoginGUI.this,"Invalid Password");
                 }else{
                     Matcher m=re.email.matcher(email);
                     if(email.contains("admin")){
                         if(new AdminDBHelper().checkAdminLogin(email,pwd)){
-                            JOptionPane.showMessageDialog(new JButton(),"Welcome");
+                            JOptionPane.showMessageDialog(LoginGUI.this,"Welcome");
                             f.dispose();
                         }
                         else{
-                            JOptionPane.showMessageDialog(new JButton(),"Admin Login Failed");
+                            JOptionPane.showMessageDialog(LoginGUI.this,"Admin Login Failed");
                         }
                     }
                     else if(email.matches("^\\d{2}[a-zA-z]+\\d+@skcet\\.ac\\.in$")){
                         if(new StudentDBHelper().checkStudentLogin(email,pwd)){
-                            JOptionPane.showMessageDialog(new JButton(),"Welcome");
+                            JOptionPane.showMessageDialog(LoginGUI.this,"Welcome");
                             f.dispose();
                             int ind=findindex(email);
                             String id=email.substring(0,ind);
@@ -156,16 +157,17 @@ public class LoginGUI  {
                             new StudentGUI(id);
                         }
                         else{
-                            JOptionPane.showMessageDialog(new JButton(),"Student Login Failed");
+                            JOptionPane.showMessageDialog(LoginGUI.this,"Student Login Failed");
                         }
                     }
                     else{
                         if(new TeacherDBHelper().checkTeacherLogin(email,pwd)){
-                            JOptionPane.showMessageDialog(new JButton(),"Welcome");
+                            JOptionPane.showMessageDialog(LoginGUI.this,"Welcome");
+
                             f.dispose();
                         }
                         else{
-                            JOptionPane.showMessageDialog(new JButton(),"Login Failed");
+                            JOptionPane.showMessageDialog(LoginGUI.this,"Login Failed");
                         }
                     }
 
