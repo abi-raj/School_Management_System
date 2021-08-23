@@ -41,11 +41,12 @@ public class TeacherGUI extends JFrame {
     private JTextField a_stu_name;
     private JTextField a_student_date;
     TeacherDBHelper teacherDB=new TeacherDBHelper();
-    static Teacher teacher=null;
+     Teacher teacher=null;
     Attendance attendance=null;
 
-    public TeacherGUI(String email) {
-        setTeacher(email);
+    public TeacherGUI(Teacher teacher) {
+        this.teacher=teacher;
+        //setTeacher(email);
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setBounds(100, 100, 1336, 814);
@@ -1088,8 +1089,9 @@ public class TeacherGUI extends JFrame {
 
 
     public static void main(String[] args) {
-        System.out.println(new TeacherGUI("abcd@gmail"));
-        System.out.println(teacher.getTeacher_id());
+
+//        System.out.println(new TeacherGUI("ajai@skcet.edu"));
+//        System.out.println(teacher.getTeacher_id());
 
 
     }
