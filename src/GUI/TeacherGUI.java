@@ -1,39 +1,41 @@
 package GUI;
 
 
-
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import database.StudentDBHelper;
+import database.TeacherDBHelper;
+import models.Forum;
+import models.Leave;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Objects;
 
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.border.LineBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.table.DefaultTableModel;
 
-public class TeacherGUI  {
 
+public class TeacherGUI extends JFrame {
+
+    TeacherDBHelper teacherDBHelper = new TeacherDBHelper();
+    JComboBox<String> cb_2;
+    JComboBox<String> cb;
     JPanel contentPane;
-    JPanel homepanel ;
+    JPanel homepanel;
     JPanel attendancepanel;
-    JPanel gradespanel ;
-    JPanel leaveformpanel ;
-    JPanel studentpanel ;
+    JPanel gradespanel;
+    JPanel leaveformpanel;
+    JPanel studentpanel;
     JPanel learningpanel;
-    JPanel forumpanel ;
-    JPanel payrollpanel ;
-
-
+    JPanel forumpanel;
+    JPanel payrollpanel;
+    ArrayList<Forum> inquiries;
+    JComboBox<String> f_id_cb;
+    private JTextField a_stu_name;
+    private JTextField a_student_date;
 
 
     public TeacherGUI() {
@@ -100,7 +102,7 @@ public class TeacherGUI  {
         attendance.setBounds(41, 224, 45, 63);
         attendance.setToolTipText("Attendance");
         attendance.setIcon(new ImageIcon((Objects.requireNonNull(getClass().getResource("images/attendance.png")))));
-        attendance.setBackground(new Color(29,217,171));
+        attendance.setBackground(new Color(29, 217, 171));
         attendance.setLayout(null);
         attendance.setFocusPainted(false);
         attendance.setBorder(null);
@@ -111,17 +113,17 @@ public class TeacherGUI  {
             public void actionPerformed(ActionEvent arg0) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(true) ;
-                leaveformpanel.setVisible(false) ;
-                studentpanel.setVisible(false) ;
+                gradespanel.setVisible(true);
+                leaveformpanel.setVisible(false);
+                studentpanel.setVisible(false);
                 learningpanel.setVisible(false);
-                forumpanel.setVisible(false) ;
-                payrollpanel.setVisible(false) ;
+                forumpanel.setVisible(false);
+                payrollpanel.setVisible(false);
             }
         });
         grade.setBounds(39, 310, 45, 56);
         grade.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/grade.png"))));
-        grade.setBackground(new Color(29,217,171));
+        grade.setBackground(new Color(29, 217, 171));
         grade.setLayout(null);
         grade.setFocusPainted(false);
         grade.setBorder(null);
@@ -133,12 +135,12 @@ public class TeacherGUI  {
             public void actionPerformed(ActionEvent e) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false) ;
-                leaveformpanel.setVisible(false) ;
-                studentpanel.setVisible(true) ;
+                gradespanel.setVisible(false);
+                leaveformpanel.setVisible(false);
+                studentpanel.setVisible(true);
                 learningpanel.setVisible(false);
-                forumpanel.setVisible(false) ;
-                payrollpanel.setVisible(false) ;
+                forumpanel.setVisible(false);
+                payrollpanel.setVisible(false);
             }
         });
         student.setBounds(39, 151, 45, 47);
@@ -146,7 +148,7 @@ public class TeacherGUI  {
         student.setLayout(null);
         student.setFocusPainted(false);
         student.setBorder(null);
-        student.setBackground(new Color(29,217,171));
+        student.setBackground(new Color(29, 217, 171));
         student.setToolTipText("Student Details\r\n");
         sidebar.add(student);
 
@@ -156,19 +158,19 @@ public class TeacherGUI  {
 
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false) ;
-                leaveformpanel.setVisible(true) ;
-                studentpanel.setVisible(false) ;
+                gradespanel.setVisible(false);
+                leaveformpanel.setVisible(true);
+                studentpanel.setVisible(false);
                 learningpanel.setVisible(false);
-                forumpanel.setVisible(false) ;
-                payrollpanel.setVisible(false) ;
+                forumpanel.setVisible(false);
+                payrollpanel.setVisible(false);
             }
 
         });
         leaveform.setToolTipText("Leave Form");
         leaveform.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/leave.png"))));
         leaveform.setLayout(null);
-        leaveform.setBackground(new Color(29,217,171));
+        leaveform.setBackground(new Color(29, 217, 171));
         leaveform.setFocusPainted(false);
         leaveform.setBorder(null);
         leaveform.setBounds(41, 475, 45, 56);
@@ -179,17 +181,17 @@ public class TeacherGUI  {
             public void actionPerformed(ActionEvent arg0) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false) ;
-                leaveformpanel.setVisible(false) ;
-                studentpanel.setVisible(false) ;
+                gradespanel.setVisible(false);
+                leaveformpanel.setVisible(false);
+                studentpanel.setVisible(false);
                 learningpanel.setVisible(false);
-                forumpanel.setVisible(true) ;
-                payrollpanel.setVisible(false) ;
+                forumpanel.setVisible(true);
+                payrollpanel.setVisible(false);
             }
         });
         inquiry.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/chat icon.png"))));
         inquiry.setToolTipText("Inquiry Forum");
-        inquiry.setBackground(new Color(29,217,171));
+        inquiry.setBackground(new Color(29, 217, 171));
         inquiry.setLayout(null);
         inquiry.setFocusPainted(false);
         inquiry.setBorder(null);
@@ -241,9 +243,6 @@ public class TeacherGUI  {
         payroll.setBackground(new Color(29,217,171));
         sidebar.add(payroll);
 
-
-
-
         homepanel = new JPanel();
         homepanel.setBounds(124, 0, 1336, 1000);
         homepanel.setBackground(Color.WHITE);
@@ -251,31 +250,30 @@ public class TeacherGUI  {
         p.add(homepanel);
 
 
-
-        JLabel teacher_name=new JLabel("Teacher Name");
-        teacher_name.setBounds(400,271,300,40);
-        teacher_name.setFont(new Font("Segoe UI",Font.BOLD, 36));
+        JLabel teacher_name = new JLabel("Teacher Name");
+        teacher_name.setBounds(400, 271, 300, 40);
+        teacher_name.setFont(new Font("Segoe UI", Font.BOLD, 36));
         teacher_name.setForeground(new Color(102, 102, 102));
         homepanel.add(teacher_name);
 
 
-        JLabel teacher_email=new JLabel("emailaddress@schoolname.com");
-        teacher_email.setBounds(400,321,300,40);
-        teacher_email.setFont(new Font("Segoe UI",Font.PLAIN, 18));
+        JLabel teacher_email = new JLabel("emailaddress@schoolname.com");
+        teacher_email.setBounds(400, 321, 300, 40);
+        teacher_email.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         teacher_email.setForeground(new Color(102, 102, 102));
         homepanel.add(teacher_email);
 
 
-        JLabel teacher_phone=new JLabel("9876543210");
-        teacher_phone.setBounds(400,371,300,40);
-        teacher_phone.setFont(new Font("Segoe UI",Font.PLAIN, 18));
+        JLabel teacher_phone = new JLabel("9876543210");
+        teacher_phone.setBounds(400, 371, 300, 40);
+        teacher_phone.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         teacher_phone.setForeground(new Color(102, 102, 102));
         homepanel.add(teacher_phone);
 
 
-        JLabel teacher_work_exp=new JLabel("5 years work experience");
-        teacher_work_exp.setBounds(400,421,300,40);
-        teacher_work_exp.setFont(new Font("Segoe UI",Font.PLAIN, 18));
+        JLabel teacher_work_exp = new JLabel("5 years work experience");
+        teacher_work_exp.setBounds(400, 421, 300, 40);
+        teacher_work_exp.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         teacher_work_exp.setForeground(new Color(102, 102, 102));
         homepanel.add(teacher_work_exp);
 
@@ -304,8 +302,6 @@ public class TeacherGUI  {
         text2.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         text2.setBounds(60, 77, 226, 26);
         welcometext.add(text2);
-
-
 
 
         JButton schedule_events_button=new JButton("View Important Schedules & Events");
@@ -544,34 +540,6 @@ public class TeacherGUI  {
 
 
 
-
-
-
-
-        /*String g_data[][]={ {"19eucs001","Abiraj","10","98","100","78"}};
-        String g_column[]={"ID","NAME","STD","SCIENCE","MATHS","SOCIAL"};
-        JTable g_jt=new JTable(g_data,g_column);
-        g_jt.setBorder(new LineBorder(new Color(0, 0, 0)));
-        g_jt.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        g_jt.setRowHeight(jt.getRowHeight() + 20);
-        g_jt.setModel(new DefaultTableModel(
-                new Object[][] {
-                        {"ID","NAME","STD","SCIENCE","MATHS","SOCIAL"},
-                        {"19eucs001", "Abiraj", "10", "98", "100","78"},
-                        {null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null},
-
-                },
-                new String[] {
-                        "ID", "NAME", "STD", "SCIENCE", "MATHS", "SOCIAL", "GRADE", "", "New column"
-                }
-        ));
-        g_jt.setBounds(27,500,1150,225);
-        gradespanel.add(g_jt);*/
-
-
-
         studentpanel = new JPanel();
         studentpanel.setBackground(Color.white);
         studentpanel.setBounds(124, 0, 1336, 1000);
@@ -755,24 +723,33 @@ public class TeacherGUI  {
         label2.setBounds(65, 100, 100, 49);
         leave_apply_panel.add(label2);
 
-        String a_s_id[]={"001","002","003","004"};
-        JComboBox a_stu_id_cb=new JComboBox(a_s_id);
-        a_stu_id_cb.setBounds(65, 150,200,40);
-        a_stu_id_cb.setBackground(Color.white);
-        a_stu_id_cb.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        leave_apply_panel.add(a_stu_id_cb);
+//        String s_id[]={"001","002","003","004"};
+        cb = new JComboBox<String>();
+        cb.setBounds(65, 150, 200, 40);
+        cb.setBackground(Color.white);
+        cb.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        leave_apply_panel.add(cb);
 
         JLabel label3 = new JLabel("Date");
         label3.setFont(new Font("Segoe UI", Font.BOLD, 18));
         label3.setBounds(300, 100, 100, 49);
         leave_apply_panel.add(label3);
 
-        String l_date[]={"21/08/2021","22/08/2021"};
-        JComboBox cb_2=new JComboBox(l_date);
-        cb_2.setBounds(300, 150,200,40);
+//        String l_date[]={"21/08/2021","22/08/2021"};
+        cb_2 = new JComboBox<String>();
+        cb_2.setBounds(300, 150, 200, 40);
         cb_2.setBackground(Color.white);
         cb_2.setFont(new Font("Segoe UI", Font.BOLD, 18));
         leave_apply_panel.add(cb_2);
+        cb_2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = cb_2.getSelectedIndex();
+                if (index != -1) {
+                    setStudentsLeave(cb_2.getItemAt(index));
+                }
+            }
+        });
 
         JButton leave_req_view_btn=new JButton("View Leave Request");
         leave_req_view_btn.setBounds(65,220,200,40);
@@ -783,17 +760,26 @@ public class TeacherGUI  {
         leave_req_view_btn.setFocusPainted(false);
         leave_req_view_btn.setBorder(null);
         leave_apply_panel.add(leave_req_view_btn);
+        JTextArea leave_req_ta = new JTextArea();
+        leave_req_view_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index1 = cb.getSelectedIndex();
+                int index2 = cb_2.getSelectedIndex();
+                if (index1 != -1 && index2 != -1) {
+                    StudentDBHelper studentDBHelper = new StudentDBHelper();
+                    Leave leave = studentDBHelper.getSingleLeave(cb.getItemAt(index1), cb_2.getItemAt(index2));
+                    leave_req_ta.setText(leave.getReason());
+                }
+            }
+        });
 
 
-        JTextArea leave_req_ta=new JTextArea();
-        leave_req_ta.setBounds(600, 100,500,200);
-        leave_req_ta.setMargin(new Insets(10,10,10,10));
-        leave_req_ta.setBackground(new Color(240,240,240));
+        leave_req_ta.setBounds(600, 100, 500, 200);
+        leave_req_ta.setMargin(new Insets(10, 10, 10, 10));
+        leave_req_ta.setBackground(new Color(240, 240, 240));
         leave_req_ta.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         leave_apply_panel.add(leave_req_ta);
-
-
-
 
         JLabel label1 = new JLabel("Requests for Leave");
         label1.setFont(new Font("Segoe UI", Font.BOLD, 28));
@@ -822,6 +808,36 @@ public class TeacherGUI  {
         a1.setBorder(null);
         leave_apply_panel.add(a1);
 
+        a1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index1 = cb.getSelectedIndex();
+                int index2 = cb_2.getSelectedIndex();
+                if (index1 != -1 && index2 != -1) {
+                    StudentDBHelper studentDBHelper = new StudentDBHelper();
+                    Leave leave = studentDBHelper.getSingleLeave(cb.getItemAt(index1), cb_2.getItemAt(index2));
+                    teacherDBHelper.approveLeave(leave);
+                    leave_req_ta.setText("");
+                    setLeaveDates();
+
+                    //Clear Text functions
+                }
+            }
+        });
+        d1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index1 = cb.getSelectedIndex();
+                int index2 = cb_2.getSelectedIndex();
+                if (index1 != -1 && index2 != -1) {
+                    StudentDBHelper studentDBHelper = new StudentDBHelper();
+                    Leave leave = studentDBHelper.getSingleLeave(cb.getItemAt(index1), cb_2.getItemAt(index2));
+                    teacherDBHelper.RejectLeave(leave);
+                    leave_req_ta.setText("");
+                    setLeaveDates();
+                }
+            }
+        });
 
         forumpanel = new JPanel();
         forumpanel.setBackground(Color.white);
@@ -859,13 +875,25 @@ public class TeacherGUI  {
         forum_info_text.setFont(new Font("Segoe UI", Font.BOLD, 24));
         forum_response_panel.add(forum_info_text);
 
+
+        JLabel inq_s_id_head = new JLabel("Student ID:");
+        inq_s_id_head.setFont(new Font("Segoe UI", Font.BOLD, 17));
+        inq_s_id_head.setBounds(400, 150, 116, 31);
+        forum_response_panel.add(inq_s_id_head);
+
+        JTextField t_inq_s_id = new JTextField();
+        t_inq_s_id.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        t_inq_s_id.setBounds(510, 150, 50, 40);
+        forum_response_panel.add(t_inq_s_id);
+
+
         JLabel inq_recieved_head = new JLabel("Inquiry ID:");
         inq_recieved_head.setFont(new Font("Segoe UI", Font.BOLD, 17));
         inq_recieved_head.setBounds(14, 155, 89, 20);
         forum_response_panel.add(inq_recieved_head);
 
-        String forum_id[]={"101","102","103","104"};
-        JComboBox f_id_cb=new JComboBox(forum_id);
+
+        f_id_cb = new JComboBox<String>();
         f_id_cb.setBounds(120, 150,100,40);
         f_id_cb.setBackground(Color.white);
         f_id_cb.setFont(new Font("Segoe UI", Font.BOLD, 18));
@@ -891,10 +919,11 @@ public class TeacherGUI  {
         inquiry_textarea.setBackground(new Color(240, 240, 255));
         inquiry_textarea.setWrapStyleWord(true);
         inquiry_textarea.setRows(3);
-        inquiry_textarea.setMargin(new Insets(10,15,10,10));
+        inquiry_textarea.setMargin(new Insets(10, 15, 10, 10));
         inquiry_textarea.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         inquiry_textarea.setBounds(14, 220, 540, 163);
         forum_response_panel.add(inquiry_textarea);
+
 
 
         JTextArea inquiry_textarea_2 = new JTextArea("Respond to Inquiry here....");
@@ -916,8 +945,37 @@ public class TeacherGUI  {
         respond_btn_2.setFocusPainted(false);
         respond_btn_2.setBorder(null);
         forum_response_panel.add(respond_btn_2);
+        f_id_cb.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        int index1 = f_id_cb.getSelectedIndex();
+                        if (index1 != -1) {
+                            Forum forum = inquiries.get(index1);
+                            t_inq_s_id.setText(forum.getStudent_id());
+                            inquiry_textarea.setText(forum.getDescription());
+                            inquiry_textarea.setEditable(false);
 
-
+                        }
+                    }
+                }
+        );
+        respond_btn_2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = f_id_cb.getSelectedIndex();
+                if (inquiry_textarea_2.getText().length() < 1) {
+                    JOptionPane.showMessageDialog(TeacherGUI.this, "Please Enter Something");
+                } else if (index != -1) {
+                    Forum forum = inquiries.get(index);
+                    forum.setResponse(inquiry_textarea_2.getText());
+                    teacherDBHelper.replyQuestion(forum);
+                    setInquiries();
+                    JOptionPane.showMessageDialog(TeacherGUI.this, "Replied!");
+                    inquiry_textarea_2.setText("");
+                }
+            }
+        });
         JPanel inquiry_rec_panel = new JPanel();
         inquiry_rec_panel.setBackground(new Color(255, 160, 122));
         inquiry_rec_panel.setBounds(789, 250, 237, 154);
@@ -984,10 +1042,37 @@ public class TeacherGUI  {
         f.setVisible( true );
         f.setLayout(null);
         f.setResizable(false);
-
+        setLeaveDates();
+        setInquiries();
 
     }
 
 
+    public static void main(String[] args) {
+        new TeacherGUI();
+    }
 
+    void setLeaveDates() {
+        cb_2.removeAllItems();
+        ArrayList<String> dates = teacherDBHelper.getDistinctDates();
+        for (String s : dates) {
+            cb_2.addItem(s);
+        }
+    }
+
+    void setStudentsLeave(String date) {
+        cb.removeAllItems();
+        ArrayList<Leave> leaves = teacherDBHelper.getPendingLeavesFromDate(date);
+        for (Leave l : leaves) {
+            cb.addItem(l.getStudent_id());
+        }
+    }
+
+    void setInquiries() {
+        f_id_cb.removeAllItems();
+        inquiries = teacherDBHelper.allUnrespondedQueries();
+        for (int i = 1; i <= inquiries.size(); i++) {
+            f_id_cb.addItem(i + "");
+        }
+    }
 }

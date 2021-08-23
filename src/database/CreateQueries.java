@@ -18,7 +18,7 @@ class StudentTable{
     public static final String tableName = "student";
     public static final String createStudent="insert into student values('%s','%s','%s','%s','%s','%s','%s','%s','%d')";
     public static final String checkStudentPresent = "select * from student where student_id='%s'";
-    public static final String checkStudentLogin ="select * from student where student_id='%s' and password='%s'";
+    public static final String checkStudentLogin ="select * from student where email='%s' and password='%s'";
     public static final String updateStudent ="update student set password='%s',name='%s',std='%s',email='%s',gender='%s',dob='%s',phone='%s',fees='%d' where student_id='%s'";
     public static final String deleteStudent = "delete from student where regno='%s'";
     public static final String selectSingleStudent ="select * from student where student_id='%s'";
@@ -32,6 +32,10 @@ class LeaveTable{
     public static final String insertLeave = "insert into leave values('%s','%s','%s','%s')";
     public static final String leaveStatus="update leave set status='%s' where std_id='%s' and date='%s'";
     public static final String selectStudentLeave = "select * from leave where std_id='%s'";
+    public static final String checkLeaveExists = "select * from leave where std_id='%s' and date='%s'";
+    public static final String selectDistinctDate = "select distinct date from leave";
+    public static final String selectPendingLeaves = "select * from leave where date='%s' and status='Pending'";
+
 }
 
 class MaterialsTable{
@@ -51,6 +55,7 @@ class ForumTable{
     public static final String insertForum = "insert into forum values('%s','%s','%s')";
     public static final String selectStudentResponse = "select * from forum where std_id='%s'";
     public static final String updateResponse="update forum set response='%s' where description='%s' and response='%s'";
+    public static final String selectForumNotResponded = "select * from forum where response='No response yet'";
 }
 
 class TeacherTable{
@@ -59,6 +64,14 @@ class TeacherTable{
     public  static  final String updateTeacher="update teacher_details set password='%s',name='%s',class='%s',email='%s',experience=%d,phone='%s',salary=%d where teacher_id='%s'";
     public  static  final String deleteTeacher="delete from teacher_details where teacher_id='%s'";
     public  static  final String viewTeacher="select * from teacher_details where teacher_id='%s'";
-    public  static  final String teacherLogin="select * from teacher_details where teacher_id='%s' and password='%s'";
+    public  static  final String teacherLogin="select * from teacher_details where email='%s' and password='%s'";
 }
-
+class AdminTable{
+    public static  final String tableName = "admin";
+    public static final String insertAdmin = "insert into admin values('%s','%s')";
+    public static final String checkAdminLogin = "select * from admin where admin_id='%s' and password='%s'";
+}
+class AttendanceTable{
+    public static  final String tableName = "admin";
+    public static final String getClassAttendance ="select * from attendance where class='%s'";
+}

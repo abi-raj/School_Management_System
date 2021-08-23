@@ -1,826 +1,831 @@
 package GUI;
+import database.StudentDBHelper;
+import models.*;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.SystemColor;
+import java.awt.Color;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
+import java.awt.Font;
 
-public class StudentGUI extends javax.swing.JFrame {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Objects;
 
-    public StudentGUI() {
+public class StudentGUI extends JFrame {
 
-        jLabel23 = new javax.swing.JLabel();
-        jPanel_menu = new javax.swing.JPanel();
-        jPanel_Op_Profile = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jPanel_Op_Grades = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jPanel_Op_LMaterials = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jPanel_Op_Lform = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jPanel_Op_Inquiry = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jPanel_Op_fee = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jPanel_Top = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel_Body = new javax.swing.JPanel();
-        jPanel_Profile = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jPanel16 = new javax.swing.JPanel();
-        jLabel21 = new javax.swing.JLabel();
-        jPanel_Grades = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel17 = new javax.swing.JPanel();
-        jLabel22 = new javax.swing.JLabel();
-        jPanel_Materials = new javax.swing.JPanel();
-        jPanel18 = new javax.swing.JPanel();
-        jLabel24 = new javax.swing.JLabel();
-        jPanel_Lform = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jPanel19 = new javax.swing.JPanel();
-        jLabel25 = new javax.swing.JLabel();
-        jPanel_Inquiry = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jButton2 = new javax.swing.JButton();
-        jPanel20 = new javax.swing.JPanel();
-        jLabel26 = new javax.swing.JLabel();
-        jPanel_Fee = new javax.swing.JPanel();
-        jLabel18 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel19 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jLabel20 = new javax.swing.JLabel();
-        jPanel21 = new javax.swing.JPanel();
-        jLabel27 = new javax.swing.JLabel();
+    private JPanel panel_content;
+    StudentDBHelper studentDBHelper = new StudentDBHelper();
+    Student student = null;
+    ArrayList<Leave> alLeave;
+    ArrayList<Forum> alForum;
+     ArrayList<Materials> alMaterials;
+    ArrayList<Marks> alMarks;
+    String[][] marksArray;
+     JLabel lbl_name1;
+    JLabel lbl_class1;
+    JLabel lbl_email1;
+    JLabel lbl_dob1;
+    JLabel lbl_cno1;
+    JLabel lbl_remainingFee1;
 
-        jLabel23.setText("jLabel23");
+    public static void main(String[] args) {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        StudentGUI frame = new StudentGUI("19eucs001");
 
-        jPanel_menu.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel_menu.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+    }
 
-        jPanel_Op_Profile.setBackground(new java.awt.Color(153, 153, 255));
+    JPanel panel_profileWindow,panel_gradeWindow,panel_MaterialsWindow,panel_leaveFormWindow,panel_inquiryWindow,panel_feeWindow;
+    private JLabel lbl_checkStatus,lbl_LfSubmit,lbl_Isubmit,lbl_checkResponse;
+    private JLabel lbl_pay;
+    private JTextField textField_amount;
+    private JTable table;
+    private JTextArea textArea_material;
+    private JComboBox<String> comboBox_materialno;
+    private JLabel lbl_LfStatus1;
+    private JLabel lbl_LfDate1;
+    private JComboBox<String> comboBox_Lfno;
+    private JComboBox<String> comboBox_Ifno;
+    private JLabel lb_view;
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Profile");
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel2MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel2MouseExited(evt);
-            }
-        });
 
-        javax.swing.GroupLayout jPanel_Op_ProfileLayout = new javax.swing.GroupLayout(jPanel_Op_Profile);
-        jPanel_Op_Profile.setLayout(jPanel_Op_ProfileLayout);
-        jPanel_Op_ProfileLayout.setHorizontalGroup(
-                jPanel_Op_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel_Op_ProfileLayout.setVerticalGroup(
-                jPanel_Op_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-        );
+    public StudentGUI(String student_id) {
+        setStudent(student_id);
+        sidePanel();
+        profile();
+        setGradesTable(); //for a reason
+        grade();
+        leraningMaterials();
+        leaveForm();
+        inquiryForm();
+        feePayment();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(2, 2, 1237, 665);
+        //setBounds(0, 0, 1350, 750);
+        setVisible(true);
 
-        jPanel_Op_Grades.setBackground(new java.awt.Color(153, 153, 255));
+        setInitialProfileValues();
+        setFeePaymentValues();
+        setLeaveFormComboBox();
+        setInquiryComboBox();
+        setModelComboBox();
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Grades");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+    }
+    private void sidePanel() {
+        panel_content = new JPanel();
+        panel_content.setBackground(Color.WHITE);
+        panel_content.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(panel_content);
+        panel_content.setLayout(null);
+
+        JPanel panel_side = new JPanel();
+        panel_side.setBackground(new Color(0, 0, 139));
+        panel_side.setBounds(20, 0, 149, 617);
+        panel_content.add(panel_side);
+        panel_side.setLayout(null);
+
+
+        JLabel lbl_profileIcon = new JLabel("");
+        lbl_profileIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                panel_profileWindow.setVisible(true);
+                panel_gradeWindow.setVisible(false);
+                panel_MaterialsWindow.setVisible(false);
+                panel_leaveFormWindow.setVisible(false);
+                panel_inquiryWindow.setVisible(false);
+                panel_feeWindow.setVisible(false);
+
             }
         });
+        lbl_profileIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/profileIcon.png"))));
+        lbl_profileIcon.setBounds(44, 77, 48, 51);
+        lbl_profileIcon.setToolTipText("Profile\r\n");
+        panel_side.add(lbl_profileIcon);
 
-        javax.swing.GroupLayout jPanel_Op_GradesLayout = new javax.swing.GroupLayout(jPanel_Op_Grades);
-        jPanel_Op_Grades.setLayout(jPanel_Op_GradesLayout);
-        jPanel_Op_GradesLayout.setHorizontalGroup(
-                jPanel_Op_GradesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel_Op_GradesLayout.setVerticalGroup(
-                jPanel_Op_GradesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-        );
-
-        jPanel_Op_LMaterials.setBackground(new java.awt.Color(153, 153, 255));
-
-        jLabel4.setBackground(new java.awt.Color(153, 153, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Learning Materials");
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+        JLabel lbl_gradeIcon = new JLabel("");
+        lbl_gradeIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                panel_profileWindow.setVisible(false);
+                panel_gradeWindow.setVisible(true);
+                panel_MaterialsWindow.setVisible(false);
+                panel_leaveFormWindow.setVisible(false);
+                panel_inquiryWindow.setVisible(false);
+                panel_feeWindow.setVisible(false);
             }
         });
+        lbl_gradeIcon.setToolTipText("Grades");
+        lbl_gradeIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/gradeIcon.png"))));
+        lbl_profileIcon.setToolTipText("Profile");
+        lbl_gradeIcon.setBounds(44, 162, 53, 51);
+        panel_side.add(lbl_gradeIcon);
 
-        javax.swing.GroupLayout jPanel_Op_LMaterialsLayout = new javax.swing.GroupLayout(jPanel_Op_LMaterials);
-        jPanel_Op_LMaterials.setLayout(jPanel_Op_LMaterialsLayout);
-        jPanel_Op_LMaterialsLayout.setHorizontalGroup(
-                jPanel_Op_LMaterialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-        );
-        jPanel_Op_LMaterialsLayout.setVerticalGroup(
-                jPanel_Op_LMaterialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-        );
-
-        jPanel_Op_Lform.setBackground(new java.awt.Color(153, 153, 255));
-
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Leave Form");
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
+        JLabel lbl_materialsIcon = new JLabel("");
+        lbl_materialsIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                panel_profileWindow.setVisible(false);
+                panel_gradeWindow.setVisible(false);
+                panel_MaterialsWindow.setVisible(true);
+                panel_leaveFormWindow.setVisible(false);
+                panel_inquiryWindow.setVisible(false);
+                panel_feeWindow.setVisible(false);
             }
         });
+        lbl_materialsIcon.setToolTipText("Learning Materials");
+        lbl_materialsIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/materialsIcon.png"))));
+        lbl_materialsIcon.setBounds(44, 251, 48, 51);
+        panel_side.add(lbl_materialsIcon);
 
-        javax.swing.GroupLayout jPanel_Op_LformLayout = new javax.swing.GroupLayout(jPanel_Op_Lform);
-        jPanel_Op_Lform.setLayout(jPanel_Op_LformLayout);
-        jPanel_Op_LformLayout.setHorizontalGroup(
-                jPanel_Op_LformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel_Op_LformLayout.setVerticalGroup(
-                jPanel_Op_LformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-        );
+        JLabel lbl_leaveFormIcon = new JLabel("");
+        lbl_leaveFormIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                panel_profileWindow.setVisible(false);
+                panel_gradeWindow.setVisible(false);
+                panel_MaterialsWindow.setVisible(false);
+                panel_leaveFormWindow.setVisible(true);
+                panel_inquiryWindow.setVisible(false);
+                panel_feeWindow.setVisible(false);
 
-        jPanel_Op_Inquiry.setBackground(new java.awt.Color(153, 153, 255));
-
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Inquiry");
-        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel6MouseClicked(evt);
             }
         });
+        lbl_leaveFormIcon.setToolTipText("Leave Form");
+        lbl_leaveFormIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/leaveFormIcon.png"))));
+        lbl_leaveFormIcon.setBounds(44, 340, 48, 51);
+        panel_side.add(lbl_leaveFormIcon);
 
-        javax.swing.GroupLayout jPanel_Op_InquiryLayout = new javax.swing.GroupLayout(jPanel_Op_Inquiry);
-        jPanel_Op_Inquiry.setLayout(jPanel_Op_InquiryLayout);
-        jPanel_Op_InquiryLayout.setHorizontalGroup(
-                jPanel_Op_InquiryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel_Op_InquiryLayout.setVerticalGroup(
-                jPanel_Op_InquiryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-        );
-
-        jPanel_Op_fee.setBackground(new java.awt.Color(153, 153, 255));
-
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Fee Payment");
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
+        JLabel lbl_InquiryIcon = new JLabel("");
+        lbl_InquiryIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                panel_profileWindow.setVisible(false);
+                panel_gradeWindow.setVisible(false);
+                panel_MaterialsWindow.setVisible(false);
+                panel_leaveFormWindow.setVisible(false);
+                panel_inquiryWindow.setVisible(true);
+                panel_feeWindow.setVisible(false);
             }
         });
+        lbl_InquiryIcon.setToolTipText("Inquiry");
+        lbl_InquiryIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/inquiryIcon.png"))));
+        lbl_InquiryIcon.setBounds(44, 426, 48, 51);
+        panel_side.add(lbl_InquiryIcon);
 
-        javax.swing.GroupLayout jPanel_Op_feeLayout = new javax.swing.GroupLayout(jPanel_Op_fee);
-        jPanel_Op_fee.setLayout(jPanel_Op_feeLayout);
-        jPanel_Op_feeLayout.setHorizontalGroup(
-                jPanel_Op_feeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel_Op_feeLayout.setVerticalGroup(
-                jPanel_Op_feeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-        );
+        JLabel lbl_feeIcon = new JLabel("");
+        lbl_feeIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                panel_profileWindow.setVisible(false);
+                panel_gradeWindow.setVisible(false);
+                panel_MaterialsWindow.setVisible(false);
+                panel_leaveFormWindow.setVisible(false);
+                panel_inquiryWindow.setVisible(false);
+                panel_feeWindow.setVisible(true);
+            }
+        });
+        lbl_feeIcon.setToolTipText("Fee Payment");
+        lbl_feeIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/feeIcon.png"))));
+        lbl_feeIcon.setBounds(44, 512, 48, 51);
+        panel_side.add(lbl_feeIcon);
 
-        javax.swing.GroupLayout jPanel_menuLayout = new javax.swing.GroupLayout(jPanel_menu);
-        jPanel_menu.setLayout(jPanel_menuLayout);
-        jPanel_menuLayout.setHorizontalGroup(
-                jPanel_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel_Op_Profile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel_Op_LMaterials, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel_Op_Grades, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel_Op_Inquiry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel_Op_Lform, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel_Op_fee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel_menuLayout.setVerticalGroup(
-                jPanel_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel_menuLayout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addComponent(jPanel_Op_Profile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jPanel_Op_Grades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jPanel_Op_LMaterials, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jPanel_Op_Lform, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jPanel_Op_Inquiry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jPanel_Op_fee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(76, Short.MAX_VALUE))
-        );
+    }
+    private void feePayment() {
+        panel_feeWindow = new JPanel();
+        panel_feeWindow.setBackground(Color.WHITE);
+        panel_feeWindow.setBounds(169, 0, 1054, 617);
+        panel_content.add(panel_feeWindow);
+        panel_feeWindow.setLayout(null);
 
-        jPanel_Top.setBackground(new java.awt.Color(153, 153, 255));
+        JLabel lbl_fee = new JLabel("Fee Payment");
+        lbl_fee.setFont(new Font("Tahoma", Font.BOLD, 22));
+        lbl_fee.setBounds(10, 0, 228, 47);
+        panel_feeWindow.add(lbl_fee);
 
-        jLabel1.setBackground(new java.awt.Color(153, 0, 0));
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("      Welcome Student!");
+        JPanel panel_amount = new JPanel();
+        panel_amount.setBounds(117, 184, 267, 53);
+        panel_feeWindow.add(panel_amount);
+        panel_amount.setLayout(null);
 
-        javax.swing.GroupLayout jPanel_TopLayout = new javax.swing.GroupLayout(jPanel_Top);
-        jPanel_Top.setLayout(jPanel_TopLayout);
-        jPanel_TopLayout.setHorizontalGroup(
-                jPanel_TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel_TopLayout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel_TopLayout.setVerticalGroup(
-                jPanel_TopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-        );
+        JLabel lbl_amount = new JLabel("Enter the amount to pay");
+        lbl_amount.setHorizontalAlignment(SwingConstants.CENTER);
+        lbl_amount.setBounds(0, 0, 267, 53);
+        panel_amount.add(lbl_amount);
+        lbl_amount.setFont(new Font("Tahoma", Font.PLAIN, 17));
 
-        jPanel_Body.setBackground(new java.awt.Color(245, 244, 244));
+        textField_amount = new JTextField();
+        textField_amount.setBounds(425, 184, 267, 53);
+        panel_feeWindow.add(textField_amount);
+        textField_amount.setColumns(10);
 
-        jPanel_Profile.setBackground(new java.awt.Color(245, 244, 244));
-
-        jLabel8.setText("Name");
-
-        jLabel9.setText("Class");
-
-        jLabel10.setText("E-mail");
-
-        jLabel11.setText("Date of Birth");
-
-        jLabel12.setText("Contact Number");
-
-        jLabel13.setText("..........................");
-
-        jLabel14.setText("..........................");
-
-        jLabel15.setText("..........................");
-
-        jLabel16.setText("..........................");
-
-        jLabel17.setText("..........................");
-
-        jPanel16.setBackground(new java.awt.Color(153, 153, 255));
-
-        jLabel21.setBackground(new java.awt.Color(153, 153, 255));
-        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel21.setText("Details of the Student");
-
-        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
-        jPanel16.setLayout(jPanel16Layout);
-        jPanel16Layout.setHorizontalGroup(
-                jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel16Layout.setVerticalGroup(
-                jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel_ProfileLayout = new javax.swing.GroupLayout(jPanel_Profile);
-        jPanel_Profile.setLayout(jPanel_ProfileLayout);
-        jPanel_ProfileLayout.setHorizontalGroup(
-                jPanel_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_ProfileLayout.createSequentialGroup()
-                                .addContainerGap(291, Short.MAX_VALUE)
-                                .addGroup(jPanel_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(72, 72, 72)
-                                .addGroup(jPanel_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(41, 41, 41))
-        );
-        jPanel_ProfileLayout.setVerticalGroup(
-                jPanel_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel_ProfileLayout.createSequentialGroup()
-                                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(50, 50, 50)
-                                .addGroup(jPanel_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(121, Short.MAX_VALUE))
-        );
-
-        jPanel_Grades.setBackground(new java.awt.Color(245, 244, 244));
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null}
-                },
-                new String [] {
-                        "Exam Title", "Grade"
+        JButton panel_pay = new JButton();
+        panel_pay.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                panel_pay.setBackground(new Color(0, 0, 139));
+                lbl_pay.setForeground(Color.WHITE);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                panel_pay.setBackground(new Color(240, 240, 240));
+                lbl_pay.setForeground(Color.BLACK);
+            }
+        });
+        panel_pay.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == panel_pay) {
+                    String str = textField_amount.getText().toString().replaceAll("\\s","");
+                    if(str.length()==0){
+                        JOptionPane.showMessageDialog(StudentGUI.this, "Enter a valid number");
+                    }else{
+                    int amount_entered = Integer.parseInt(str);
+                    if ( amount_entered < 0 || amount_entered > student.getFees() || !(studentDBHelper.payFees(student.getId(), amount_entered))) {
+                        JOptionPane.showMessageDialog(StudentGUI.this, "Payment Failure");
+                    } else {
+                        JOptionPane.showMessageDialog(StudentGUI.this, "Payment Success");
+                        setStudent(student.getId());
+                        setFeePaymentValues();
+                        textField_amount.setText(" ");
+                    }}
                 }
-        ));
-        jTable1.setAlignmentX(1.0F);
-        jTable1.setAlignmentY(1.0F);
-        jScrollPane1.setViewportView(jTable1);
-
-        jPanel17.setBackground(new java.awt.Color(153, 153, 255));
-
-        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel22.setText("Grades");
-
-        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
-        jPanel17.setLayout(jPanel17Layout);
-        jPanel17Layout.setHorizontalGroup(
-                jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel17Layout.setVerticalGroup(
-                jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel_GradesLayout = new javax.swing.GroupLayout(jPanel_Grades);
-        jPanel_Grades.setLayout(jPanel_GradesLayout);
-        jPanel_GradesLayout.setHorizontalGroup(
-                jPanel_GradesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel_GradesLayout.createSequentialGroup()
-                                .addGap(172, 172, 172)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(250, Short.MAX_VALUE))
-                        .addComponent(jPanel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel_GradesLayout.setVerticalGroup(
-                jPanel_GradesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel_GradesLayout.createSequentialGroup()
-                                .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(106, 106, 106)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(134, Short.MAX_VALUE))
-        );
-
-        jPanel_Materials.setBackground(new java.awt.Color(245, 244, 244));
-
-        jPanel18.setBackground(new java.awt.Color(153, 153, 255));
-
-        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel24.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel24.setText("Materials");
-
-        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
-        jPanel18.setLayout(jPanel18Layout);
-        jPanel18Layout.setHorizontalGroup(
-                jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, 814, Short.MAX_VALUE)
-        );
-        jPanel18Layout.setVerticalGroup(
-                jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel_MaterialsLayout = new javax.swing.GroupLayout(jPanel_Materials);
-        jPanel_Materials.setLayout(jPanel_MaterialsLayout);
-        jPanel_MaterialsLayout.setHorizontalGroup(
-                jPanel_MaterialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel_MaterialsLayout.setVerticalGroup(
-                jPanel_MaterialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel_MaterialsLayout.createSequentialGroup()
-                                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 363, Short.MAX_VALUE))
-        );
-
-        jPanel_Lform.setBackground(new java.awt.Color(245, 244, 244));
-
-        jButton1.setText("Sumbit");
-        jButton1.setActionCommand("Submit");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Type Here.....");
-        jScrollPane2.setViewportView(jTextArea1);
 
-        jPanel19.setBackground(new java.awt.Color(153, 153, 255));
+        panel_pay.setBounds(327, 312, 174, 41);
+        panel_feeWindow.add(panel_pay);
+        panel_pay.setLayout(null);
 
-        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel25.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel25.setText("Leave Form");
+        lbl_pay = new JLabel("Pay");
+        lbl_pay.setBounds(0, 0, 174, 41);
+        panel_pay.add(lbl_pay);
+        lbl_pay.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        lbl_pay.setHorizontalAlignment(SwingConstants.CENTER);
 
-        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
-        jPanel19.setLayout(jPanel19Layout);
-        jPanel19Layout.setHorizontalGroup(
-                jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel19Layout.setVerticalGroup(
-                jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-        );
+        JPanel panel_remainingFee = new JPanel();
+        panel_remainingFee.setBounds(785, 68, 243, 169);
+        panel_feeWindow.add(panel_remainingFee);
+        panel_remainingFee.setLayout(null);
 
-        javax.swing.GroupLayout jPanel_LformLayout = new javax.swing.GroupLayout(jPanel_Lform);
-        jPanel_Lform.setLayout(jPanel_LformLayout);
-        jPanel_LformLayout.setHorizontalGroup(
-                jPanel_LformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel_LformLayout.createSequentialGroup()
-                                .addGroup(jPanel_LformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel_LformLayout.createSequentialGroup()
-                                                .addGap(365, 365, 365)
-                                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel_LformLayout.createSequentialGroup()
-                                                .addGap(119, 119, 119)
-                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(126, Short.MAX_VALUE))
-        );
-        jPanel_LformLayout.setVerticalGroup(
-                jPanel_LformLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel_LformLayout.createSequentialGroup()
-                                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(44, 44, 44)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)
-                                .addComponent(jButton1)
-                                .addContainerGap(64, Short.MAX_VALUE))
-        );
+        JLabel lbl_remainingFee = new JLabel("  Remaining Fee");
+        lbl_remainingFee.setFont(new Font("Tahoma", Font.BOLD, 18));
+        lbl_remainingFee.setBounds(0, 11, 233, 45);
+        panel_remainingFee.add(lbl_remainingFee);
 
-        jPanel_Inquiry.setBackground(new java.awt.Color(245, 244, 244));
+         lbl_remainingFee1 = new JLabel("0");
+        lbl_remainingFee1.setFont(new Font("Tahoma", Font.BOLD, 25));
+        lbl_remainingFee1.setBounds(51, 77, 192, 65);
+        panel_remainingFee.add(lbl_remainingFee1);
+        setVisible(true);
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jTextArea2.setText("Type Here....");
-        jScrollPane3.setViewportView(jTextArea2);
+        panel_profileWindow.setVisible(false);
+        panel_gradeWindow.setVisible(true);
+        panel_MaterialsWindow.setVisible(false);
+        panel_leaveFormWindow.setVisible(false);
+        panel_inquiryWindow.setVisible(false);
+        panel_feeWindow.setVisible(false);
 
-        jButton2.setText("Submit");
+        panel_profileWindow.setVisible(true);
 
-        jPanel20.setBackground(new java.awt.Color(153, 153, 255));
 
-        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel26.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel26.setText("Inquiry Form");
+    }
+    private void inquiryForm() {
+        panel_inquiryWindow = new JPanel();
+        panel_inquiryWindow.setBackground(Color.WHITE);
+        panel_inquiryWindow.setBounds(169, 0, 1054, 617);
+        panel_content.add(panel_inquiryWindow);
+        panel_inquiryWindow.setLayout(null);
 
-        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
-        jPanel20.setLayout(jPanel20Layout);
-        jPanel20Layout.setHorizontalGroup(
-                jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel20Layout.setVerticalGroup(
-                jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-        );
+        JLabel lbl_Iform = new JLabel("Inquiry");
+        lbl_Iform.setFont(new Font("Tahoma", Font.BOLD, 22));
+        lbl_Iform.setBounds(10, 11, 323, 54);
+        panel_inquiryWindow.add(lbl_Iform);
 
-        javax.swing.GroupLayout jPanel_InquiryLayout = new javax.swing.GroupLayout(jPanel_Inquiry);
-        jPanel_Inquiry.setLayout(jPanel_InquiryLayout);
-        jPanel_InquiryLayout.setHorizontalGroup(
-                jPanel_InquiryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel_InquiryLayout.createSequentialGroup()
-                                .addGap(140, 140, 140)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(105, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_InquiryLayout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(351, 351, 351))
-        );
-        jPanel_InquiryLayout.setVerticalGroup(
-                jPanel_InquiryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel_InquiryLayout.createSequentialGroup()
-                                .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(47, 47, 47)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton2)
-                                .addContainerGap(86, Short.MAX_VALUE))
-        );
+        JTextArea txta_IForm = new JTextArea();
+        txta_IForm.setText("Type Here...");
+        txta_IForm.setBorder(new LineBorder(new Color(0, 0, 0)));
+        txta_IForm.setBounds(52, 133, 589, 244);
+        panel_inquiryWindow.add(txta_IForm);
 
-        jPanel_Fee.setBackground(new java.awt.Color(245, 244, 244));
-        jPanel_Fee.setForeground(new java.awt.Color(255, 255, 255));
+        JPanel panel_Isubmit = new JPanel();
+        panel_Isubmit.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                panel_Isubmit.setBackground(new Color(0, 0, 139));
+                lbl_Isubmit.setForeground(Color.WHITE);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                panel_Isubmit.setBackground(new Color(240, 240, 240));
+                lbl_Isubmit.setForeground(Color.BLACK);
+            }
+        });
+        panel_Isubmit.setBounds(258, 419, 121, 39);
+        panel_inquiryWindow.add(panel_Isubmit);
+        panel_Isubmit.setLayout(null);
 
-        jLabel18.setText("Enter the amount to pay");
+        JButton lbl_Isubmit = new JButton("Submit");
+        lbl_Isubmit.setBounds(0, 0, 121, 39);
+        panel_Isubmit.add(lbl_Isubmit);
+        lbl_Isubmit.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        lbl_Isubmit.setHorizontalAlignment(SwingConstants.CENTER);
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+        lbl_Isubmit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(e.getSource());
+                if (txta_IForm.getText().length() < 5) {
+                    JOptionPane.showMessageDialog(StudentGUI.this, "Minimum 5 characters is required");
+                } else {
+                    if (studentDBHelper.askQuestion(student.getId(), txta_IForm.getText())) {
+                        JOptionPane.showMessageDialog(StudentGUI.this, "Inquiry posted");
+                        alForum.clear();
+
+                        setInquiryComboBox();
+                    } else {
+                        JOptionPane.showMessageDialog(StudentGUI.this, "Inquiry post failed");
+                    }
+
+
+                }
             }
         });
 
-        jLabel19.setText("Remaing fees");
+        JPanel panel_Response = new JPanel();
+        panel_Response.setBounds(682, 21, 348, 585);
+        panel_inquiryWindow.add(panel_Response);
+        panel_Response.setLayout(null);
 
-        jButton3.setText("Pay");
+        JLabel lbl_IformNo = new JLabel(" Form No:");
+        lbl_IformNo.setHorizontalAlignment(SwingConstants.LEFT);
+        lbl_IformNo.setFont(new Font("Tahoma", Font.BOLD, 15));
+        lbl_IformNo.setBounds(63, 11, 90, 56);
+        panel_Response.add(lbl_IformNo);
 
-        jLabel20.setText("......................................");
+         comboBox_Ifno = new JComboBox<String>();
+        comboBox_Ifno.setBounds(195, 30, 77, 22);
+        panel_Response.add(comboBox_Ifno);
 
-        jPanel21.setBackground(new java.awt.Color(153, 153, 255));
+        JLabel lbl_Response = new JLabel("Response");
+        lbl_Response.setHorizontalAlignment(SwingConstants.LEFT);
+        lbl_Response.setFont(new Font("Tahoma", Font.BOLD, 15));
+        lbl_Response.setBounds(135, 141, 90, 19);
+        panel_Response.add(lbl_Response);
 
-        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel27.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel27.setText("Fee Payment");
+        JTextArea textArea_Response = new JTextArea();
+        textArea_Response.setBounds(10, 171, 328, 403);
+        panel_Response.add(textArea_Response);
 
-        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
-        jPanel21.setLayout(jPanel21Layout);
-        jPanel21Layout.setHorizontalGroup(
-                jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel21Layout.setVerticalGroup(
-                jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-        );
+        JButton panel_checkResponse = new JButton();
+        panel_checkResponse.setBorder(new LineBorder(new Color(0, 0, 0)));
+        panel_checkResponse.setBounds(107, 78, 121, 39);
+        panel_Response.add(panel_checkResponse);
+        panel_checkResponse.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                panel_checkResponse.setBackground(new Color(0, 0, 139));
+                lbl_checkResponse.setForeground(Color.WHITE);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                panel_checkResponse.setBackground(new Color(240, 240, 240));
+                lbl_checkResponse.setForeground(Color.BLACK);
+            }
+        });
+        panel_checkResponse.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == panel_checkResponse) {
+                    int index = Integer.parseInt(comboBox_Ifno.getItemAt(comboBox_Ifno.getSelectedIndex())) - 1;
 
-        javax.swing.GroupLayout jPanel_FeeLayout = new javax.swing.GroupLayout(jPanel_Fee);
-        jPanel_Fee.setLayout(jPanel_FeeLayout);
-        jPanel_FeeLayout.setHorizontalGroup(
-                jPanel_FeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel_FeeLayout.createSequentialGroup()
-                                .addGap(169, 169, 169)
-                                .addGroup(jPanel_FeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(45, 45, 45)
-                                .addGroup(jPanel_FeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel_FeeLayout.createSequentialGroup()
-                                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(28, 28, 28)
-                                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(175, Short.MAX_VALUE))
-        );
-        jPanel_FeeLayout.setVerticalGroup(
-                jPanel_FeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel_FeeLayout.createSequentialGroup()
-                                .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(88, 88, 88)
-                                .addGroup(jPanel_FeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButton3))
-                                .addGap(31, 31, 31)
-                                .addGroup(jPanel_FeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel19)
-                                        .addComponent(jLabel20))
-                                .addContainerGap(211, Short.MAX_VALUE))
-        );
+                    if (index >= 0) {
+                        Forum forum = alForum.get(index);
+                        textArea_Response.setText(forum.getResponse());
 
-        javax.swing.GroupLayout jPanel_BodyLayout = new javax.swing.GroupLayout(jPanel_Body);
-        jPanel_Body.setLayout(jPanel_BodyLayout);
-        jPanel_BodyLayout.setHorizontalGroup(
-                jPanel_BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel_Profile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel_BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel_Grades, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanel_BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel_Materials, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanel_BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel_Lform, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanel_BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel_Inquiry, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanel_BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_BodyLayout.createSequentialGroup()
-                                        .addComponent(jPanel_Fee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addContainerGap()))
-        );
-        jPanel_BodyLayout.setVerticalGroup(
-                jPanel_BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel_Profile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel_BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel_Grades, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanel_BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel_Materials, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanel_BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel_BodyLayout.createSequentialGroup()
-                                        .addComponent(jPanel_Lform, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addContainerGap()))
-                        .addGroup(jPanel_BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel_Inquiry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanel_BodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel_Fee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                    }
+                }
+            }
+        });
+        panel_checkResponse.setLayout(null);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel_Top, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanel_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel_Body, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel_Top, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jPanel_Body, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jPanel_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addContainerGap())
-        );
-        jPanel_Profile.setVisible(true);
-        jPanel_Grades.setVisible(false);
-        jPanel_Materials.setVisible(false);
-        jPanel_Lform.setVisible(false);
-        jPanel_Inquiry.setVisible(false);
-        jPanel_Fee.setVisible(false);
+        lbl_checkResponse = new JLabel("Check Response");
+        lbl_checkResponse.setBounds(0, 0, 121, 39);
+        panel_checkResponse.add(lbl_checkResponse);
+        lbl_checkResponse.setHorizontalAlignment(SwingConstants.CENTER);
+        lbl_checkResponse.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
-        pack();
+    }
+    private void leaveForm() {
+        panel_leaveFormWindow = new JPanel();
+        panel_leaveFormWindow.setBackground(Color.WHITE);
+        panel_leaveFormWindow.setBounds(169, 0, 1054, 617);
+        panel_content.add(panel_leaveFormWindow);
+        panel_leaveFormWindow.setLayout(null);
+
+        JLabel lbl_Lform = new JLabel("Leave Form");
+        lbl_Lform.setFont(new Font("Tahoma", Font.BOLD, 22));
+        lbl_Lform.setBounds(10, 11, 323, 54);
+        panel_leaveFormWindow.add(lbl_Lform);
+
+        JTextArea txta_LForm = new JTextArea();
+        txta_LForm.setText("Type Here...");
+        txta_LForm.setBorder(new LineBorder(new Color(0, 0, 0)));
+        txta_LForm.setBounds(52, 133, 589, 244);
+        panel_leaveFormWindow.add(txta_LForm);
+
+        JLabel choose_Date = new JLabel(" Choose Date :");
+        choose_Date.setHorizontalAlignment(SwingConstants.LEFT);
+        choose_Date.setFont(new Font("Tahoma", Font.BOLD, 15));
+        choose_Date.setBounds(50, 300, 120, 300);
+        panel_leaveFormWindow.add(choose_Date);
+        JTextField choose_date1 = new JTextField();
+        choose_date1.setBounds(180, 440, 100, 30);
+        panel_leaveFormWindow.add(choose_date1);
+
+
+        JButton submitLeave_button = new JButton();
+
+        submitLeave_button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                submitLeave_button.setBackground(new Color(0, 0, 139));
+                lbl_LfSubmit.setForeground(Color.WHITE);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                submitLeave_button.setBackground(new Color(240, 240, 240));
+                lbl_LfSubmit.setForeground(Color.BLACK);
+            }
+        });
+        submitLeave_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == submitLeave_button) {
+                    if (txta_LForm.getText().length() < 5) {
+                        JOptionPane.showMessageDialog(StudentGUI.this, "Minimum 5 characters is required");
+                    } else if (choose_date1.getText().length() != 10) {
+                        JOptionPane.showMessageDialog(StudentGUI.this, "Enter a valid date");
+                    } else if (studentDBHelper.checkLeaveAlreadyPresent(student.getId(), choose_date1.getText())) {
+                        JOptionPane.showMessageDialog(StudentGUI.this, "This date is already applied!");
+                    } else {
+                        if (studentDBHelper.applyLeave(student.getId(), choose_date1.getText(), txta_LForm.getText())) {
+                            JOptionPane.showMessageDialog(StudentGUI.this, "Leave applied");
+                            alLeave.clear();
+
+                            setLeaveFormComboBox();
+                        } else {
+                            JOptionPane.showMessageDialog(StudentGUI.this, "Leave apply failed");
+                        }
+
+                    }
+                }
+
+            }
+        });
+        submitLeave_button.setBounds(400, 435, 121, 39);
+        panel_leaveFormWindow.add(submitLeave_button);
+        submitLeave_button.setLayout(null);
+        lbl_LfSubmit = new JLabel("Submit");
+        lbl_LfSubmit.setBounds(0, 0, 121, 39);
+        submitLeave_button.add(lbl_LfSubmit);
+        lbl_LfSubmit.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        lbl_LfSubmit.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JPanel panel_LfStatus = new JPanel();
+        panel_LfStatus.setBounds(682, 133, 348, 380);
+        panel_leaveFormWindow.add(panel_LfStatus);
+        panel_LfStatus.setLayout(null);
+
+        JLabel lbl_LfFormNo = new JLabel(" Form No:");
+        lbl_LfFormNo.setHorizontalAlignment(SwingConstants.LEFT);
+        lbl_LfFormNo.setFont(new Font("Tahoma", Font.BOLD, 15));
+        lbl_LfFormNo.setBounds(63, 11, 90, 56);
+        panel_LfStatus.add(lbl_LfFormNo);
+
+        comboBox_Lfno = new JComboBox<String>();
+        comboBox_Lfno.setBounds(195, 30, 77, 22);
+        panel_LfStatus.add(comboBox_Lfno);
+
+        JLabel lbl_LfDate = new JLabel("Date:");
+        lbl_LfDate.setHorizontalAlignment(SwingConstants.LEFT);
+        lbl_LfDate.setFont(new Font("Tahoma", Font.BOLD, 15));
+        lbl_LfDate.setBounds(63, 156, 90, 56);
+        panel_LfStatus.add(lbl_LfDate);
+
+        lbl_LfDate1 = new JLabel(".............");
+        lbl_LfDate1.setHorizontalAlignment(SwingConstants.LEFT);
+        lbl_LfDate1.setFont(new Font("Tahoma", Font.BOLD, 15));
+        lbl_LfDate1.setBounds(195, 145, 90, 56);
+        panel_LfStatus.add(lbl_LfDate1);
+
+        JLabel lbl_LfStatus = new JLabel("Status:");
+        lbl_LfStatus.setHorizontalAlignment(SwingConstants.LEFT);
+        lbl_LfStatus.setFont(new Font("Tahoma", Font.BOLD, 15));
+        lbl_LfStatus.setBounds(63, 212, 90, 56);
+        panel_LfStatus.add(lbl_LfStatus);
+
+        lbl_LfStatus1 = new JLabel(".............");
+        lbl_LfStatus1.setHorizontalAlignment(SwingConstants.LEFT);
+        lbl_LfStatus1.setFont(new Font("Tahoma", Font.BOLD, 15));
+        lbl_LfStatus1.setBounds(195, 212, 90, 56);
+        panel_LfStatus.add(lbl_LfStatus1);
+
+        JButton panel_checkStatus = new JButton();
+        panel_checkStatus.setBorder(new LineBorder(new Color(0, 0, 0)));
+        panel_checkStatus.setBackground(new Color(240, 240, 240));
+        panel_checkStatus.setBounds(100, 101, 121, 39);
+        panel_LfStatus.add(panel_checkStatus);
+        panel_checkStatus.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                panel_checkStatus.setBackground(new Color(0, 0, 139));
+                lbl_checkStatus.setForeground(Color.WHITE);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                panel_checkStatus.setBackground(new Color(240, 240, 240));
+                lbl_checkStatus.setForeground(Color.BLACK);
+            }
+        });
+        panel_checkStatus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == panel_checkStatus) {
+                    int index = Integer.parseInt(comboBox_Lfno.getItemAt(comboBox_Lfno.getSelectedIndex())) - 1;
+
+                    if (index >= 0) {
+                        Leave leave = alLeave.get(index);
+
+                        lbl_LfDate1.setText(leave.getDate());
+                        lbl_LfStatus1.setText(leave.getStatus());
+
+                    }
+                }
+            }
+        });
+        panel_checkStatus.setLayout(null);
+
+        lbl_checkStatus = new JLabel("Check Status");
+        lbl_checkStatus.setBounds(0, 0, 121, 39);
+        panel_checkStatus.add(lbl_checkStatus);
+        lbl_checkStatus.setHorizontalAlignment(SwingConstants.CENTER);
+        lbl_checkStatus.setFont(new Font("Tahoma", Font.PLAIN, 15));
+
+    }
+    private void leraningMaterials() {
+
+        panel_MaterialsWindow = new JPanel();
+        panel_MaterialsWindow.setBackground(Color.WHITE);
+        panel_MaterialsWindow.setBounds(169, 0, 1054, 617);
+        panel_content.add(panel_MaterialsWindow);
+        panel_MaterialsWindow.setLayout(null);
+
+        JLabel lbl_Materials = new JLabel("Learning Materials");
+        lbl_Materials.setFont(new Font("Tahoma", Font.BOLD, 22));
+        lbl_Materials.setBounds(10, 11, 248, 55);
+        panel_MaterialsWindow.add(lbl_Materials);
+
+         comboBox_materialno = new JComboBox<>();
+        comboBox_materialno.setBounds(698, 80, 120, 40);
+        panel_MaterialsWindow.add(comboBox_materialno);
+
+        JPanel panel_selectMaterial = new JPanel();
+        panel_selectMaterial.setBounds(285, 75, 335, 55);
+        panel_MaterialsWindow.add(panel_selectMaterial);
+        panel_selectMaterial.setLayout(null);
+
+        JLabel lbl_selectMaterial = new JLabel("Select the Material No:");
+        lbl_selectMaterial.setBounds(0, 0, 335, 55);
+        panel_selectMaterial.add(lbl_selectMaterial);
+        lbl_selectMaterial.setHorizontalAlignment(SwingConstants.CENTER);
+        lbl_selectMaterial.setFont(new Font("Tahoma", Font.PLAIN, 17));
+
+        JPanel panel_material = new JPanel();
+        panel_material.setBounds(153, 242, 796, 364);
+        panel_MaterialsWindow.add(panel_material);
+        panel_material.setLayout(null);
+
+        JTextArea textArea_material = new JTextArea();
+        textArea_material.setBounds(10, 11, 776, 342);
+        panel_material.add(textArea_material);
+
+        JButton panel_view = new JButton();
+        panel_view.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                panel_view.setBackground(new Color(0, 0, 139));
+                lb_view.setForeground(Color.WHITE);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                panel_view.setBackground(new Color(240, 240, 240));
+                lb_view.setForeground(Color.BLACK);
+            }
+        });
+        panel_view.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = Integer.parseInt(comboBox_Lfno.getItemAt(comboBox_Lfno.getSelectedIndex())) - 1;
+                Materials material = alMaterials.get(index);
+                textArea_material.setText(material.getMaterialText());
+            }
+        });
+        panel_view.setBounds(461, 165, 144, 54);
+        panel_MaterialsWindow.add(panel_view);
+        panel_view.setLayout(null);
+
+        lb_view = new JLabel("View");
+        lb_view.setBounds(0, 0, 144, 54);
+        panel_view.add(lb_view);
+        lb_view.setHorizontalAlignment(SwingConstants.CENTER);
+        lb_view.setFont(new Font("Tahoma", Font.PLAIN, 17));
+    }
+    private void grade() {
+        panel_gradeWindow = new JPanel();
+        panel_gradeWindow.setBackground(Color.WHITE);
+        panel_gradeWindow.setBounds(171, 0, 1052, 617);
+        panel_content.add(panel_gradeWindow);
+
+        JLabel lbl_Grade = new JLabel("Grades");
+        lbl_Grade.setBounds(23, 25, 1052, 27);
+        lbl_Grade.setFont(new Font("Tahoma", Font.BOLD, 22));
+
+        String[] column = {"Exam","Grades"};
+
+        panel_gradeWindow.setLayout(null);
+        panel_gradeWindow.add(lbl_Grade);
+
+        JPanel panel_Table = new JPanel();
+        panel_Table.setBackground(Color.WHITE);
+        panel_Table.setBounds(146, 201, 743, 213);
+        panel_gradeWindow.add(panel_Table);
+        panel_Table.setLayout(new BoxLayout(panel_Table, BoxLayout.X_AXIS));
+
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBackground(Color.WHITE);
+        panel_Table.add(scrollPane);
+
+        table = new JTable(marksArray,column);
+        int height = table.getRowHeight();
+        table.setRowHeight(height+15);
+        scrollPane.setViewportView(table);
+
+
+    }
+    private void profile() {
+        panel_profileWindow = new JPanel();
+        panel_profileWindow.setBackground(Color.WHITE);
+        panel_profileWindow.setBounds(169, 0, 1054, 617);
+        panel_content.add(panel_profileWindow);
+        panel_profileWindow.setLayout(null);
+
+        JPanel panel_name = new JPanel();
+        panel_name.setBounds(241, 85, 339, 79);
+        panel_profileWindow.add(panel_name);
+        panel_name.setLayout(null);
+
+         lbl_name1 = new JLabel("   Sample");
+        lbl_name1.setFont(new Font("Tahoma", Font.BOLD, 17));
+        lbl_name1.setBounds(0, 32, 339, 47);
+        panel_name.add(lbl_name1);
+
+        JLabel lbl_name = new JLabel(" Name");
+        lbl_name.setBounds(0, 0, 339, 32);
+        panel_name.add(lbl_name);
+        lbl_name.setFont(new Font("Tahoma", Font.PLAIN, 15));
+
+        JPanel panel_class = new JPanel();
+        panel_class.setBounds(241, 200, 339, 79);
+        panel_profileWindow.add(panel_class);
+        panel_class.setLayout(null);
+
+         lbl_class1 = new JLabel("   Sample");
+        lbl_class1.setFont(new Font("Tahoma", Font.BOLD, 17));
+        lbl_class1.setBounds(0, 32, 339, 47);
+        panel_class.add(lbl_class1);
+
+        JLabel lbl_class = new JLabel(" Class");
+        lbl_class.setBounds(0, 0, 339, 32);
+        panel_class.add(lbl_class);
+        lbl_class.setFont(new Font("Tahoma", Font.PLAIN, 15));
+
+        JPanel panel_email = new JPanel();
+        panel_email.setBounds(241, 313, 339, 79);
+        panel_profileWindow.add(panel_email);
+        panel_email.setLayout(null);
+
+         lbl_email1 = new JLabel("   Sample");
+        lbl_email1.setFont(new Font("Tahoma", Font.BOLD, 17));
+        lbl_email1.setBounds(0, 32, 339, 47);
+        panel_email.add(lbl_email1);
+
+        JLabel lbl_email = new JLabel(" E-mail");
+        lbl_email.setBounds(0, 0, 339, 32);
+        panel_email.add(lbl_email);
+        lbl_email.setFont(new Font("Tahoma", Font.PLAIN, 15));
+
+        JPanel panel_dob = new JPanel();
+        panel_dob.setBounds(241, 425, 339, 79);
+        panel_profileWindow.add(panel_dob);
+        panel_dob.setLayout(null);
+
+         lbl_dob1 = new JLabel("   Sample");
+        lbl_dob1.setFont(new Font("Tahoma", Font.BOLD, 17));
+        lbl_dob1.setBounds(0, 32, 339, 47);
+        panel_dob.add(lbl_dob1);
+
+        JLabel lbl_dob = new JLabel(" Date of Birth");
+        lbl_dob.setBounds(0, 0, 339, 32);
+        panel_dob.add(lbl_dob);
+        lbl_dob.setFont(new Font("Tahoma", Font.PLAIN, 15));
+
+        JPanel panel_cno = new JPanel();
+        panel_cno.setBounds(241, 533, 339, 73);
+        panel_profileWindow.add(panel_cno);
+        panel_cno.setLayout(null);
+
+         lbl_cno1 = new JLabel("   Sample");
+        lbl_cno1.setFont(new Font("Tahoma", Font.BOLD, 17));
+        lbl_cno1.setBounds(0, 26, 339, 47);
+        panel_cno.add(lbl_cno1);
+
+        JLabel lbl_cno = new JLabel(" Contact Number");
+        lbl_cno.setBounds(0, 0, 339, 32);
+        panel_cno.add(lbl_cno);
+        lbl_cno.setFont(new Font("Tahoma", Font.PLAIN, 15));
+
+        JLabel lbl_welcome = new JLabel("Welcome Student!");
+        lbl_welcome.setFont(new Font("Tahoma", Font.BOLD, 22));
+        lbl_welcome.setBounds(10, 11, 472, 63);
+        panel_profileWindow.add(lbl_welcome);
+//methods
+
+
     }
 
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+    void setStudent(String student_id) {
+        student = studentDBHelper.viewProfile(student_id);
     }
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+    void setInitialProfileValues() {
+
+
+        lbl_name1.setText(student.getName());
+        lbl_class1.setText(student.getStd());
+        lbl_email1.setText(student.getEmail());
+        lbl_dob1.setText(student.getDob());
+        lbl_cno1.setText(student.getPhone());
     }
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {
-        jPanel_Profile.setVisible(false);
-        jPanel_Grades.setVisible(false);
-        jPanel_Materials.setVisible(false);
-        jPanel_Lform.setVisible(false);
-        jPanel_Inquiry.setVisible(false);
-        jPanel_Fee.setVisible(true);        // TODO add your handling code here:
+    void setFeePaymentValues() {
+        lbl_remainingFee1.setText(String.format("%d", student.getFees()));
     }
 
-    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {
-        jPanel_Profile.setVisible(false);
-        jPanel_Grades.setVisible(false);
-        jPanel_Materials.setVisible(false);
-        jPanel_Lform.setVisible(false);
-        jPanel_Inquiry.setVisible(true);
-        jPanel_Fee.setVisible(false);      // TODO add your handling code here:
+    void setLeaveFormComboBox() {
+        comboBox_Lfno.removeAllItems();
+        alLeave = studentDBHelper.getLeaveStatus(student.getId());
+        for (int i = 1; i <= alLeave.size(); i++) {
+
+            comboBox_Lfno.addItem(i + "");
+        }
     }
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {
-        jPanel_Profile.setVisible(false);
-        jPanel_Grades.setVisible(false);
-        jPanel_Materials.setVisible(false);
-        jPanel_Lform.setVisible(true);
-        jPanel_Inquiry.setVisible(false);
-        jPanel_Fee.setVisible(false);        // TODO add your handling code here:
+    void setInquiryComboBox() {
+        comboBox_Ifno.removeAllItems();
+        alForum = studentDBHelper.getQuestionsResponse(student.getId());
+        for (int i = 1; i <= alForum.size(); i++) {
+
+            comboBox_Ifno.addItem(i + "");
+        }
+    }
+    void setModelComboBox(){
+        alMaterials = studentDBHelper.getMaterials(student.getStd());
+        for (int i = 1; i <= alMaterials.size(); i++) {
+            comboBox_materialno.addItem(i+ "");
+        }
     }
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {
-        jPanel_Profile.setVisible(false);
-        jPanel_Grades.setVisible(false);
-        jPanel_Materials.setVisible(true);
-        jPanel_Lform.setVisible(false);
-        jPanel_Inquiry.setVisible(false);
-        jPanel_Fee.setVisible(false);
+    void setGradesTable(){
+        alMarks = studentDBHelper.viewGrades(student.getId());
+         marksArray = new String[alMarks.size()][2];
+        for(int i =0;i<alMarks.size();i++){
+            marksArray[i][0]=alMarks.get(i).getExam_title();
+            marksArray[i][1]=alMarks.get(i).calcGrade();
+        }
     }
-
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {
-        jPanel_Profile.setVisible(false);
-        jPanel_Grades.setVisible(true);
-        jPanel_Materials.setVisible(false);
-        jPanel_Lform.setVisible(false);
-        jPanel_Inquiry.setVisible(false);
-        jPanel_Fee.setVisible(false);
-    }
-
-    private void jLabel2MouseExited(java.awt.event.MouseEvent evt) {
-        jPanel_Op_Profile.setBackground(new java.awt.Color(153, 153, 255));
-    }
-
-    private void jLabel2MouseEntered(java.awt.event.MouseEvent evt) {
-        jPanel_Op_Profile.setBackground(new java.awt.Color(153, 153, 255));
-    }
-
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {
-        jPanel_Profile.setVisible(true);
-        jPanel_Grades.setVisible(false);
-        jPanel_Materials.setVisible(false);
-        jPanel_Lform.setVisible(false);
-        jPanel_Inquiry.setVisible(false);
-        jPanel_Fee.setVisible(false);
-    }
-
-
-    public static void main(String args[]) {
-
-        StudentGUI s =  new StudentGUI();
-        s.setVisible(true);
-        s.setResizable(false);
-    }
-
-
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel19;
-    private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
-    private javax.swing.JPanel jPanel_Body;
-    private javax.swing.JPanel jPanel_Fee;
-    private javax.swing.JPanel jPanel_Grades;
-    private javax.swing.JPanel jPanel_Inquiry;
-    private javax.swing.JPanel jPanel_Lform;
-    private javax.swing.JPanel jPanel_Materials;
-    private javax.swing.JPanel jPanel_Op_Grades;
-    private javax.swing.JPanel jPanel_Op_Inquiry;
-    private javax.swing.JPanel jPanel_Op_LMaterials;
-    private javax.swing.JPanel jPanel_Op_Lform;
-    private javax.swing.JPanel jPanel_Op_Profile;
-    private javax.swing.JPanel jPanel_Op_fee;
-    private javax.swing.JPanel jPanel_Profile;
-    private javax.swing.JPanel jPanel_Top;
-    private javax.swing.JPanel jPanel_menu;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
 }
-

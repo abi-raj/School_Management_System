@@ -16,7 +16,7 @@ public class Marks {
         this.sub1 = sub1;
         this.sub2 = sub2;
         this.sub3 = sub3;
-        this.grade_type = grade_type;
+        this.grade_type = this.calcGrade();
     }
 
     public String getStudent_id() {
@@ -60,7 +60,7 @@ public class Marks {
     }
 
     public String getGrade_type() {
-        return grade_type;
+        return calcGrade();
     }
 
     public void setGrade_type(String grade_type) {
@@ -68,7 +68,7 @@ public class Marks {
     }
 
     public String calcGrade() {
-        int total = Integer.parseInt(sub1) + Integer.parseInt(sub2) + Integer.parseInt(sub3);
+        int total = Integer.parseInt(this.sub1) + Integer.parseInt(this.sub2) + Integer.parseInt(this.sub3);
         String result = "F";
         int res = total / 3;
         if (res >= 90) {
