@@ -13,7 +13,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.TextAttribute;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -39,13 +41,13 @@ public class TeacherGUI extends JFrame {
 
 
     public TeacherGUI() {
-        JFrame f=new JFrame();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setBounds(100, 100, 1336, 814);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 1336, 814);
         contentPane = new JPanel();
         contentPane.setBackground(Color.WHITE);
         contentPane.setLayout(new BorderLayout(0, 0));
-        f.setContentPane(contentPane);
+        setContentPane(contentPane);
 
 
         JPanel p = new JPanel();
@@ -285,6 +287,46 @@ public class TeacherGUI extends JFrame {
         teacher_profile.setForeground(new Color(102, 102, 102));
         homepanel.add(teacher_profile);
 
+        JLabel logout_img=new JLabel();
+        logout_img.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/logout.png"))));
+        logout_img.setBounds(100,650,30,40);
+        homepanel.add(logout_img);
+
+
+        JButton logout_button=new JButton("Log out");
+        logout_button.setBounds(115,650,100,40);
+        logout_button.setFont(new Font("Segoe UI",Font.BOLD, 18));
+        logout_button.setForeground(new Color(255,98,98));
+        logout_button.setLayout(null);
+        logout_button.setBackground(Color.WHITE);
+        logout_button.setBorder(null);
+        logout_button.setFocusPainted(false);
+        Font font = logout_button.getFont();
+        Map attributes = font.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        logout_button.setFont(font.deriveFont(attributes));
+        homepanel.add(logout_button);
+       logout_button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int logout_result = JOptionPane.showConfirmDialog(p,"Are you sure want to Logout?","",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if(logout_result == JOptionPane.YES_OPTION){
+                    dispose();
+                    new LoginGUI();
+                }else if (logout_result == JOptionPane.NO_OPTION){
+                }
+                else {
+
+                }
+            }
+       });
+
+
+
+
+
+
         JPanel welcometext = new JPanel();
         welcometext.setBounds(50, 20, 1100, 154);
         welcometext.setBackground(new Color(250,250,250));
@@ -374,7 +416,7 @@ public class TeacherGUI extends JFrame {
         JLabel l1 = new JLabel("Attendance Entry");
         l1.setBounds(70,30,300,40);
         updateAttendance.add(l1);
-        l1.setFont(new Font("Segoe UI", Font.BOLD, 36));
+        l1.setFont(new Font("Segoe UI", Font.BOLD, 30));
 
         JLabel a_student = new JLabel("Student ID:");
         a_student.setFont(new Font("Segoe UI", Font.BOLD, 18));
@@ -497,7 +539,7 @@ public class TeacherGUI extends JFrame {
         JComboBox grades_exam_name_cb=new JComboBox(exam_name);
         grades_exam_name_cb.setBounds(220, 200,200,40);
         grades_exam_name_cb.setBackground(Color.white);
-        grades_exam_name_cb.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        grades_exam_name_cb.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         gradespanel.add(grades_exam_name_cb);
 
         JLabel student_id_lbl=new JLabel("Student ID:");
@@ -509,10 +551,10 @@ public class TeacherGUI extends JFrame {
         JComboBox grade_student_id_cb=new JComboBox(grade_student_id);
         grade_student_id_cb.setBounds(580, 200,200,40);
         grade_student_id_cb.setBackground(Color.white);
-        grade_student_id_cb.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        grade_student_id_cb.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         gradespanel.add(grade_student_id_cb);
 
-        JLabel subject_name_lbl=new JLabel("Subject Name                                   Grades");
+        JLabel subject_name_lbl=new JLabel("S.no.   Subject Name                   Grades");
         subject_name_lbl.setBounds(24,350,500,40);
         subject_name_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
         gradespanel.add(subject_name_lbl);
@@ -523,21 +565,50 @@ public class TeacherGUI extends JFrame {
         s.setBounds(24,400,500,40);
         gradespanel.add(s);
 
-        JLabel sub_name_science_lbl =new JLabel("Science");
-        sub_name_science_lbl.setBounds(24,450,200,40);
+        JLabel sub_name_science_lbl =new JLabel("1.         Science :");
+        sub_name_science_lbl.setBounds(24,430,200,40);
         sub_name_science_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
         gradespanel.add(sub_name_science_lbl);
 
-        JLabel sub_name_maths_lbl =new JLabel("Maths");
+        JTextField t_sub_name_science=new JTextField();
+        t_sub_name_science.setBounds(220,430,200,40);
+        t_sub_name_science.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        t_sub_name_science.setMargin(new Insets(10,10,10,10));
+        gradespanel.add(t_sub_name_science);
+
+
+        JLabel sub_name_maths_lbl =new JLabel("2.          Maths :");
         sub_name_maths_lbl.setBounds(24,500,200,40);
         sub_name_maths_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
         gradespanel.add(sub_name_maths_lbl);
 
-        JLabel sub_name_social_lbl =new JLabel("Social");
-        sub_name_maths_lbl.setBounds(24,550,200,40);
-        sub_name_maths_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        gradespanel.add(sub_name_maths_lbl);
+        JTextField t_sub_name_maths=new JTextField();
+        t_sub_name_maths.setBounds(220,500,200,40);
+        t_sub_name_maths.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        t_sub_name_maths.setMargin(new Insets(10,10,10,10));
+        gradespanel.add(t_sub_name_maths);
 
+
+        JLabel sub_name_social_lbl =new JLabel("3.          Social :");
+        sub_name_social_lbl.setBounds(24,570,200,40);
+        sub_name_social_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        gradespanel.add(sub_name_social_lbl);
+
+        JTextField t_sub_name_social=new JTextField();
+        t_sub_name_social.setBounds(220,570,200,40);
+        t_sub_name_social.setMargin(new Insets(10,10,10,10));
+        t_sub_name_social.setFont(new Font("Segoe UI", Font.PLAIN,18));
+        gradespanel.add(t_sub_name_social);
+
+        JButton assign_grades_btn= new JButton("Assign Grade");
+        assign_grades_btn.setBounds(94,670,200,40);
+        assign_grades_btn.setForeground(Color.white);
+        assign_grades_btn.setBackground(new Color(252,132,116));
+        assign_grades_btn.setLayout(null);
+        assign_grades_btn.setFocusPainted(false);
+        assign_grades_btn.setBorder(null);
+        assign_grades_btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        gradespanel.add(assign_grades_btn);
 
 
         studentpanel = new JPanel();
@@ -878,12 +949,13 @@ public class TeacherGUI extends JFrame {
 
         JLabel inq_s_id_head = new JLabel("Student ID:");
         inq_s_id_head.setFont(new Font("Segoe UI", Font.BOLD, 17));
-        inq_s_id_head.setBounds(400, 150, 116, 31);
+        inq_s_id_head.setBounds(250, 150, 116, 31);
         forum_response_panel.add(inq_s_id_head);
 
         JTextField t_inq_s_id = new JTextField();
-        t_inq_s_id.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        t_inq_s_id.setBounds(510, 150, 50, 40);
+        t_inq_s_id.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        t_inq_s_id.setBounds(350, 150, 200, 40);
+        t_inq_s_id.setMargin(new Insets(10,10,10,10));
         forum_response_panel.add(t_inq_s_id);
 
 
@@ -898,20 +970,6 @@ public class TeacherGUI extends JFrame {
         f_id_cb.setBackground(Color.white);
         f_id_cb.setFont(new Font("Segoe UI", Font.BOLD, 18));
         forum_response_panel.add(f_id_cb);
-
-
-        JLabel inq_s_id_head = new JLabel("Student ID:");
-        inq_s_id_head.setFont(new Font("Segoe UI", Font.BOLD, 17));
-        inq_s_id_head.setBounds(260, 155, 116, 20);
-        forum_response_panel.add(inq_s_id_head);
-
-        JTextField t_inq_s_id = new JTextField();
-        t_inq_s_id.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        t_inq_s_id.setBounds(360, 150, 200, 40);
-        t_inq_s_id.setMargin(new Insets(10,10,10,10));
-        forum_response_panel.add(t_inq_s_id);
-
-
 
 
 
@@ -1039,9 +1097,9 @@ public class TeacherGUI extends JFrame {
         p_l2.setBounds(46, 70, 252, 21);
         payroll_info.add(p_l2);
 
-        f.setVisible( true );
-        f.setLayout(null);
-        f.setResizable(false);
+        setVisible( true );
+        setLayout(null);
+        setResizable(false);
         setLeaveDates();
         setInquiries();
 

@@ -59,7 +59,7 @@ public class LoginGUI  {
         img.setVisible(true);
         p.add(img);
 
-        l1.setText("Welcome to School");
+        l1.setText("Welcome to Chalkbox");
         l1.setFont(new Font("Segoe UI",Font.BOLD, 36));
         l1.setForeground(new Color(102, 102, 102));
         l1.setBounds(770,150,400,40);
@@ -106,7 +106,7 @@ public class LoginGUI  {
         p.add(t_pwd);
 
         b.setText("Login");
-        b.setBackground(new Color(32, 83, 116));
+        b.setBackground(new Color(33,208,179));
         b.setFont(new Font("Segoe UI",Font.BOLD, 18));
         b.setForeground(new Color(255, 255, 255));
         b.setBounds(770,530,400,50);

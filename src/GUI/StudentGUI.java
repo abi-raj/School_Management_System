@@ -32,10 +32,10 @@ public class StudentGUI extends JFrame {
     Student student = null;
     ArrayList<Leave> alLeave;
     ArrayList<Forum> alForum;
-     ArrayList<Materials> alMaterials;
+    ArrayList<Materials> alMaterials;
     ArrayList<Marks> alMarks;
     String[][] marksArray;
-     JLabel lbl_name1;
+    JLabel lbl_name1;
     JLabel lbl_class1;
     JLabel lbl_email1;
     JLabel lbl_dob1;
