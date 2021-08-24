@@ -11,7 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
-import java.util.regex.Matcher;
 
 /**
  * @author Grace
@@ -37,7 +36,6 @@ public class LoginGUI extends JFrame {
         new LoginGUI();
     }
 
-    @SuppressWarnings("unchecked")
     private void initComponents() {
 
         JFrame f = new JFrame("School Management System");
