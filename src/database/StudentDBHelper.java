@@ -148,6 +148,8 @@ public class StudentDBHelper implements StudentTableOperations {
 
     @Override
     public boolean applyLeave(String id, String date, String reason) {
+
+
         try {
             String applyQuery = String.format(LeaveTable.insertLeave, id, date, reason, LeaveTable.statusPending);
             Connection conn = getConnection();
@@ -155,6 +157,19 @@ public class StudentDBHelper implements StudentTableOperations {
             stmt.executeUpdate();
             System.out.println("Leave applied");
             return true;
+        } catch (Exception e) {
+            System.out.println("Exception occurred : " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean checkLeaveAlreadyPresent(String id, String date) {
+        try {
+            String checkLeave = String.format(LeaveTable.checkLeaveExists, id, date);
+            Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(checkLeave);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
         } catch (Exception e) {
             System.out.println("Exception occurred : " + e.getMessage());
         }
@@ -315,5 +330,22 @@ public class StudentDBHelper implements StudentTableOperations {
             System.out.println(e.getMessage());
         }
         return student;
+    }
+
+    public Leave getSingleLeave(String id, String date) {
+        Leave leave = null;
+
+        try {
+            String checkLeave = String.format(LeaveTable.checkLeaveExists, id, date);
+            Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(checkLeave);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                leave = new Leave(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception occurred : " + e.getMessage());
+        }
+        return leave;
     }
 }

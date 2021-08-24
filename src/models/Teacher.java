@@ -6,6 +6,7 @@ public class Teacher {
     private String name;
     private String tClass;
 
+
     public String gettClass() {
         return tClass;
     }
