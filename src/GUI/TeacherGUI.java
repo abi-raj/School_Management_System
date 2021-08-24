@@ -1044,7 +1044,7 @@ public class TeacherGUI extends JFrame {
 
 
     public static void main(String[] args) {
-        System.out.println(new TeacherGUI("abcd@gmail"));
+        System.out.println(new TeacherGUI("abc@gmail"));
         System.out.println(teacher.getTeacher_id());
 
 
