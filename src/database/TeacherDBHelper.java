@@ -26,15 +26,17 @@ interface TeacherTableOperations{
     void approveLeave(Leave user);
     void RejectLeave(Leave user);
     void LeavePending(Leave user);
+    int getLeaveCount(String email);
+    Teacher getTeacherId(String email);
 
    // boolean teacherExist(String id);
-
+ArrayList<Forum> allUnrespondedQueries();
 }
 public class TeacherDBHelper implements TeacherTableOperations{
-    private static final String url = "jdbc:postgresql://localhost:5432/teacher";
+    private static final String url = "jdbc:postgresql://localhost:5432/bootathon";
     private static final String driverName = "org.postgresql.Driver";
     private static final String username = "postgres";
-    private static final String password = "12345";
+    private static final String password = "Test@123";
     private static Connection connection;
 
     public static Connection getConnection(){
@@ -350,11 +352,118 @@ public class TeacherDBHelper implements TeacherTableOperations{
 
     }
 
+    @Override
+    public int getLeaveCount(String email) {
+        Connection con=getConnection();
+        int count=0;
+        try{
+            String countquery= String.format(LeaveTable.leaveCount,email);
+            PreparedStatement stmt=con.prepareStatement(countquery);
+            ResultSet rs=stmt.executeQuery();
+            while(rs.next()){
+                count=Integer.parseInt(rs.getString(1));
+            }
+        }
+        catch(Exception e){
+            System.out.println("Exception"+e);
+        }
+        return count;
+    }
+
+    @Override
+    public Teacher getTeacherId(String email) {
+        Teacher user=null;
+        try {
+            Connection con = getConnection();
+            String selectUserQuery = String.format(TeacherTable.fetchid, email);
+            PreparedStatement stmt = con.prepareStatement(selectUserQuery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                user = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8));
+//                System.out.println(rs.getString(3));
+            }
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        return user;
+    }
+
+    @Override
+    public ArrayList<Forum> allUnrespondedQueries() {
+        ArrayList<Forum> alForum = new ArrayList<Forum>();
+
+        try {
+            Connection con = getConnection();
+            String query = ForumTable.selectForumNotResponded;
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                Forum forum = new Forum(rs.getString(1),rs.getString(2), rs.getString(3));
+                alForum.add(forum);
+            }
+        }catch (Exception e){
+            System.out.println("Exception occurred : "+e.getMessage());
+        }
+        return alForum;
+    }
+
     public static void main(String[] args) throws Exception {
-       // createTable();
-     new TeacherDBHelper().teacher_tableExists();
-        Leave f=new Leave("19eucs005","12-12-12","fever",null);
-        new TeacherDBHelper().LeavePending(f);
+      Teacher teacher = new Teacher("19eucs005","12345","Ajay","12","ajai@gmail",3,"9545454545",5000000);
+        new TeacherDBHelper().createTeacher(teacher);
+
 
     }
+    public ArrayList<String> getDistinctDates(){
+        ArrayList<String> dates= new ArrayList<String>();
+        try{
+            Connection con = getConnection();
+            String dateQuery = LeaveTable.selectDistinctDate;
+            PreparedStatement stmt = con.prepareStatement(dateQuery);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                dates.add(rs.getString(1));
+            }
+        }catch (Exception e){
+            System.out.println("exception occurred "+e.getMessage());
+        }
+
+        return dates;
+    }
+    public ArrayList<Leave> getPendingLeavesFromDate(String date){
+        ArrayList<Leave> pendingLeaves = new ArrayList<>();
+        try{
+            Connection con = getConnection();
+            String dateQuery = String.format(LeaveTable.selectPendingLeaves,date);
+            PreparedStatement stmt = con.prepareStatement(dateQuery);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                Leave leave = new Leave(rs.getString(1),rs.getString(2),rs.getString(3), rs.getString(4));
+                pendingLeaves.add(leave);
+            }
+        }catch (Exception e){
+            System.out.println("exception occurred "+e.getMessage());
+        }
+
+
+        return  pendingLeaves;
+    }
+    public String totalStudents(String std){
+        Connection con=getConnection();
+        String count=null;
+        try{
+            String countQuery=String.format(TeacherTable.totStudents,std);
+            PreparedStatement stmt=con.prepareStatement(countQuery);
+            ResultSet rs=stmt.executeQuery();
+            while(rs.next()){
+                count=rs.getString(1);
+            }
+
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        return  count;
+    }
+
 }

@@ -5,7 +5,7 @@ public class Materials {
     private String materialText;
     private String std;
 
-    public Materials(String teacher_id, String materialText, String std) {
+    public Materials(String teacher_id, String std,String materialText) {
         this.teacher_id = teacher_id;
         this.materialText = materialText;
         this.std = std;
