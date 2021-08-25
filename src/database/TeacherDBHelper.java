@@ -50,10 +50,10 @@ interface TeacherTableOperations {
 }
 
 public class TeacherDBHelper implements TeacherTableOperations {
-    private static final String url = "jdbc:postgresql://localhost:5432/teacher";
+    private static final String url = "jdbc:postgresql://localhost:5432/bootathon";
     private static final String driverName = "org.postgresql.Driver";
     private static final String username = "postgres";
-    private static final String password = "12345";
+    private static final String password = "Test@123";
     private static Connection connection;
 
     public static Connection getConnection() {
@@ -69,8 +69,8 @@ public class TeacherDBHelper implements TeacherTableOperations {
     }
 
     public static void main(String[] args) throws Exception {
-        Teacher teacher = new Teacher("19eucs005", "12345", "Ajay", "12", "ajai@gmail", 3, "9545454545", 5000000);
-        new TeacherDBHelper().createTeacher(teacher);
+//        Teacher teacher = new Teacher("19eucs005", "12345", "Ajay", "12", "ajai@gmail", 3, "9545454545", 5000000);
+//        new TeacherDBHelper().createTeacher(teacher);
 
 
     }
@@ -141,7 +141,7 @@ public class TeacherDBHelper implements TeacherTableOperations {
     @Override
     public boolean createTeacher(Teacher user) {
         teacher_tableExists();
-        String insertQuery = String.format(TeacherTable.createTeacher, user.getTeacher_id(), user.getPassword(), user.getName(), user.gettClass(), user.getEmail(), user.getExperience(), user.getPhone(), user.getSalary());
+        String insertQuery = String.format(TeacherTable.createTeacher, user.getTeacher_id(), user.getPassword(),  user.gettClass(),user.getName(), user.getEmail(), user.getExperience(), user.getPhone(), user.getSalary());
 
         try {
             Connection conn = getConnection();

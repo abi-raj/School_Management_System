@@ -647,16 +647,22 @@ public class AdminGUI extends JFrame {
         s_text1.setBounds(50, 50, 489, 40);
         panel.add(s_text1);
 
-        JButton addTeacher = new JButton("Add");
+        JButton addTeacherButton = new JButton("Add");
 
-        addTeacher.setLayout(null);
-        addTeacher.setFocusPainted(false);
-        addTeacher.setBorder(null);
-        addTeacher.setFont(new Font("Segoe UI", Font.BOLD, 15));
-        addTeacher.setBounds(50, 120, 100, 35);
-        addTeacher.setBackground(BG_GREEN);
-        addTeacher.setForeground(Color.white);
-        panel.add(addTeacher);
+        addTeacherButton.setLayout(null);
+        addTeacherButton.setFocusPainted(false);
+        addTeacherButton.setBorder(null);
+        addTeacherButton.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        addTeacherButton.setBounds(50, 120, 100, 35);
+        addTeacherButton.setBackground(BG_GREEN);
+        addTeacherButton.setForeground(Color.white);
+        panel.add(addTeacherButton);
+        addTeacherButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AddTeacher();
+            }
+        });
 
         JButton editTeacher = new JButton("Edit");
 
@@ -668,7 +674,12 @@ public class AdminGUI extends JFrame {
         editTeacher.setBackground(BG_BLUE);
         editTeacher.setForeground(Color.white);
         panel.add(editTeacher);
-
+        editTeacher.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ModTeacher();
+            }
+        });
 
         String[] s_column = {"S.NO", "ID", "NAME", "CLASS", "EMAIL", "EXP", "PHONE", "SALARY"};
         JTable s_jt = new JTable(teacherRecordArray, s_column);
@@ -731,6 +742,7 @@ public class AdminGUI extends JFrame {
         leaveformpanel.setBounds(124, 0, 1336, 777);
         leaveformpanel.setLayout(null);
         p.add(leaveformpanel);
+
 
         JPanel leave_info = new JPanel();
         leave_info.setBounds(24, 10, 1150, 282);
@@ -1151,7 +1163,7 @@ public class AdminGUI extends JFrame {
 
     void addTeacherRecords() {
         ArrayList<Teacher> al = teacherDBHelper.allTeachers();
-
+        System.out.println("call aaguthu");
         teacherRecordArray = new String[al.size() + 1][8];
 
         teacherRecordArray[0][0] = "S.NO";

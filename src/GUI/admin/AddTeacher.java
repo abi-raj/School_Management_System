@@ -109,6 +109,7 @@ public class AddTeacher extends JFrame {
         t_name.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
 
         panel.add(t_name);
+
         t_class = new JTextField();
         t_class.setBounds(240, 200, 150, 30);
         t_class.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
@@ -149,7 +150,10 @@ public class AddTeacher extends JFrame {
                 } else {
                     setColor();
                     if (validateEmail() && validatePhone() && validatePwd() && validateName()) {
-                        Teacher teacher = new Teacher(t_id.getText(), t_pwd.getText(), t_name.getText(), t_class.getText(), t_email.getText(), Integer.parseInt(t_exp.getText()), t_phone.getText(), Integer.parseInt(t_salary.getText()));
+                        Teacher teacher = new Teacher(t_id.getText(), t_pwd.getText(),  t_class.getText(),t_name.getText(), t_email.getText(), Integer.parseInt(t_exp.getText()), t_phone.getText(), Integer.parseInt(t_salary.getText()));
+                        System.out.println(teacher.getName());
+                        System.out.println(teacher.gettClass());
+
                         if (new TeacherDBHelper().createTeacher(teacher)) {
                             JOptionPane.showMessageDialog(AddTeacher.this, "Teacher added successfully");
                             //dispose();
