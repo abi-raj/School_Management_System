@@ -310,7 +310,7 @@ public class TeacherGUI extends JFrame {
         JButton logout_button=new JButton("Log out");
         logout_button.setBounds(115,650,100,40);
         logout_button.setFont(new Font("Segoe UI",Font.BOLD, 18));
-        logout_button.setForeground(new Color(255,98,98));
+        logout_button.setForeground(new Color(255,98,98));logout_button.setForeground(new Color(255,98,98));
         logout_button.setLayout(null);
         logout_button.setBackground(Color.WHITE);
         logout_button.setBorder(null);
@@ -1129,7 +1129,7 @@ public class TeacherGUI extends JFrame {
 
     public static void main(String[] args) {
 
-
+new TeacherGUI(new TeacherDBHelper().getTeacherId("hari@gmail.com"));
 
     }
 
