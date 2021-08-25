@@ -13,6 +13,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
 import java.util.ArrayList;
 import java.util.Map;
@@ -26,7 +28,7 @@ public class TeacherGUI extends JFrame {
     JComboBox<String> cb_2;
     JComboBox<String> cb;
     JPanel contentPane;
-    JPanel homepanel;
+    public JPanel homepanel;
     JPanel attendancepanel;
     JPanel gradespanel;
     JPanel leaveformpanel;
@@ -62,7 +64,6 @@ public class TeacherGUI extends JFrame {
         sidebar.setLayout(null);
 
         UIManager.put("ToolTip.background", new Color(253,253,150));
-
 
         JButton home = new JButton();
         home.setBounds(41, 58, 43, 63);
@@ -287,16 +288,18 @@ public class TeacherGUI extends JFrame {
         teacher_profile.setForeground(new Color(102, 102, 102));
         homepanel.add(teacher_profile);
 
-        JLabel logout_img=new JLabel();
-        logout_img.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/logout.png"))));
-        logout_img.setBounds(100,650,30,40);
-        homepanel.add(logout_img);
+
+
+        JLabel notify_img=new JLabel();
+        notify_img.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/notify.png"))));
+        notify_img.setBounds(150,670,30,40);
+        homepanel.add(notify_img);
 
 
         JButton logout_button=new JButton("Log out");
-        logout_button.setBounds(115,650,100,40);
+        logout_button.setBounds(50,670,100,40);
         logout_button.setFont(new Font("Segoe UI",Font.BOLD, 18));
-        logout_button.setForeground(new Color(255,98,98));
+        logout_button.setForeground(Color.black);
         logout_button.setLayout(null);
         logout_button.setBackground(Color.WHITE);
         logout_button.setBorder(null);
@@ -619,20 +622,72 @@ public class TeacherGUI extends JFrame {
 
         JPanel panel = new JPanel();
         panel.setBackground(new Color(250,250,250));
-        panel.setBounds(60, 66, 1100, 200);
+        panel.setBounds(30, 10, 1100, 120);
         panel.setLayout(null);
         studentpanel.add(panel);
 
         JLabel s_text1 = new JLabel("Student Record");
         s_text1.setFont(new Font("Segoe UI", Font.BOLD, 30));
-        s_text1.setBounds(80, 50, 489, 40);
+        s_text1.setBounds(30, 10, 489, 40);
         panel.add(s_text1);
 
         JLabel s_text2 = new JLabel("Class 10");
         s_text2.setForeground(Color.GRAY);
-        s_text2.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        s_text2.setBounds( 80,100, 214, 30);
+        s_text2.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        s_text2.setBounds( 30,60, 214, 30);
         panel.add(s_text2);
+
+        JLabel stu_panel_subhead=new JLabel("Consolidated Student Details of Class 10");
+        stu_panel_subhead.setFont(new Font("Segeo UI",Font.BOLD,24));
+        stu_panel_subhead.setForeground(Color.black);
+
+        stu_panel_subhead.setBorder(null);
+        stu_panel_subhead.setBounds(50, 210, 600, 80);
+        studentpanel.add(stu_panel_subhead);
+
+
+        JButton delete_btn=new JButton("");
+        delete_btn.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/delete.png"))));
+        delete_btn.setToolTipText("You can delete student details here");
+        delete_btn.setLayout(null);
+        delete_btn.setBackground(Color.WHITE);
+        delete_btn.setFont(new Font("Segeo UI",Font.BOLD,14));
+        delete_btn.setForeground(Color.white);
+        delete_btn.setFocusPainted(false);
+        delete_btn.setBorder(null);
+        delete_btn.setBounds(940, 210, 64, 64);
+        studentpanel.add(delete_btn);
+
+
+        JButton add_btn=new JButton();
+        add_btn.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/add.png"))));
+        add_btn.setToolTipText("You can add new student details here");
+        add_btn.setLayout(null);
+        add_btn.setBackground(Color.WHITE);
+        add_btn.setFocusPainted(false);
+        add_btn.setBorder(null);
+        add_btn.setBounds(860, 210, 64, 64);
+        studentpanel.add(add_btn);
+
+        JButton edit_btn=new JButton("");
+        edit_btn.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/edit.png"))));
+        edit_btn.setToolTipText("You can edit or update student details here");
+        edit_btn.setBackground(Color.WHITE);
+        edit_btn.setLayout(null);
+        edit_btn.setFont(new Font("Segeo UI",Font.BOLD,14));
+        edit_btn.setFocusPainted(false);
+        edit_btn.setForeground(Color.white);
+        edit_btn.setBorder(null);
+        edit_btn.setBounds(1020, 210, 64, 64);
+        edit_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+            });
+        studentpanel.add(edit_btn);
+
+
+
 
 
         String s_data[][]={ {"19eucs001","Abiraj","10","abi@gmail.com","30-11-2001","Male","9655047766"}};
@@ -651,7 +706,9 @@ public class TeacherGUI extends JFrame {
                         {null, null, null, null, null, null, null,null},
                         {null, null, null, null, null, null, null,null},
                         {null, null, null, null, null, null, null,null},
-                        {null, null, null, null, null, null, null,null}
+                        {null, null, null, null, null, null, null,null},
+
+
 
                 },
                 new String[] {
@@ -660,7 +717,7 @@ public class TeacherGUI extends JFrame {
         ));
         s_jt.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         s_jt.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        s_jt.setBounds(60,312,1100,421);
+        s_jt.setBounds(30,320,1100,390);
         s_jt.setBackground(Color.white);
         s_jt.setRowHeight(s_jt.getRowHeight() + 20);
         studentpanel.add(s_jt);
@@ -1093,9 +1150,96 @@ public class TeacherGUI extends JFrame {
 
         JLabel p_l2 = new JLabel("Excited for your pay ?");
         p_l2.setForeground(Color.GRAY);
-        p_l2.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        p_l2.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         p_l2.setBounds(46, 70, 252, 21);
         payroll_info.add(p_l2);
+
+        JLabel pay_text_1=new JLabel("Click below to access your payroll");
+        pay_text_1.setForeground(Color.black);
+        pay_text_1.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        pay_text_1.setBounds(46, 250, 500, 40);
+        payrollpanel.add(pay_text_1);
+
+        JButton access_pay_btn=new JButton("Access payroll");
+        access_pay_btn.setBackground(new Color(255,154,162));
+        access_pay_btn.setForeground(Color.white);
+        access_pay_btn.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        access_pay_btn.setBounds(46, 320, 200, 50);
+        access_pay_btn.setLayout(null);
+        access_pay_btn.setBorder(null);
+        access_pay_btn.setFocusPainted(false);
+        payrollpanel.add(access_pay_btn);
+
+        JLabel sal_lbl=new JLabel("Your have been credited with:");
+        sal_lbl.setForeground(Color.black);
+        sal_lbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        sal_lbl.setBounds(46, 390, 300, 150);
+        sal_lbl.setBorder(null);
+        payrollpanel.add(sal_lbl);
+
+
+        JLabel salary_amt=new JLabel();
+        salary_amt.setBackground(new Color(139,217,199));
+        salary_amt.setForeground(Color.white);
+        salary_amt.setFont(new Font("Segoe UI", Font.BOLD, 34));
+        salary_amt.setBounds(46, 500, 200, 150);
+        salary_amt.setOpaque(true);
+        salary_amt.setBorder(null);
+        payrollpanel.add(salary_amt);
+
+        JLabel teacher_performance=new JLabel("Your Performance Analysis");
+        teacher_performance.setForeground(Color.black);
+        teacher_performance.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        teacher_performance.setBounds(800, 200, 400, 150);
+        teacher_performance.setBorder(null);
+        payrollpanel.add(teacher_performance);
+
+        JSeparator sep = new JSeparator();
+        sep.setOrientation(SwingConstants.HORIZONTAL);
+        sep.setForeground(Color.BLACK);
+        sep.setBounds(800,300,300,20);
+        payrollpanel.add(sep);
+
+
+        JLabel teacher_ap_lbl =new JLabel("Attendance Performance");
+        teacher_ap_lbl.setForeground(Color.black);
+        teacher_ap_lbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        teacher_ap_lbl.setBounds(800, 350, 400, 50);
+        teacher_ap_lbl.setBorder(null);
+        payrollpanel.add(teacher_ap_lbl);
+
+        JLabel teacher_att_percent=new JLabel(" 90%");
+        teacher_att_percent.setBackground(new Color(139,217,199));
+        teacher_att_percent.setForeground(Color.white);
+        teacher_att_percent.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        teacher_att_percent.setBounds(1060, 350, 50, 40);
+        teacher_att_percent.setOpaque(true);
+        teacher_att_percent.setBorder(null);
+        payrollpanel.add(teacher_att_percent);
+
+
+
+
+
+        access_pay_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String high_sec_pin="1234";
+                String pin=  JOptionPane.showInputDialog("Enter your high security 4-digit pin");
+
+
+                if(pin.equals(high_sec_pin)){
+                    JOptionPane.showMessageDialog(null,"Congratulations !!! your account have been credited with your new payroll");
+                    salary_amt.setText("  $3000.00");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"Invalid pin number!!");
+                }
+
+            }
+
+                });
+
+
 
         setVisible( true );
         setLayout(null);
@@ -1134,3 +1278,25 @@ public class TeacherGUI extends JFrame {
         }
     }
 }
+
+//admin panel email sent notification display in homepanel
+
+/*
+after all the email actions are performed
+.
+.
+.
+send_email_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            JLabel notify_email=new JLabel("   You have received a new mail !");
+                notify_email.setBounds(150,650,200,40);
+                notify_email.setOpaque(true);
+                notify_email.setBackground(new Color(253,253,150));
+                homepanel.add(notify_email);
+                notify_email.addMouseListener(new MouseAdapter()
+                {
+                    public void mousePressed(MouseEvent evt)
+                    {
+                       notify_email.setVisible(false);
+                    }
+                });*/
