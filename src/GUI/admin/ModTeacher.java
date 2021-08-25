@@ -1,10 +1,13 @@
 package GUI.admin;
 
+import GUI.LoginGUI;
 import database.TeacherDBHelper;
 import models.Teacher;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,17 +20,23 @@ public class ModTeacher extends JFrame {
     JTextField t_pwd, t_class, t_name, t_email, t_exp, t_phone, t_salary;
     Font font = new Font("Times New Roman", 1, 21);
     JComboBox<String> teacher_box;
-    JButton editButton = new JButton("Edit");
+    JPanel panel=new JPanel();
+    JButton editButton = new JButton("Update");
     JButton deleteButton = new JButton("Delete");
     TeacherDBHelper teacherDBHelper = new TeacherDBHelper();
     ArrayList<Teacher> alTeachers;
 
     public ModTeacher() {
 
-        setBounds(50, 50, 600, 700);
+        setBounds(50, 50, 500, 600);
         setVisible(true);
         setLayout(null);
-
+        panel.setBounds(0, 0, 500, 600);
+        panel.setBackground(Color.white);
+        panel.setBorder(new LineBorder(Color.white));
+        panel.setBorder(new LineBorder(Color.blue));
+        panel.setLayout(null);
+        add(panel);
         setLabelBounds();
         setTextFields();
 
@@ -46,42 +55,42 @@ public class ModTeacher extends JFrame {
         l_id = new JLabel("ID ");
         l_id.setFont(font);
         l_id.setBounds(70, 50, 120, 30);
-        add(l_id);
+        panel.add(l_id);
 
         l_pwd = new JLabel("Password ");
         l_pwd.setFont(font);
         l_pwd.setBounds(70, 100, 120, 30);
-        add(l_pwd);
+        panel.add(l_pwd);
 
         l_name = new JLabel("Name");
         l_name.setFont(font);
         l_name.setBounds(70, 150, 120, 30);
-        add(l_name);
+        panel.add(l_name);
 
         l_class = new JLabel("Class");
         l_class.setFont(font);
         l_class.setBounds(70, 200, 120, 30);
-        add(l_class);
+        panel.add(l_class);
 
         l_email = new JLabel("Email");
         l_email.setFont(font);
         l_email.setBounds(70, 250, 120, 30);
-        add(l_email);
+        panel.add(l_email);
 
         l_exp = new JLabel("Experience");
         l_exp.setFont(font);
         l_exp.setBounds(70, 300, 250, 30);
-        add(l_exp);
+        panel.add(l_exp);
 
         l_phone = new JLabel("Phone");
         l_phone.setFont(font);
         l_phone.setBounds(70, 350, 200, 30);
-        add(l_phone);
+        panel.add(l_phone);
 
         l_salary = new JLabel("Salary");
         l_salary.setFont(font);
         l_salary.setBounds(70, 400, 120, 30);
-        add(l_salary);
+        panel.add(l_salary);
 
     }
 
@@ -91,36 +100,48 @@ public class ModTeacher extends JFrame {
 //        add(t_id);
         teacher_box = new JComboBox<String>();
         teacher_box.setBounds(240, 50, 150, 30);
-        add(teacher_box);
+        teacher_box.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        panel.add(teacher_box);
         t_pwd = new JTextField();
         t_pwd.setBounds(240, 100, 150, 30);
-        add(t_pwd);
+        t_pwd.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        panel.add(t_pwd);
         t_name = new JTextField();
         t_name.setBounds(240, 150, 150, 30);
-        add(t_name);
+        t_name.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        panel.add(t_name);
         t_class = new JTextField();
         t_class.setBounds(240, 200, 150, 30);
-        add(t_class);
+        t_class.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        panel.add(t_class);
 
         t_email = new JTextField();
         t_email.setBounds(240, 250, 150, 30);
-        //t_email.setBorder(new LineBorder(Color.red));
-        add(t_email);
+        t_email.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        panel.add(t_email);
+
         t_exp = new JTextField();
         t_exp.setBounds(240, 300, 150, 30);
-        add(t_exp);
+        t_exp.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        panel.add(t_exp);
+
         t_phone = new JTextField();
         t_phone.setBounds(240, 350, 150, 30);
-        add(t_phone);
+        t_phone.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        panel.add(t_phone);
+
         t_salary = new JTextField();
         t_salary.setBounds(240, 400, 150, 30);
-        add(t_salary);
+        t_salary.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        panel.add(t_salary);
     }
 
     void setButton() {
         editButton.setBounds(100, 460, 100, 30);
         editButton.setBorder(new EtchedBorder());
-        add(editButton);
+        editButton.setForeground(Color.white);
+        editButton.setBackground(new Color(28, 133, 232));
+        panel.add(editButton);
 
 
         editButton.addActionListener(new ActionListener() {
@@ -134,7 +155,9 @@ public class ModTeacher extends JFrame {
 
                         int index = teacher_box.getSelectedIndex();
                         Teacher teacher = alTeachers.get(index);
-                        if (new TeacherDBHelper().updateTeacher(teacher)) {
+                        Teacher user = new Teacher(teacher.getTeacher_id(), t_pwd.getText(), t_name.getText(), t_class.getText(), t_email.getText(), Integer.parseInt(t_exp.getText()), t_phone.getText(), Integer.parseInt(t_salary.getText()));
+
+                        if (new TeacherDBHelper().updateTeacher(user)) {
                             JOptionPane.showMessageDialog(ModTeacher.this, "Teacher Updated successfully");
                             setTeacherBox();
                             //dispose();
@@ -151,14 +174,27 @@ public class ModTeacher extends JFrame {
 
         deleteButton.setBounds(250, 460, 100, 30);
         deleteButton.setBorder(new EtchedBorder());
-        add(deleteButton);
+        deleteButton.setBackground(new Color(176, 0, 32));
+        deleteButton.setForeground(Color.white);
+        panel.add(deleteButton);
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int index = teacher_box.getSelectedIndex();
                 if (index != -1) {
-//JOptionPane.showConfirmDialog(ModTeacher.this,"Confirm delete?");
-                    teacherDBHelper.deleteTeacher(alTeachers.get(index).getTeacher_id());
+                    int logout_result = JOptionPane.showConfirmDialog(panel,"Are you sure want to Delete?","",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE);
+                    if(logout_result == JOptionPane.YES_OPTION){
+                        if(teacherDBHelper.deleteTeacher(alTeachers.get(index).getTeacher_id())){
+                            JOptionPane.showMessageDialog(ModTeacher.this,"Deleted Succesfully");
+                            setEmpty();
+                        }else{
+                            JOptionPane.showMessageDialog(ModTeacher.this,"Deletion Failed");
+                        }
+                    }
+
+
                     setTeacherBox();
                 }
             }
@@ -174,6 +210,11 @@ public class ModTeacher extends JFrame {
         l_salary.setForeground(Color.BLACK);
         l_email.setForeground(Color.BLACK);
         l_exp.setForeground(Color.BLACK);
+    }
+    public void setEmpty(){
+        t_salary.setText("");t_name.setText("");
+        t_email.setText("");t_exp.setText("");
+        t_class.setText("");t_phone.setText("");t_pwd.setText("");
     }
 
     public boolean validatempty() {

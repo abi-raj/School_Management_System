@@ -50,10 +50,10 @@ interface TeacherTableOperations {
 }
 
 public class TeacherDBHelper implements TeacherTableOperations {
-    private static final String url = "jdbc:postgresql://localhost:5432/bootathon";
+    private static final String url = "jdbc:postgresql://localhost:5432/teacher";
     private static final String driverName = "org.postgresql.Driver";
     private static final String username = "postgres";
-    private static final String password = "Test@123";
+    private static final String password = "12345";
     private static Connection connection;
 
     public static Connection getConnection() {
@@ -218,7 +218,7 @@ public class TeacherDBHelper implements TeacherTableOperations {
             Connection conn = getConnection();
             String deleteQuery = String.format(TeacherTable.deleteTeacher, id);
             PreparedStatement stmt = conn.prepareStatement(deleteQuery);
-            stmt.executeQuery();
+            stmt.executeUpdate();
             conn.close();
             System.out.println("Record Deleted");
             return true;

@@ -6,9 +6,14 @@ import models.Teacher;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.basic.BasicBorders;
+import javax.swing.plaf.multi.MultiPanelUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class AddTeacher extends JFrame {
@@ -16,16 +21,25 @@ public class AddTeacher extends JFrame {
     JLabel l_id, l_pwd, l_class, l_name, l_email, l_exp, l_phone, l_salary;
     JTextField t_id, t_pwd, t_class, t_name, t_email, t_exp, t_phone, t_salary;
     Font font = new Font("Times New Roman", 1, 21);
+    JPanel panel=new JPanel();
     JButton addButton = new JButton("Add");
 
     public AddTeacher() {
 
-        setBounds(50, 50, 600, 700);
+        setBounds(50, 50, 500, 600);
+
+        panel.setBounds(50, 50, 500, 600);
+        panel.setBorder(new LineBorder(Color.blue));
+        panel.setBackground(Color.white);
+
+        panel.setLayout(null);
+        add(panel);
         setVisible(true);
         setLayout(null);
         setLabelBounds();
         setTextFields();
         setButton();
+
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -39,78 +53,94 @@ public class AddTeacher extends JFrame {
         l_id = new JLabel("ID ");
         l_id.setFont(font);
         l_id.setBounds(70, 50, 120, 30);
-        add(l_id);
+        l_id.setForeground(Color.black);
+        panel.add(l_id);
 
         l_pwd = new JLabel("Password ");
         l_pwd.setFont(font);
         l_pwd.setBounds(70, 100, 120, 30);
-        add(l_pwd);
+        panel.add(l_pwd);
 
         l_name = new JLabel("Name");
         l_name.setFont(font);
         l_name.setBounds(70, 150, 120, 30);
-        add(l_name);
+        panel.add(l_name);
 
         l_class = new JLabel("Class");
         l_class.setFont(font);
         l_class.setBounds(70, 200, 120, 30);
-        add(l_class);
+        panel.add(l_class);
 
         l_email = new JLabel("Email");
         l_email.setFont(font);
         l_email.setBounds(70, 250, 120, 30);
-        add(l_email);
+        panel.add(l_email);
 
         l_exp = new JLabel("Experience");
         l_exp.setFont(font);
         l_exp.setBounds(70, 300, 250, 30);
-        add(l_exp);
+        panel.add(l_exp);
 
         l_phone = new JLabel("Phone");
         l_phone.setFont(font);
         l_phone.setBounds(70, 350, 200, 30);
-        add(l_phone);
+        panel.add(l_phone);
 
         l_salary = new JLabel("Salary");
         l_salary.setFont(font);
         l_salary.setBounds(70, 400, 120, 30);
-        add(l_salary);
+        panel.add(l_salary);
 
     }
 
     void setTextFields() {
         t_id = new JTextField();
         t_id.setBounds(240, 50, 150, 30);
-        add(t_id);
+        t_id.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+
+        panel.add(t_id);
         t_pwd = new JTextField();
         t_pwd.setBounds(240, 100, 150, 30);
-        add(t_pwd);
+        t_pwd.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+
+        panel.add(t_pwd);
         t_name = new JTextField();
         t_name.setBounds(240, 150, 150, 30);
-        add(t_name);
+        t_name.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+
+        panel.add(t_name);
         t_class = new JTextField();
         t_class.setBounds(240, 200, 150, 30);
-        add(t_class);
+        t_class.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        panel.add(t_class);
 
         t_email = new JTextField();
         t_email.setBounds(240, 250, 150, 30);
-        //t_email.setBorder(new LineBorder(Color.red));
-        add(t_email);
+        t_email.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        panel.add(t_email);
+
         t_exp = new JTextField();
         t_exp.setBounds(240, 300, 150, 30);
-        add(t_exp);
+        t_exp.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        panel.add(t_exp);
+
         t_phone = new JTextField();
         t_phone.setBounds(240, 350, 150, 30);
-        add(t_phone);
+        t_phone.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        panel.add(t_phone);
+
         t_salary = new JTextField();
         t_salary.setBounds(240, 400, 150, 30);
-        add(t_salary);
+        t_salary.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        panel.add(t_salary);
     }
 
     void setButton() {
-        addButton.setBounds(150, 460, 150, 30);
+        addButton.setBounds(160, 460, 150, 30);
         addButton.setBorder(new EtchedBorder());
-        add(addButton);
+        addButton.setBackground(new Color(176, 0, 32));
+        addButton.setForeground(Color.white);
+        panel.add(addButton);
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
