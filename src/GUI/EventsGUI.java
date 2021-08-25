@@ -4,22 +4,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 
-public class EventsGUI {
+public class EventsGUI extends JFrame{
     public EventsGUI(){
-        JFrame f = new JFrame("School Management System");
+        setTitle("School Management System");
+       // JFrame f = new JFrame("School Management System");
         JPanel p = new JPanel();
         p.setBackground(new Color(255, 255, 255));
         p.setBounds(0,0,1400,790);
 
 
 
-        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        f.add(p);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        add(p);
         p.setLayout(null);
-        f.setBounds(300,100,1336,814);
-        f.setVisible( true );
-        f.setLayout(null);
-        f.setResizable(false);
+        setBounds(300,100,1336,814);
+        setVisible( true );
+        setLayout(null);
+        setResizable(false);
 
 
     }
