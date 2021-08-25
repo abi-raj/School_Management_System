@@ -7,6 +7,7 @@ public class Attendance {
     private String std;
     private String date;
 
+
     public String getStatus() {
         return status;
     }

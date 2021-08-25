@@ -41,7 +41,7 @@ public class StudentDBHelper implements StudentTableOperations {
     private static final String driverName = "org.postgresql.Driver";
     private static final String username = "postgres";
     private static final String password = "Test@123";
-    // private static final String createTableQuery = "create table student(student_id varchar(10) PRIMARY KEY,password varchar(50),name varchar(20),std varchar(20),email varchar(30) UNIQUE,gender varchar(50),dob varchar(15),phone varchar(10),fees int)";
+   // private static final String createTableQuery = "create table student(student_id varchar(10) PRIMARY KEY,password varchar(50),name varchar(20),std varchar(20),email varchar(30) UNIQUE,gender varchar(50),dob varchar(15),phone varchar(10),fees int)";
     private Connection connection = null;
 
     public static void main(String[] args) throws SQLException {

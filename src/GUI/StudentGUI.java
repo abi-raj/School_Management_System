@@ -1,23 +1,12 @@
 package GUI;
+
 import database.StudentDBHelper;
 import models.*;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.SystemColor;
-import java.awt.Color;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.TitledBorder;
-import java.awt.Font;
-
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -27,7 +16,6 @@ import java.util.Objects;
 
 public class StudentGUI extends JFrame {
 
-    private JPanel panel_content;
     StudentDBHelper studentDBHelper = new StudentDBHelper();
     Student student = null;
     ArrayList<Leave> alLeave;
@@ -41,15 +29,9 @@ public class StudentGUI extends JFrame {
     JLabel lbl_dob1;
     JLabel lbl_cno1;
     JLabel lbl_remainingFee1;
-
-    public static void main(String[] args) {
-
-        StudentGUI frame = new StudentGUI("19eucs001");
-
-    }
-
-    JPanel panel_profileWindow,panel_gradeWindow,panel_MaterialsWindow,panel_leaveFormWindow,panel_inquiryWindow,panel_feeWindow;
-    private JLabel lbl_checkStatus,lbl_LfSubmit,lbl_Isubmit,lbl_checkResponse;
+    JPanel panel_profileWindow, panel_gradeWindow, panel_MaterialsWindow, panel_leaveFormWindow, panel_inquiryWindow, panel_feeWindow;
+    private JPanel panel_content;
+    private JLabel lbl_checkStatus, lbl_LfSubmit, lbl_Isubmit, lbl_checkResponse;
     private JLabel lbl_pay;
     private JTextField textField_amount;
     private JTable table;
@@ -60,8 +42,6 @@ public class StudentGUI extends JFrame {
     private JComboBox<String> comboBox_Lfno;
     private JComboBox<String> comboBox_Ifno;
     private JLabel lb_view;
-
-
     public StudentGUI(String student_id) {
         setStudent(student_id);
         sidePanel();
@@ -76,7 +56,7 @@ public class StudentGUI extends JFrame {
         setBounds(2, 2, 1237, 665);
         //setBounds(0, 0, 1350, 750);
         setVisible(true);
-
+        setResizable(false);
         setInitialProfileValues();
         setFeePaymentValues();
         setLeaveFormComboBox();
@@ -84,6 +64,13 @@ public class StudentGUI extends JFrame {
         setModelComboBox();
 
     }
+
+    public static void main(String[] args) {
+
+        StudentGUI frame = new StudentGUI("19eucs001");
+
+    }
+
     private void sidePanel() {
         panel_content = new JPanel();
         panel_content.setBackground(Color.WHITE);
@@ -204,6 +191,7 @@ public class StudentGUI extends JFrame {
         panel_side.add(lbl_feeIcon);
 
     }
+
     private void feePayment() {
         panel_feeWindow = new JPanel();
         panel_feeWindow.setBackground(Color.WHITE);
@@ -233,12 +221,13 @@ public class StudentGUI extends JFrame {
         textField_amount.setColumns(10);
 
         JButton panel_pay = new JButton();
-        panel_pay.addMouseListener(new MouseAdapter(){
+        panel_pay.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 panel_pay.setBackground(new Color(0, 0, 139));
                 lbl_pay.setForeground(Color.WHITE);
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 panel_pay.setBackground(new Color(240, 240, 240));
@@ -249,19 +238,20 @@ public class StudentGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == panel_pay) {
-                    String str = textField_amount.getText().toString().replaceAll("\\s","");
-                    if(str.length()==0){
+                    String str = textField_amount.getText().toString().replaceAll("\\s", "");
+                    if (str.length() == 0) {
                         JOptionPane.showMessageDialog(StudentGUI.this, "Enter a valid number");
-                    }else{
-                    int amount_entered = Integer.parseInt(str);
-                    if ( amount_entered < 0 || amount_entered > student.getFees() || !(studentDBHelper.payFees(student.getId(), amount_entered))) {
-                        JOptionPane.showMessageDialog(StudentGUI.this, "Payment Failure");
                     } else {
-                        JOptionPane.showMessageDialog(StudentGUI.this, "Payment Success");
-                        setStudent(student.getId());
-                        setFeePaymentValues();
-                        textField_amount.setText(" ");
-                    }}
+                        int amount_entered = Integer.parseInt(str);
+                        if (amount_entered < 0 || amount_entered > student.getFees() || !(studentDBHelper.payFees(student.getId(), amount_entered))) {
+                            JOptionPane.showMessageDialog(StudentGUI.this, "Payment Failure");
+                        } else {
+                            JOptionPane.showMessageDialog(StudentGUI.this, "Payment Success");
+                            setStudent(student.getId());
+                            setFeePaymentValues();
+                            textField_amount.setText(" ");
+                        }
+                    }
                 }
             }
         });
@@ -287,7 +277,7 @@ public class StudentGUI extends JFrame {
         lbl_remainingFee.setBounds(0, 11, 233, 45);
         panel_remainingFee.add(lbl_remainingFee);
 
-         lbl_remainingFee1 = new JLabel("0");
+        lbl_remainingFee1 = new JLabel("0");
         lbl_remainingFee1.setFont(new Font("Tahoma", Font.BOLD, 25));
         lbl_remainingFee1.setBounds(51, 77, 192, 65);
         panel_remainingFee.add(lbl_remainingFee1);
@@ -304,6 +294,7 @@ public class StudentGUI extends JFrame {
 
 
     }
+
     private void inquiryForm() {
         panel_inquiryWindow = new JPanel();
         panel_inquiryWindow.setBackground(Color.WHITE);
@@ -329,6 +320,7 @@ public class StudentGUI extends JFrame {
                 panel_Isubmit.setBackground(new Color(0, 0, 139));
                 lbl_Isubmit.setForeground(Color.WHITE);
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 panel_Isubmit.setBackground(new Color(240, 240, 240));
@@ -377,7 +369,7 @@ public class StudentGUI extends JFrame {
         lbl_IformNo.setBounds(63, 11, 90, 56);
         panel_Response.add(lbl_IformNo);
 
-         comboBox_Ifno = new JComboBox<String>();
+        comboBox_Ifno = new JComboBox<String>();
         comboBox_Ifno.setBounds(195, 30, 77, 22);
         panel_Response.add(comboBox_Ifno);
 
@@ -401,6 +393,7 @@ public class StudentGUI extends JFrame {
                 panel_checkResponse.setBackground(new Color(0, 0, 139));
                 lbl_checkResponse.setForeground(Color.WHITE);
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 panel_checkResponse.setBackground(new Color(240, 240, 240));
@@ -430,6 +423,7 @@ public class StudentGUI extends JFrame {
         lbl_checkResponse.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
     }
+
     private void leaveForm() {
         panel_leaveFormWindow = new JPanel();
         panel_leaveFormWindow.setBackground(Color.WHITE);
@@ -466,6 +460,7 @@ public class StudentGUI extends JFrame {
                 submitLeave_button.setBackground(new Color(0, 0, 139));
                 lbl_LfSubmit.setForeground(Color.WHITE);
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 submitLeave_button.setBackground(new Color(240, 240, 240));
@@ -556,6 +551,7 @@ public class StudentGUI extends JFrame {
                 panel_checkStatus.setBackground(new Color(0, 0, 139));
                 lbl_checkStatus.setForeground(Color.WHITE);
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 panel_checkStatus.setBackground(new Color(240, 240, 240));
@@ -572,7 +568,18 @@ public class StudentGUI extends JFrame {
                         Leave leave = alLeave.get(index);
 
                         lbl_LfDate1.setText(leave.getDate());
-                        lbl_LfStatus1.setText(leave.getStatus());
+                        if (leave.getStatus().contains("Pending")) {
+                            lbl_LfStatus1.setForeground(Color.orange);
+                            lbl_LfStatus1.setText(leave.getStatus());
+                        }
+                        if (leave.getStatus().contains("Rejected")) {
+                            lbl_LfStatus1.setForeground(Color.RED);
+                            lbl_LfStatus1.setText(leave.getStatus());
+                        }
+                        if (leave.getStatus().contains("Accepted") || leave.getStatus().contains("Approved")) {
+                            lbl_LfStatus1.setForeground(Color.GREEN);
+                            lbl_LfStatus1.setText(leave.getStatus());
+                        }
 
                     }
                 }
@@ -587,6 +594,7 @@ public class StudentGUI extends JFrame {
         lbl_checkStatus.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
     }
+
     private void leraningMaterials() {
 
         panel_MaterialsWindow = new JPanel();
@@ -600,7 +608,7 @@ public class StudentGUI extends JFrame {
         lbl_Materials.setBounds(10, 11, 248, 55);
         panel_MaterialsWindow.add(lbl_Materials);
 
-         comboBox_materialno = new JComboBox<>();
+        comboBox_materialno = new JComboBox<>();
         comboBox_materialno.setBounds(698, 80, 120, 40);
         panel_MaterialsWindow.add(comboBox_materialno);
 
@@ -631,6 +639,7 @@ public class StudentGUI extends JFrame {
                 panel_view.setBackground(new Color(0, 0, 139));
                 lb_view.setForeground(Color.WHITE);
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 panel_view.setBackground(new Color(240, 240, 240));
@@ -655,6 +664,7 @@ public class StudentGUI extends JFrame {
         lb_view.setHorizontalAlignment(SwingConstants.CENTER);
         lb_view.setFont(new Font("Tahoma", Font.PLAIN, 17));
     }
+
     private void grade() {
         panel_gradeWindow = new JPanel();
         panel_gradeWindow.setBackground(Color.WHITE);
@@ -665,7 +675,7 @@ public class StudentGUI extends JFrame {
         lbl_Grade.setBounds(23, 25, 1052, 27);
         lbl_Grade.setFont(new Font("Tahoma", Font.BOLD, 22));
 
-        String[] column = {"Exam","Grades"};
+        String[] column = {"Exam", "Grades"};
 
         panel_gradeWindow.setLayout(null);
         panel_gradeWindow.add(lbl_Grade);
@@ -680,13 +690,14 @@ public class StudentGUI extends JFrame {
         scrollPane.setBackground(Color.WHITE);
         panel_Table.add(scrollPane);
 
-        table = new JTable(marksArray,column);
+        table = new JTable(marksArray, column);
         int height = table.getRowHeight();
-        table.setRowHeight(height+15);
+        table.setRowHeight(height + 15);
         scrollPane.setViewportView(table);
 
 
     }
+
     private void profile() {
         panel_profileWindow = new JPanel();
         panel_profileWindow.setBackground(Color.WHITE);
@@ -699,7 +710,7 @@ public class StudentGUI extends JFrame {
         panel_profileWindow.add(panel_name);
         panel_name.setLayout(null);
 
-         lbl_name1 = new JLabel("   Sample");
+        lbl_name1 = new JLabel("   Sample");
         lbl_name1.setFont(new Font("Tahoma", Font.BOLD, 17));
         lbl_name1.setBounds(0, 32, 339, 47);
         panel_name.add(lbl_name1);
@@ -714,7 +725,7 @@ public class StudentGUI extends JFrame {
         panel_profileWindow.add(panel_class);
         panel_class.setLayout(null);
 
-         lbl_class1 = new JLabel("   Sample");
+        lbl_class1 = new JLabel("   Sample");
         lbl_class1.setFont(new Font("Tahoma", Font.BOLD, 17));
         lbl_class1.setBounds(0, 32, 339, 47);
         panel_class.add(lbl_class1);
@@ -729,7 +740,7 @@ public class StudentGUI extends JFrame {
         panel_profileWindow.add(panel_email);
         panel_email.setLayout(null);
 
-         lbl_email1 = new JLabel("   Sample");
+        lbl_email1 = new JLabel("   Sample");
         lbl_email1.setFont(new Font("Tahoma", Font.BOLD, 17));
         lbl_email1.setBounds(0, 32, 339, 47);
         panel_email.add(lbl_email1);
@@ -744,7 +755,7 @@ public class StudentGUI extends JFrame {
         panel_profileWindow.add(panel_dob);
         panel_dob.setLayout(null);
 
-         lbl_dob1 = new JLabel("   Sample");
+        lbl_dob1 = new JLabel("   Sample");
         lbl_dob1.setFont(new Font("Tahoma", Font.BOLD, 17));
         lbl_dob1.setBounds(0, 32, 339, 47);
         panel_dob.add(lbl_dob1);
@@ -759,7 +770,7 @@ public class StudentGUI extends JFrame {
         panel_profileWindow.add(panel_cno);
         panel_cno.setLayout(null);
 
-         lbl_cno1 = new JLabel("   Sample");
+        lbl_cno1 = new JLabel("   Sample");
         lbl_cno1.setFont(new Font("Tahoma", Font.BOLD, 17));
         lbl_cno1.setBounds(0, 26, 339, 47);
         panel_cno.add(lbl_cno1);
@@ -809,23 +820,23 @@ public class StudentGUI extends JFrame {
         comboBox_Ifno.removeAllItems();
         alForum = studentDBHelper.getQuestionsResponse(student.getId());
         for (int i = 1; i <= alForum.size(); i++) {
-
             comboBox_Ifno.addItem(i + "");
         }
     }
-    void setModelComboBox(){
+
+    void setModelComboBox() {
         alMaterials = studentDBHelper.getMaterials(student.getStd());
         for (int i = 1; i <= alMaterials.size(); i++) {
-            comboBox_materialno.addItem(i+ "");
+            comboBox_materialno.addItem(i + "");
         }
     }
 
-    void setGradesTable(){
+    void setGradesTable() {
         alMarks = studentDBHelper.viewGrades(student.getId());
-         marksArray = new String[alMarks.size()][2];
-        for(int i =0;i<alMarks.size();i++){
-            marksArray[i][0]=alMarks.get(i).getExam_title();
-            marksArray[i][1]=alMarks.get(i).calcGrade();
+        marksArray = new String[alMarks.size()][2];
+        for (int i = 0; i < alMarks.size(); i++) {
+            marksArray[i][0] = alMarks.get(i).getExam_title();
+            marksArray[i][1] = alMarks.get(i).calcGrade();
         }
     }
 }
