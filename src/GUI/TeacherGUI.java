@@ -1129,7 +1129,7 @@ public class TeacherGUI extends JFrame {
 
     public static void main(String[] args) {
 
-new TeacherGUI(new TeacherDBHelper().getTeacherId("hari@gmail.com"));
+new TeacherGUI(new TeacherDBHelper().getTeacherId("ajai@gmail.com"));
 
     }
 
