@@ -1,4 +1,4 @@
-package GUI.TeacherGUI;
+package GUI.teacherscreen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,6 +30,7 @@ public class ViewGrades extends JFrame {
         setTitle("View Grades");
         setSize(600, 600);
         setLayout(null);
+        setVisible(true);
 
         JLabel subject_name_lbl = new JLabel("S.no.   Subject Name              Grades");
         subject_name_lbl.setBounds(40, 10, 500, 40);
@@ -67,7 +68,7 @@ public class ViewGrades extends JFrame {
     }
 
     public static void main(String[] args) {
-        new ViewGrades().setVisible(true);
+        new ViewGrades();
     }
 
 }

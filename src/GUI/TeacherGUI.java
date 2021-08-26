@@ -1,23 +1,42 @@
 package GUI;
 
-import database.StudentDBHelper;
-import database.TeacherDBHelper;
-import models.Attendance;
-import models.Forum;
-import models.Leave;
-import models.Teacher;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
+
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+
+import GUI.teacherscreen.ViewGrades;
+import database.StudentDBHelper;
+import database.TeacherDBHelper;
+import models.Attendance;
+import models.Forum;
+import models.Leave;
+import models.Teacher;
 
 public class TeacherGUI extends JFrame {
 
@@ -529,7 +548,7 @@ public class TeacherGUI extends JFrame {
         grade_student_id_cb.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         gradespanel.add(grade_student_id_cb);
 
-        JButton view_grade_btn = new JButton("View Grades");
+        JButton view_grade_btn = new JButton("Edit Grades");
         view_grade_btn.setBounds(850, 200, 200, 40);
         view_grade_btn.setForeground(Color.white);
         view_grade_btn.setBackground(new Color(128, 179, 255));
@@ -537,6 +556,11 @@ public class TeacherGUI extends JFrame {
         view_grade_btn.setFocusPainted(false);
         view_grade_btn.setBorder(null);
         view_grade_btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        view_grade_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new ViewGrades();
+            }
+        });
         gradespanel.add(view_grade_btn);
 
         studentpanel = new JPanel();
