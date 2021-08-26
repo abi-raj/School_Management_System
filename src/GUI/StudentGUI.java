@@ -277,7 +277,7 @@ public class StudentGUI extends JFrame {
         lbl_remainingFee.setBounds(0, 11, 233, 45);
         panel_remainingFee.add(lbl_remainingFee);
 
-        JLabel lbl_remainingFee1 = new JLabel("0");
+         lbl_remainingFee1 = new JLabel("0");
         lbl_remainingFee1.setForeground(Color.WHITE);
         lbl_remainingFee1.setFont(new Font("Tahoma", Font.BOLD, 25));
         lbl_remainingFee1.setBounds(51, 77, 192, 65);
@@ -508,7 +508,7 @@ public class StudentGUI extends JFrame {
         lbl_LfDate.setBounds(63, 156, 90, 56);
         panel_LfStatus.add(lbl_LfDate);
 
-        JLabel lbl_LfDate1 = new JLabel(".............");
+         lbl_LfDate1 = new JLabel(".............");
         lbl_LfDate1.setHorizontalAlignment(SwingConstants.LEFT);
         lbl_LfDate1.setFont(new Font("Tahoma", Font.BOLD, 15));
         lbl_LfDate1.setBounds(195, 145, 90, 56);
@@ -520,7 +520,7 @@ public class StudentGUI extends JFrame {
         lbl_LfStatus.setBounds(63, 212, 90, 56);
         panel_LfStatus.add(lbl_LfStatus);
 
-        JLabel lbl_LfStatus1 = new JLabel(".............");
+         lbl_LfStatus1 = new JLabel(".............");
         lbl_LfStatus1.setHorizontalAlignment(SwingConstants.LEFT);
         lbl_LfStatus1.setFont(new Font("Tahoma", Font.BOLD, 15));
         lbl_LfStatus1.setBounds(195, 212, 90, 56);
@@ -582,12 +582,13 @@ public class StudentGUI extends JFrame {
 
                 if (txta_LForm.getText().length() < 5) {
                     JOptionPane.showMessageDialog(StudentGUI.this, "Minimum 5 characters is required");
-                } else if (lbl_choosedate.getText().length() != 10) {
+                } else if (textField_date.getText().length() != 10) {
+
                     JOptionPane.showMessageDialog(StudentGUI.this, "Enter a valid date");
-                } else if (studentDBHelper.checkLeaveAlreadyPresent(student.getId(), lbl_choosedate.getText())) {
+                } else if (studentDBHelper.checkLeaveAlreadyPresent(student.getId(), textField_date.getText())) {
                     JOptionPane.showMessageDialog(StudentGUI.this, "This date is already applied!");
                 } else {
-                    if (studentDBHelper.applyLeave(student.getId(), lbl_choosedate.getText(), txta_LForm.getText())) {
+                    if (studentDBHelper.applyLeave(student.getId(), textField_date.getText(), txta_LForm.getText())) {
                         JOptionPane.showMessageDialog(StudentGUI.this, "Leave applied");
                         alLeave.clear();
 
@@ -639,7 +640,7 @@ public class StudentGUI extends JFrame {
         panel_content.add(panel_MaterialsWindow);
         panel_MaterialsWindow.setLayout(null);
 
-        JComboBox comboBox_materialno = new JComboBox();
+         comboBox_materialno = new JComboBox<String>();
         comboBox_materialno.setBounds(671, 135, 68, 55);
         panel_MaterialsWindow.add(comboBox_materialno);
 
@@ -659,7 +660,7 @@ public class StudentGUI extends JFrame {
         panel_MaterialsWindow.add(panel_material);
         panel_material.setLayout(null);
 
-        JTextArea textArea_material = new JTextArea();
+         textArea_material = new JTextArea();
         textArea_material.setBounds(10, 11, 776, 277);
         panel_material.add(textArea_material);
 
@@ -713,8 +714,8 @@ public class StudentGUI extends JFrame {
         panel_gradeWindow.setBounds(179, 0, 1034, 617);
         panel_content.add(panel_gradeWindow);
 
-        String column[] = {"Exam","Grades"};
-        String data[][] = {{"....","......"},{".....","......."},{".......","......"},{".......","......"},{".......","......"},{".......","......"}};
+        String[] column = {"Exam","Grades"};
+
         panel_gradeWindow.setLayout(null);
 
         JPanel panel_Table = new JPanel();
@@ -727,7 +728,7 @@ public class StudentGUI extends JFrame {
         scrollPane.setBackground(Color.WHITE);
         panel_Table.add(scrollPane);
 
-        table = new JTable(data,column);
+        table = new JTable(marksArray,column);
         int height = table.getRowHeight();
         table.setRowHeight(height+25);
         scrollPane.setViewportView(table);
@@ -793,13 +794,13 @@ public class StudentGUI extends JFrame {
         lbl_cno.setForeground(Color.BLACK);
         lbl_cno.setFont(new Font("Tahoma", Font.PLAIN, 17));
 
-        JLabel lbl_cno1 = new JLabel("7708379857");
+         lbl_cno1 = new JLabel("7708379857");
         lbl_cno1.setBounds(427, 394, 182, 47);
         panel_profileWindow.add(lbl_cno1);
         lbl_cno1.setForeground(Color.BLACK);
         lbl_cno1.setFont(new Font("Tahoma", Font.PLAIN, 17));
 
-        JLabel lbl_name1 = new JLabel("Ajai Balaji");
+         lbl_name1 = new JLabel("Ajai Balaji");
         lbl_name1.setBounds(354, 216, 231, 47);
         panel_profileWindow.add(lbl_name1);
         lbl_name1.setForeground(Color.BLACK);
@@ -807,7 +808,7 @@ public class StudentGUI extends JFrame {
         lbl_name1.setHorizontalAlignment(SwingConstants.LEFT);
         lbl_name1.setFont(new Font("Tahoma", Font.BOLD, 22));
 
-        JLabel lbl_email1 = new JLabel("19eucs001@skcet.ac.in");
+         lbl_email1 = new JLabel("19eucs001@skcet.ac.in");
         lbl_email1.setBounds(354, 265, 217, 47);
         panel_profileWindow.add(lbl_email1);
         lbl_email1.setForeground(Color.BLACK);
@@ -821,7 +822,7 @@ public class StudentGUI extends JFrame {
         lbl_class.setForeground(Color.BLACK);
         lbl_class.setFont(new Font("Tahoma", Font.PLAIN, 17));
 
-        JLabel lbl_class1 = new JLabel("12");
+         lbl_class1 = new JLabel("12");
         lbl_class1.setBounds(424, 305, 185, 47);
         panel_profileWindow.add(lbl_class1);
         lbl_class1.setForeground(Color.BLACK);
@@ -833,7 +834,7 @@ public class StudentGUI extends JFrame {
         lbl_dob.setForeground(Color.BLACK);
         lbl_dob.setFont(new Font("Tahoma", Font.PLAIN, 17));
 
-        JLabel lbl_dob1 = new JLabel("01/01/2001");
+         lbl_dob1 = new JLabel("01/01/2001");
         lbl_dob1.setBounds(424, 351, 180, 47);
         panel_profileWindow.add(lbl_dob1);
         lbl_dob1.setForeground(Color.BLACK);
@@ -848,7 +849,7 @@ public class StudentGUI extends JFrame {
         JLabel lbl_eventImage = new JLabel("");
         lbl_eventImage.setBounds(714, 188, 266, 247);
         panel_profileWindow.add(lbl_eventImage);
-        lbl_eventImage.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/events.jpeg"))));
+        lbl_eventImage.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/events.jpeg")))); //events
 //methods
 
 
