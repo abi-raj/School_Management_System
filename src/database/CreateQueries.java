@@ -81,3 +81,25 @@ class AttendanceTable {
     public static final String tableName = "admin";
     public static final String getClassAttendance = "select * from attendance where class='%s'";
 }
+
+class CountQueries{
+    public static final String totalStudentCount = "select count(student_id) from student"; //Admin
+    public static final String studentCountByClass = "select count(student_id) from student where std='%s'"; //Admin
+    public static final String teacherCount ="select count(teacher_id) from teacher_details"; //Admin
+    public static final String totalInquiryCount = "select count(std_id) from forum"; //Teacher
+    public static final String respondedInquiryCount = "select count(std_id) from forum where response not in ('No response yet')";  //Teacher
+    public static final String totalLeaveRequestsCount = "select count(date) from leave where std_id in(select student_id from student where std in (select class from teacher_details where email='%s'))"; //Teacher
+    public static final String approvedLeaveRequestsCount = "select count(date) from leave where std_id in(select student_id from student where std in (select class from teacher_details where email='%s')) and status='Approved'"; //Teacher
+    public static final String pendingLeaveRequestsCount = "select count(date) from leave where std_id in(select student_id from student where std in (select class from teacher_details where email='%s')) and status='Pending'"; //Teacher
+    public static final String datedLeaveCount = "select count(std_id) from leave where status='Approved' and date='%s'"; //Admin additional dash
+    public static final String datedLeaveCountByClass = "select count(date) from leave where std_id in(select student_id from student where std='%s') and date='%s'"; //Admin(Dobut)
+//Attendance percentage
+
+}
+
+class ExamsTable{
+    public static final String insertExam = "insert into exams values('%s','%s','%s')";
+    public static final String updateExam = "update exams set start_date='%s',end_date='%s' where exam_title='%s'";
+    public static final String deleteExam = "delete from exams where exam_title='%s'";
+    public static final String selectExam = "select * from exams ";
+}

@@ -41,6 +41,7 @@ interface TeacherTableOperations {
 
     int getLeaveCount(String email);
 
+
     Teacher getTeacherId(String email);
 
     ArrayList<Teacher> allTeachers();
@@ -141,7 +142,7 @@ public class TeacherDBHelper implements TeacherTableOperations {
     @Override
     public boolean createTeacher(Teacher user) {
         teacher_tableExists();
-        String insertQuery = String.format(TeacherTable.createTeacher, user.getTeacher_id(), user.getPassword(),  user.gettClass(),user.getName(), user.getEmail(), user.getExperience(), user.getPhone(), user.getSalary());
+        String insertQuery = String.format(TeacherTable.createTeacher, user.getTeacher_id(), user.getPassword(), user.gettClass(), user.getName(), user.getEmail(), user.getExperience(), user.getPhone(), user.getSalary());
 
         try {
             Connection conn = getConnection();
@@ -394,6 +395,71 @@ public class TeacherDBHelper implements TeacherTableOperations {
         return count;
     }
 
+    public int approvedLeaveCount(String email) {
+        Connection con = getConnection();
+        int count = 0;
+        try {
+            String countquery = String.format(CountQueries.approvedLeaveRequestsCount, email);
+            PreparedStatement stmt = con.prepareStatement(countquery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                count = Integer.parseInt(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception" + e);
+        }
+        return count;
+    }
+
+    public int PendingLeaveCount(String email) {
+        Connection con = getConnection();
+        int count = 0;
+        try {
+            String countquery = String.format(CountQueries.pendingLeaveRequestsCount, email);
+            PreparedStatement stmt = con.prepareStatement(countquery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                count = Integer.parseInt(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception" + e);
+        }
+        return count;
+    }
+
+    public int totalInquiryCount() {
+        Connection con = getConnection();
+        int count = 0;
+        try {
+            String countquery = (CountQueries.totalInquiryCount);
+            PreparedStatement stmt = con.prepareStatement(countquery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                count = Integer.parseInt(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception" + e);
+        }
+        return count;
+    }
+
+    public int respondedInquiryCount() {
+        Connection con = getConnection();
+        int count = 0;
+        try {
+            String countquery = (CountQueries.respondedInquiryCount);
+            PreparedStatement stmt = con.prepareStatement(countquery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                count = Integer.parseInt(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception" + e);
+        }
+        return count;
+    }
+
+
     @Override
     public Teacher getTeacherId(String email) {
         Teacher user = null;
@@ -501,5 +567,6 @@ public class TeacherDBHelper implements TeacherTableOperations {
         }
         return count;
     }
+
 
 }

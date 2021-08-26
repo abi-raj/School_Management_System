@@ -2,7 +2,7 @@ package database;
 
 
 import models.Attendance;
-import models.Materials;
+import models.Exam;
 import models.Teacher;
 
 import java.sql.Connection;
@@ -33,6 +33,10 @@ public class AdminDBHelper implements AdminTableOperations {
     private static final String password = "12345";
     private Connection connection = null;
 
+    public static void main(String[] args) {
+        System.out.println(new AdminDBHelper().checkAdminLogin("19teach001", "12345"));
+    }
+
     public Connection getConnection() {
         try {
             if (connection == null) {
@@ -47,9 +51,6 @@ public class AdminDBHelper implements AdminTableOperations {
         return connection;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new AdminDBHelper().checkAdminLogin("19teach001","12345"));
-    }
     @Override
     public boolean checkAdminLogin(String id, String password) {
         try {
@@ -104,7 +105,7 @@ public class AdminDBHelper implements AdminTableOperations {
             PreparedStatement stmt = con.prepareStatement(selectAttendance);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Attendance attendance = new Attendance(rs.getString(1), rs.getString(2),rs.getString(3),rs.getString(4) );
+                Attendance attendance = new Attendance(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
                 attendanceResult.add(attendance);
             }
         } catch (Exception e) {
@@ -118,5 +119,113 @@ public class AdminDBHelper implements AdminTableOperations {
     public void addEventData() {
 
 
+    }
+
+    public int getTotalStudentCount() {
+        Connection con = getConnection();
+        int count = 0;
+        try {
+            String countquery = (CountQueries.totalStudentCount);
+            PreparedStatement stmt = con.prepareStatement(countquery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                count = Integer.parseInt(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception" + e);
+        }
+        return count;
+    }
+
+    public int getTeacherCount() {
+        Connection con = getConnection();
+        int count = 0;
+        try {
+            String countquery = (CountQueries.teacherCount);
+            PreparedStatement stmt = con.prepareStatement(countquery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                count = Integer.parseInt(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception" + e);
+        }
+        return count;
+    }
+
+    public int getStudentCountByClass(String std) {
+        Connection con = getConnection();
+        int count = 0;
+        try {
+            String countquery = String.format(CountQueries.studentCountByClass, std);
+            PreparedStatement stmt = con.prepareStatement(countquery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                count = Integer.parseInt(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception" + e);
+        }
+        return count;
+    }
+
+    public boolean createExam(Exam exam) {
+        try {
+            Connection con = getConnection();
+            String insertQuery = String.format(ExamsTable.insertExam, exam.getTitle(), exam.getStart_date(), exam.getEnd_date());
+            PreparedStatement stmt = con.prepareStatement(insertQuery);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Exception occurred : " + e.getMessage());
+        }
+
+
+        return false;
+    }
+
+    public boolean updateExam(Exam exam) {
+        try {
+            Connection con = getConnection();
+            String updateQuery = String.format(ExamsTable.updateExam, exam.getStart_date(), exam.getEnd_date(), exam.getTitle());
+            PreparedStatement stmt = con.prepareStatement(updateQuery);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Exception occurred : " + e.getMessage());
+        }
+
+
+        return false;
+    }
+
+    public boolean deleteExam(Exam exam) {
+        try {
+            Connection con = getConnection();
+            String deleteQuery = String.format(ExamsTable.deleteExam, exam.getTitle());
+            PreparedStatement stmt = con.prepareStatement(deleteQuery);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Exception occurred : " + e.getMessage());
+        }
+
+
+        return false;
+    }
+
+    public ArrayList<Exam> getExams() {
+        ArrayList<Exam> alExam = new ArrayList<>();
+        try {
+            Connection con = getConnection();
+            String selectQuery = ExamsTable.selectExam;
+            PreparedStatement stmt = con.prepareStatement(selectQuery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Exam exam = new Exam(rs.getString(1), rs.getString(2), rs.getString(3));
+                alExam.add(exam);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Exception occurred : " + e.getMessage());
+        }
+        return alExam;
     }
 }

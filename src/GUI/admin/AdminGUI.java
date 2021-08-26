@@ -47,7 +47,7 @@ public class AdminGUI extends JFrame {
     Color BG_BLUE = new Color(28, 133, 232);
     private JTextField a_stu_name;
     private JTextField a_student_date;
-
+JList<String> a= new JList<>();
 
     public AdminGUI(Teacher teacher) {
         this.teacher = teacher;
@@ -234,28 +234,6 @@ public class AdminGUI extends JFrame {
         learning.setBounds(39, 389, 45, 63);
         sidebar.add(learning);
 
-        JButton payroll = new JButton();
-        payroll.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                homepanel.setVisible(false);
-                attendancepanel.setVisible(false);
-                gradespanel.setVisible(false);
-                leaveformpanel.setVisible(false);
-                studentpanel.setVisible(false);
-                learningpanel.setVisible(false);
-                forumpanel.setVisible(false);
-                payrollpanel.setVisible(true);
-
-            }
-        });
-        payroll.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("../images/payroll.png"))));
-        payroll.setToolTipText("Payroll");
-        payroll.setLayout(null);
-        payroll.setFocusPainted(false);
-        payroll.setBorder(null);
-        payroll.setBounds(41, 644, 45, 63);
-        payroll.setBackground(BG_COLOR);
-        sidebar.add(payroll);
 
         homepanel = new JPanel();
         homepanel.setBounds(124, 0, 1336, 1000);
@@ -1094,6 +1072,30 @@ public class AdminGUI extends JFrame {
         responded_inq_text.setForeground(new Color(255, 255, 255));
         responded_inq_text.setFont(new Font("Segoe UI", Font.BOLD, 16));
 
+//pay
+        JButton payroll = new JButton();
+        payroll.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                homepanel.setVisible(false);
+                attendancepanel.setVisible(false);
+                gradespanel.setVisible(false);
+                leaveformpanel.setVisible(false);
+                studentpanel.setVisible(false);
+                learningpanel.setVisible(false);
+                forumpanel.setVisible(false);
+                payrollpanel.setVisible(true);
+
+            }
+        });
+        payroll.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("../images/payroll.png"))));
+        payroll.setToolTipText("Payroll");
+        payroll.setLayout(null);
+        payroll.setFocusPainted(false);
+        payroll.setBorder(null);
+        payroll.setBounds(41, 644, 45, 63);
+        payroll.setBackground(BG_COLOR);
+        sidebar.add(payroll);
+
 
         payrollpanel = new JPanel();
         payrollpanel.setBackground(Color.white);
@@ -1103,20 +1105,40 @@ public class AdminGUI extends JFrame {
 
         JPanel payroll_info = new JPanel();
         payroll_info.setBackground(new Color(250, 250, 250));
-        payroll_info.setBounds(10, 21, 1150, 158);
+        payroll_info.setBounds(25, 21, 1150, 158);
         payroll_info.setLayout(null);
         payrollpanel.add(payroll_info);
 
-        JLabel p_l1 = new JLabel("Hello Teacher !");
+        JLabel p_l1 = new JLabel("Schedule Exams");
         p_l1.setFont(new Font("Segoe UI", Font.BOLD, 28));
         p_l1.setBounds(46, 26, 340, 34);
         payroll_info.add(p_l1);
 
-        JLabel p_l2 = new JLabel("Excited for your pay ?");
-        p_l2.setForeground(Color.GRAY);
-        p_l2.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        p_l2.setBounds(46, 70, 252, 21);
-        payroll_info.add(p_l2);
+        JPanel addExams = new JPanel();
+        addExams.setBackground(new Color(230, 250, 250));
+        addExams.setBounds(25,200,500,500);
+        payrollpanel.add(addExams);
+
+//        JLabel l_examtitle = new JLabel("Exam Title:                ");
+//        l_examtitle.setBounds(0 ,400, 100, 40);
+//        l_examtitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
+//
+//        addExams.add(l_examtitle);
+
+        JTextField t_examtitle = new JTextField();
+        t_examtitle.setBounds(220, 400, 300, 40);
+        t_examtitle.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+     //   t_examtitle.setMargin(new Insets(10, 100, 10, 50));
+        addExams.add(t_examtitle);
+
+
+
+        JPanel viewExams = new JPanel();
+        viewExams.setBackground(new Color(230, 250, 250));
+        viewExams.setBounds(600,200,500,500);
+        payrollpanel.add(viewExams);
+
+
 
         setVisible(true);
         setLayout(null);
