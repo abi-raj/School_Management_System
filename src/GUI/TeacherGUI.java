@@ -529,59 +529,15 @@ public class TeacherGUI extends JFrame {
         grade_student_id_cb.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         gradespanel.add(grade_student_id_cb);
 
-        JLabel subject_name_lbl = new JLabel("S.no.   Subject Name                   Grades");
-        subject_name_lbl.setBounds(24, 350, 500, 40);
-        subject_name_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        gradespanel.add(subject_name_lbl);
-
-        JSeparator s = new JSeparator();
-        s.setOrientation(SwingConstants.HORIZONTAL);
-        s.setForeground(Color.BLACK);
-        s.setBounds(24, 400, 500, 40);
-        gradespanel.add(s);
-
-        JLabel sub_name_science_lbl = new JLabel("1.         Science :");
-        sub_name_science_lbl.setBounds(24, 430, 200, 40);
-        sub_name_science_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        gradespanel.add(sub_name_science_lbl);
-
-        JTextField t_sub_name_science = new JTextField();
-        t_sub_name_science.setBounds(220, 430, 200, 40);
-        t_sub_name_science.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        t_sub_name_science.setMargin(new Insets(10, 10, 10, 10));
-        gradespanel.add(t_sub_name_science);
-
-        JLabel sub_name_maths_lbl = new JLabel("2.          Maths :");
-        sub_name_maths_lbl.setBounds(24, 500, 200, 40);
-        sub_name_maths_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        gradespanel.add(sub_name_maths_lbl);
-
-        JTextField t_sub_name_maths = new JTextField();
-        t_sub_name_maths.setBounds(220, 500, 200, 40);
-        t_sub_name_maths.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        t_sub_name_maths.setMargin(new Insets(10, 10, 10, 10));
-        gradespanel.add(t_sub_name_maths);
-
-        JLabel sub_name_social_lbl = new JLabel("3.          Social :");
-        sub_name_social_lbl.setBounds(24, 570, 200, 40);
-        sub_name_social_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        gradespanel.add(sub_name_social_lbl);
-
-        JTextField t_sub_name_social = new JTextField();
-        t_sub_name_social.setBounds(220, 570, 200, 40);
-        t_sub_name_social.setMargin(new Insets(10, 10, 10, 10));
-        t_sub_name_social.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        gradespanel.add(t_sub_name_social);
-
-        JButton assign_grades_btn = new JButton("Assign Grade");
-        assign_grades_btn.setBounds(94, 670, 200, 40);
-        assign_grades_btn.setForeground(Color.white);
-        assign_grades_btn.setBackground(new Color(252, 132, 116));
-        assign_grades_btn.setLayout(null);
-        assign_grades_btn.setFocusPainted(false);
-        assign_grades_btn.setBorder(null);
-        assign_grades_btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        gradespanel.add(assign_grades_btn);
+        JButton view_grade_btn = new JButton("View Grades");
+        view_grade_btn.setBounds(850, 200, 200, 40);
+        view_grade_btn.setForeground(Color.white);
+        view_grade_btn.setBackground(new Color(128, 179, 255));
+        view_grade_btn.setLayout(null);
+        view_grade_btn.setFocusPainted(false);
+        view_grade_btn.setBorder(null);
+        view_grade_btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        gradespanel.add(view_grade_btn);
 
         studentpanel = new JPanel();
         studentpanel.setBackground(Color.white);
