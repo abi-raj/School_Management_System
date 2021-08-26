@@ -228,4 +228,34 @@ public class AdminDBHelper implements AdminTableOperations {
         }
         return alExam;
     }
+
+    public int getPresentToday(String date, String std) {
+        Connection con = getConnection();
+        int count = 0;
+        try {
+            String countquery = String.format(CountQueries.attendanceTodayByClass, date, std);
+            PreparedStatement stmt = con.prepareStatement(countquery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                count = Integer.parseInt(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception" + e);
+        }
+        return count;
+    }
+
+    public double attendancePercentage(String date, String std) {
+        double per = 0;
+        try {
+            double totalCount = getStudentCountByClass(std);
+            double presentToday = getPresentToday(date, std);
+            per = (presentToday / totalCount) * 100;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+
+        return per;
+    }
 }

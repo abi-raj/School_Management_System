@@ -92,8 +92,8 @@ class CountQueries{
     public static final String approvedLeaveRequestsCount = "select count(date) from leave where std_id in(select student_id from student where std in (select class from teacher_details where email='%s')) and status='Approved'"; //Teacher
     public static final String pendingLeaveRequestsCount = "select count(date) from leave where std_id in(select student_id from student where std in (select class from teacher_details where email='%s')) and status='Pending'"; //Teacher
     public static final String datedLeaveCount = "select count(std_id) from leave where status='Approved' and date='%s'"; //Admin additional dash
-    public static final String datedLeaveCountByClass = "select count(date) from leave where std_id in(select student_id from student where std='%s') and date='%s'"; //Admin(Dobut)
-//Attendance percentage
+    public static final String datedLeaveCountByClass = "select count(date) from leave where std_id in(select student_id from student where std='%s') and date='%s'"; //Admin (dobut)
+    public static final String attendanceTodayByClass = "select count(std_id) from attendance where date='%s' and class='%s' and status='Present'"; //Admin
 
 }
 
