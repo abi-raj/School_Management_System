@@ -9,12 +9,15 @@ import models.Leave;
 import models.Teacher;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.TextAttribute;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -25,9 +28,9 @@ public class AdminGUI extends JFrame {
     JComboBox<String> cb;
     JComboBox<String> std;
     JPanel contentPane;
-    JPanel homepanel;
+    JPanel homepanel,p;
     JPanel attendancepanel;
-    JPanel gradespanel;
+    JPanel exampanel;
     JPanel leaveformpanel;
     JPanel studentpanel;
     JPanel learningpanel;
@@ -35,6 +38,7 @@ public class AdminGUI extends JFrame {
     JPanel payrollpanel;
     JPanel total_studentspanel;
     JPanel total_teacherspanel;
+    JTextField Title_text,Start_text,End_Text,viewStart,viewEnd;
     ArrayList<Forum> inquiries;
     String[][] teacherRecordArray;
     JComboBox<String> f_id_cb;
@@ -49,6 +53,7 @@ public class AdminGUI extends JFrame {
     private JTextField a_stu_name;
     private JTextField a_student_date;
 
+
     public AdminGUI(Teacher teacher) {
         this.teacher = teacher;
         //setTeacher(email);
@@ -61,7 +66,7 @@ public class AdminGUI extends JFrame {
         setContentPane(contentPane);
         addTeacherRecords();
 
-        JPanel p = new JPanel();
+         p = new JPanel();
         p.setBackground(Color.WHITE);
         p.setLayout(null);
         contentPane.add(p);
@@ -88,7 +93,7 @@ public class AdminGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 homepanel.setVisible(true);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false);
+                exampanel.setVisible(false);
                 leaveformpanel.setVisible(false);
                 studentpanel.setVisible(false);
                 learningpanel.setVisible(false);
@@ -103,7 +108,7 @@ public class AdminGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(true);
-                gradespanel.setVisible(false);
+                exampanel.setVisible(false);
                 leaveformpanel.setVisible(false);
                 studentpanel.setVisible(false);
                 learningpanel.setVisible(false);
@@ -126,7 +131,7 @@ public class AdminGUI extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(true);
+                exampanel.setVisible(true);
                 leaveformpanel.setVisible(false);
                 studentpanel.setVisible(false);
                 learningpanel.setVisible(false);
@@ -140,7 +145,7 @@ public class AdminGUI extends JFrame {
         grade.setLayout(null);
         grade.setFocusPainted(false);
         grade.setBorder(null);
-        grade.setToolTipText("Grades");
+        grade.setToolTipText("Exam Info");
         sidebar.add(grade);
 
         JButton student = new JButton();
@@ -149,7 +154,7 @@ public class AdminGUI extends JFrame {
                 addTeacherRecords();
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false);
+                exampanel.setVisible(false);
                 leaveformpanel.setVisible(false);
                 studentpanel.setVisible(true);
                 learningpanel.setVisible(false);
@@ -172,7 +177,7 @@ public class AdminGUI extends JFrame {
 
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false);
+                exampanel.setVisible(false);
                 leaveformpanel.setVisible(true);
                 studentpanel.setVisible(false);
                 learningpanel.setVisible(false);
@@ -195,7 +200,7 @@ public class AdminGUI extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false);
+                exampanel.setVisible(false);
                 leaveformpanel.setVisible(false);
                 studentpanel.setVisible(false);
                 learningpanel.setVisible(false);
@@ -217,7 +222,7 @@ public class AdminGUI extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false);
+                exampanel.setVisible(false);
                 leaveformpanel.setVisible(false);
                 studentpanel.setVisible(false);
                 learningpanel.setVisible(true);
@@ -241,6 +246,7 @@ public class AdminGUI extends JFrame {
         homepanel.setLayout(null);
         p.add(homepanel);
         dashboardComponents();
+        examComponents();
 
 
 //        JLabel teacher_name = new JLabel("Teacher Name");
@@ -316,6 +322,9 @@ public class AdminGUI extends JFrame {
 //                }
 //            }
 //        });
+
+
+
 
 
 //        JButton schedule_events_button = new JButton("View Important Schedules & Events");
@@ -486,108 +495,93 @@ public class AdminGUI extends JFrame {
         attendancepanel.add(jt);
 
 
-        gradespanel = new JPanel();
-        gradespanel.setBackground(Color.white);
-        gradespanel.setBounds(132, 0, 1336, 777);
-        gradespanel.setLayout(null);
-        p.add(gradespanel);
 
-        JPanel grade_info = new JPanel();
-        grade_info.setBackground(new Color(250, 250, 250));
-        grade_info.setBounds(24, 27, 1150, 142);
-        grade_info.setLayout(null);
-        gradespanel.add(grade_info);
+//
+//        JLabel g_l2 = new JLabel("Edit, update and assign student grades here!");
+//        g_l2.setForeground(Color.GRAY);
+//        g_l2.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+//        g_l2.setBounds(57, 84, 398, 33);
+//        grade_info.add(g_l2);
+//
+//        JLabel exam_name_lbl = new JLabel("Examination Name:");
+//        exam_name_lbl.setBounds(24, 200, 200, 40);
+//        exam_name_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+//        gradespanel.add(exam_name_lbl);
+//
+//        String exam_name[] = {"Quarterly Exam", "Half Yearly Exam"};
+//        JComboBox grades_exam_name_cb = new JComboBox(exam_name);
+//        grades_exam_name_cb.setBounds(220, 200, 200, 40);
+//        grades_exam_name_cb.setBackground(Color.white);
+//        grades_exam_name_cb.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+//        gradespanel.add(grades_exam_name_cb);
+//
+//        JLabel student_id_lbl = new JLabel("Student ID:");
+//        student_id_lbl.setBounds(460, 200, 200, 40);
+//        student_id_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+//        gradespanel.add(student_id_lbl);
 
-        JLabel g_l1 = new JLabel("Student Grades");
-        g_l1.setFont(new Font("Segoe UI", Font.BOLD, 28));
-        g_l1.setBounds(47, 31, 694, 47);
-        grade_info.add(g_l1);
-
-        JLabel g_l2 = new JLabel("Edit, update and assign student grades here!");
-        g_l2.setForeground(Color.GRAY);
-        g_l2.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        g_l2.setBounds(57, 84, 398, 33);
-        grade_info.add(g_l2);
-
-        JLabel exam_name_lbl = new JLabel("Examination Name:");
-        exam_name_lbl.setBounds(24, 200, 200, 40);
-        exam_name_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        gradespanel.add(exam_name_lbl);
-
-        String exam_name[] = {"Quarterly Exam", "Half Yearly Exam"};
-        JComboBox grades_exam_name_cb = new JComboBox(exam_name);
-        grades_exam_name_cb.setBounds(220, 200, 200, 40);
-        grades_exam_name_cb.setBackground(Color.white);
-        grades_exam_name_cb.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        gradespanel.add(grades_exam_name_cb);
-
-        JLabel student_id_lbl = new JLabel("Student ID:");
-        student_id_lbl.setBounds(460, 200, 200, 40);
-        student_id_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        gradespanel.add(student_id_lbl);
-
-        String grade_student_id[] = {"001", "002", "003", "004"};
-        JComboBox grade_student_id_cb = new JComboBox(grade_student_id);
-        grade_student_id_cb.setBounds(580, 200, 200, 40);
-        grade_student_id_cb.setBackground(Color.white);
-        grade_student_id_cb.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        gradespanel.add(grade_student_id_cb);
-
-        JLabel subject_name_lbl = new JLabel("S.no.   Subject Name                   Grades");
-        subject_name_lbl.setBounds(24, 350, 500, 40);
-        subject_name_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        gradespanel.add(subject_name_lbl);
-
-        JSeparator s = new JSeparator();
-        s.setOrientation(SwingConstants.HORIZONTAL);
-        s.setForeground(Color.BLACK);
-        s.setBounds(24, 400, 500, 40);
-        gradespanel.add(s);
-
-        JLabel sub_name_science_lbl = new JLabel("1.         Science :");
-        sub_name_science_lbl.setBounds(24, 430, 200, 40);
-        sub_name_science_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        gradespanel.add(sub_name_science_lbl);
-
-        JTextField t_sub_name_science = new JTextField();
-        t_sub_name_science.setBounds(220, 430, 200, 40);
-        t_sub_name_science.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        t_sub_name_science.setMargin(new Insets(10, 10, 10, 10));
-        gradespanel.add(t_sub_name_science);
-
-
-        JLabel sub_name_maths_lbl = new JLabel("2.          Maths :");
-        sub_name_maths_lbl.setBounds(24, 500, 200, 40);
-        sub_name_maths_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        gradespanel.add(sub_name_maths_lbl);
-
-        JTextField t_sub_name_maths = new JTextField();
-        t_sub_name_maths.setBounds(220, 500, 200, 40);
-        t_sub_name_maths.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        t_sub_name_maths.setMargin(new Insets(10, 10, 10, 10));
-        gradespanel.add(t_sub_name_maths);
-
-
-        JLabel sub_name_social_lbl = new JLabel("3.          Social :");
-        sub_name_social_lbl.setBounds(24, 570, 200, 40);
-        sub_name_social_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        gradespanel.add(sub_name_social_lbl);
-
-        JTextField t_sub_name_social = new JTextField();
-        t_sub_name_social.setBounds(220, 570, 200, 40);
-        t_sub_name_social.setMargin(new Insets(10, 10, 10, 10));
-        t_sub_name_social.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        gradespanel.add(t_sub_name_social);
-
-        JButton assign_grades_btn = new JButton("Assign Grade");
-        assign_grades_btn.setBounds(94, 670, 200, 40);
-        assign_grades_btn.setForeground(Color.white);
-        assign_grades_btn.setBackground(new Color(252, 132, 116));
-        assign_grades_btn.setLayout(null);
-        assign_grades_btn.setFocusPainted(false);
-        assign_grades_btn.setBorder(null);
-        assign_grades_btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        gradespanel.add(assign_grades_btn);
+//        String grade_student_id[] = {"001", "002", "003", "004"};
+//        JComboBox grade_student_id_cb = new JComboBox(grade_student_id);
+//        grade_student_id_cb.setBounds(580, 200, 200, 40);
+//        grade_student_id_cb.setBackground(Color.white);
+//        grade_student_id_cb.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+//        gradespanel.add(grade_student_id_cb);
+//
+//        JLabel subject_name_lbl = new JLabel("S.no.   Subject Name                   Grades");
+//        subject_name_lbl.setBounds(24, 350, 500, 40);
+//        subject_name_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+//        gradespanel.add(subject_name_lbl);
+//
+//        JSeparator s = new JSeparator();
+//        s.setOrientation(SwingConstants.HORIZONTAL);
+//        s.setForeground(Color.BLACK);
+//        s.setBounds(24, 400, 500, 40);
+//        gradespanel.add(s);
+//
+//        JLabel sub_name_science_lbl = new JLabel("1.         Science :");
+//        sub_name_science_lbl.setBounds(24, 430, 200, 40);
+//        sub_name_science_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+//        gradespanel.add(sub_name_science_lbl);
+//
+//        JTextField t_sub_name_science = new JTextField();
+//        t_sub_name_science.setBounds(220, 430, 200, 40);
+//        t_sub_name_science.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+//        t_sub_name_science.setMargin(new Insets(10, 10, 10, 10));
+//        gradespanel.add(t_sub_name_science);
+//
+//
+//        JLabel sub_name_maths_lbl = new JLabel("2.          Maths :");
+//        sub_name_maths_lbl.setBounds(24, 500, 200, 40);
+//        sub_name_maths_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+//        gradespanel.add(sub_name_maths_lbl);
+//
+//        JTextField t_sub_name_maths = new JTextField();
+//        t_sub_name_maths.setBounds(220, 500, 200, 40);
+//        t_sub_name_maths.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+//        t_sub_name_maths.setMargin(new Insets(10, 10, 10, 10));
+//        gradespanel.add(t_sub_name_maths);
+//
+//
+//        JLabel sub_name_social_lbl = new JLabel("3.          Social :");
+//        sub_name_social_lbl.setBounds(24, 570, 200, 40);
+//        sub_name_social_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+//        gradespanel.add(sub_name_social_lbl);
+//
+//        JTextField t_sub_name_social = new JTextField();
+//        t_sub_name_social.setBounds(220, 570, 200, 40);
+//        t_sub_name_social.setMargin(new Insets(10, 10, 10, 10));
+//        t_sub_name_social.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+//        gradespanel.add(t_sub_name_social);
+//
+//        JButton assign_grades_btn = new JButton("Assign Grade");
+//        assign_grades_btn.setBounds(94, 670, 200, 40);
+//        assign_grades_btn.setForeground(Color.white);
+//        assign_grades_btn.setBackground(new Color(252, 132, 116));
+//        assign_grades_btn.setLayout(null);
+//        assign_grades_btn.setFocusPainted(false);
+//        assign_grades_btn.setBorder(null);
+//        assign_grades_btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
+//        gradespanel.add(assign_grades_btn);
 
 
         studentpanel = new JPanel();
@@ -1060,7 +1054,7 @@ public class AdminGUI extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false);
+                exampanel.setVisible(false);
                 leaveformpanel.setVisible(false);
                 studentpanel.setVisible(false);
                 learningpanel.setVisible(false);
@@ -1098,7 +1092,7 @@ public class AdminGUI extends JFrame {
 
         JPanel addExams = new JPanel();
         addExams.setBackground(new Color(230, 250, 250));
-        addExams.setBounds(25, 200, 500, 500);
+        addExams.setBounds(25,200,500,500);
         payrollpanel.add(addExams);
 
 //        JLabel l_examtitle = new JLabel("Exam Title:                ");
@@ -1110,14 +1104,16 @@ public class AdminGUI extends JFrame {
         JTextField t_examtitle = new JTextField();
         t_examtitle.setBounds(220, 400, 300, 40);
         t_examtitle.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        //   t_examtitle.setMargin(new Insets(10, 100, 10, 50));
+     //   t_examtitle.setMargin(new Insets(10, 100, 10, 50));
         addExams.add(t_examtitle);
+
 
 
         JPanel viewExams = new JPanel();
         viewExams.setBackground(new Color(230, 250, 250));
-        viewExams.setBounds(600, 200, 500, 500);
+        viewExams.setBounds(600,200,500,500);
         payrollpanel.add(viewExams);
+
 
 
         setVisible(true);
@@ -1193,8 +1189,7 @@ public class AdminGUI extends JFrame {
         }
 
     }
-
-    void dashboardComponents() {
+    void dashboardComponents(){
         JPanel welcometext = new JPanel();
         welcometext.setBounds(50, 20, 1100, 154);
         welcometext.setBackground(new Color(250, 250, 250));
@@ -1215,7 +1210,7 @@ public class AdminGUI extends JFrame {
 
 
         total_studentspanel = new JPanel();
-        total_studentspanel.setBackground(new Color(255, 109, 106));
+        total_studentspanel.setBackground(new Color(255,109,106));
         total_studentspanel.setBounds(130, 200, 199, 123);
         homepanel.add(total_studentspanel);
         total_studentspanel.setLayout(null);
@@ -1233,7 +1228,7 @@ public class AdminGUI extends JFrame {
         total_studentspanel.add(tot_students);
 
         total_teacherspanel = new JPanel();
-        total_teacherspanel.setBackground(new Color(138, 43, 226));
+        total_teacherspanel.setBackground(new Color(138,43,226));
         total_teacherspanel.setBounds(420, 200, 199, 123);
         homepanel.add(total_teacherspanel);
         total_teacherspanel.setLayout(null);
@@ -1267,7 +1262,7 @@ public class AdminGUI extends JFrame {
         set_classpanel.add(comboBox);
 
         JPanel class_panel = new JPanel();
-        class_panel.setBackground(new Color(255, 109, 106));
+        class_panel.setBackground(new Color(255,109,106));
         class_panel.setBounds(130, 450, 199, 123);
         homepanel.add(class_panel);
         class_panel.setLayout(null);
@@ -1348,16 +1343,136 @@ public class AdminGUI extends JFrame {
         });
 
     }
-
-    void defaultVisible() {
+    void defaultVisible(){
         homepanel.setVisible(true);
         attendancepanel.setVisible(false);
-        gradespanel.setVisible(false);
+        exampanel.setVisible(false);
         leaveformpanel.setVisible(false);
         studentpanel.setVisible(false);
         learningpanel.setVisible(false);
         forumpanel.setVisible(false);
         payrollpanel.setVisible(false);
     }
+    void examComponents(){
+        exampanel = new JPanel();
+        exampanel.setBackground(Color.white);
+        exampanel.setBounds(132, 0, 1336, 777);
+        exampanel.setLayout(null);
+        p.add(exampanel);
 
+        JPanel grade_info = new JPanel();
+        grade_info.setBackground(new Color(250, 250, 250));
+        grade_info.setBounds(24, 27, 1150, 142);
+        grade_info.setLayout(null);
+        exampanel.add(grade_info);
+
+        JLabel g_l1 = new JLabel("Schedule Exams..");
+        g_l1.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        g_l1.setBounds(47, 31, 694, 47);
+        grade_info.add(g_l1);
+
+        JPanel addExam_panel = new JPanel();
+        addExam_panel.setBounds(24, 270, 501, 446);
+        addExam_panel.setBackground(new Color(250, 250, 250));
+        exampanel.add(addExam_panel);
+        addExam_panel.setLayout(null);
+
+        JLabel Exam_title_label = new JLabel("Exam Title :");
+        Exam_title_label.setFont(new Font("Segoe UI", Font.BOLD, 23));
+        Exam_title_label.setBounds(58, 74, 141, 35);
+        addExam_panel.add(Exam_title_label);
+
+        JLabel Start_Date_Label = new JLabel("Start Date  :");
+        Start_Date_Label.setFont(new Font("Segoe UI", Font.BOLD, 23));
+        Start_Date_Label.setBounds(59, 150, 140, 35);
+        addExam_panel.add(Start_Date_Label);
+
+        JLabel End_Date_label = new JLabel("End Date    :");
+        End_Date_label.setFont(new Font("Segoe UI", Font.BOLD, 23));
+        End_Date_label.setBounds(58, 226, 141, 35);
+        addExam_panel.add(End_Date_label);
+
+        Title_text = new JTextField();
+        Title_text.setToolTipText("Enter Exam title");
+        Title_text.setBounds(222, 76, 192, 33);
+        addExam_panel.add(Title_text);
+//        Title_text.setColumns(10);
+
+        Start_text = new JTextField();
+        Start_text.setToolTipText("Enter Start Date");
+        Start_text.setColumns(10);
+        Start_text.setBounds(222, 150, 192, 33);
+        addExam_panel.add(Start_text);
+
+        End_Text = new JTextField();
+        End_Text.setToolTipText("Enter End Date");
+        End_Text.setColumns(10);
+        End_Text.setBounds(222, 226, 192, 33);
+        addExam_panel.add(End_Text);
+
+        JButton addButton = new JButton("Add");
+        addButton.setBackground(BG_GREEN);
+        addButton.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        addButton.setForeground(Color.WHITE);
+        addButton.setBounds(179, 325, 85, 33);
+        addButton.setFocusPainted(false);
+        addExam_panel.add(addButton);
+
+
+        JPanel viewExam_panel = new JPanel();
+        viewExam_panel.setBounds(560, 270, 555, 446);
+        exampanel.add(viewExam_panel);
+        viewExam_panel.setBackground(new Color(250, 250, 250));
+        viewExam_panel.setLayout(null);
+
+        JLabel Exam_label = new JLabel("Exam  :");
+        Exam_label.setFont(new Font("Segoe UI", Font.BOLD, 23));
+        Exam_label.setBounds(58, 74, 141, 35);
+        viewExam_panel.add(Exam_label);
+
+        JComboBox exams_combobox = new JComboBox();
+        exams_combobox.setBounds(227, 74, 199, 34);
+        viewExam_panel.add(exams_combobox);
+
+        JLabel start_label = new JLabel("Start Date  :");
+        start_label.setFont(new Font("Segoe UI", Font.BOLD, 23));
+        start_label.setBounds(58, 158, 141, 35);
+        viewExam_panel.add(start_label);
+
+        JLabel start_label_1 = new JLabel("End Date  :");
+        start_label_1.setFont(new Font("Segoe UI", Font.BOLD, 23));
+        start_label_1.setBounds(285, 158, 141, 35);
+        viewExam_panel.add(start_label_1);
+
+         viewStart = new JTextField();
+        viewStart.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        viewStart.setBounds(58, 203, 153, 35);
+        viewExam_panel.add(viewStart);
+        viewStart.setColumns(10);
+
+        viewEnd = new JTextField();
+        viewEnd.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        viewEnd.setColumns(10);
+        viewEnd.setBounds(285, 203, 153, 35);
+        viewExam_panel.add(viewEnd);
+
+        JButton update_exambtn = new JButton("Update");
+        update_exambtn.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        update_exambtn.setFocusPainted(false);
+        update_exambtn.setBackground(new Color( 136, 217, 242));
+        update_exambtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+            }
+        });
+
+        update_exambtn.setBounds(77, 325, 111, 35);
+        viewExam_panel.add(update_exambtn);
+
+        JButton removebtn = new JButton("Remove");
+        removebtn.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        removebtn.setBounds(298, 325, 111, 35);
+        removebtn.setBackground(new Color(242, 136, 168));
+        removebtn.setFocusPainted(false);
+        viewExam_panel.add(removebtn);
+    }
 }
