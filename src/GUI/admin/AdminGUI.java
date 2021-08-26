@@ -3,21 +3,15 @@ package GUI.admin;
 import database.AdminDBHelper;
 import database.StudentDBHelper;
 import database.TeacherDBHelper;
-import models.Attendance;
-import models.Forum;
-import models.Leave;
-import models.Teacher;
+import models.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.font.TextAttribute;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Objects;
 
 
@@ -28,7 +22,7 @@ public class AdminGUI extends JFrame {
     JComboBox<String> cb;
     JComboBox<String> std;
     JPanel contentPane;
-    JPanel homepanel,p;
+    JPanel homepanel, p;
     JPanel attendancepanel;
     JPanel exampanel;
     JPanel leaveformpanel;
@@ -38,11 +32,11 @@ public class AdminGUI extends JFrame {
     JPanel payrollpanel;
     JPanel total_studentspanel;
     JPanel total_teacherspanel;
-    JTextField Title_text,Start_text,End_Text,viewStart,viewEnd;
+    JTextField Title_text, Start_text, End_Text, viewStart, viewEnd;
     ArrayList<Forum> inquiries;
     String[][] teacherRecordArray;
     JComboBox<String> f_id_cb;
-
+    ArrayList<Exam> alExams = new ArrayList<>();
     AdminDBHelper adminDBHelper = new AdminDBHelper();
     Teacher teacher = null;
     Attendance attendance = null;
@@ -66,7 +60,7 @@ public class AdminGUI extends JFrame {
         setContentPane(contentPane);
         addTeacherRecords();
 
-         p = new JPanel();
+        p = new JPanel();
         p.setBackground(Color.WHITE);
         p.setLayout(null);
         contentPane.add(p);
@@ -324,9 +318,6 @@ public class AdminGUI extends JFrame {
 //        });
 
 
-
-
-
 //        JButton schedule_events_button = new JButton("View Important Schedules & Events");
 //        schedule_events_button.setLayout(null);
 //        schedule_events_button.setFont(new Font("Segoe UI", Font.BOLD, 18));
@@ -493,7 +484,6 @@ public class AdminGUI extends JFrame {
         jt.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         jt.setBounds(40, 400, 1100, 350);
         attendancepanel.add(jt);
-
 
 
 //
@@ -1092,7 +1082,7 @@ public class AdminGUI extends JFrame {
 
         JPanel addExams = new JPanel();
         addExams.setBackground(new Color(230, 250, 250));
-        addExams.setBounds(25,200,500,500);
+        addExams.setBounds(25, 200, 500, 500);
         payrollpanel.add(addExams);
 
 //        JLabel l_examtitle = new JLabel("Exam Title:                ");
@@ -1104,16 +1094,14 @@ public class AdminGUI extends JFrame {
         JTextField t_examtitle = new JTextField();
         t_examtitle.setBounds(220, 400, 300, 40);
         t_examtitle.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-     //   t_examtitle.setMargin(new Insets(10, 100, 10, 50));
+        //   t_examtitle.setMargin(new Insets(10, 100, 10, 50));
         addExams.add(t_examtitle);
-
 
 
         JPanel viewExams = new JPanel();
         viewExams.setBackground(new Color(230, 250, 250));
-        viewExams.setBounds(600,200,500,500);
+        viewExams.setBounds(600, 200, 500, 500);
         payrollpanel.add(viewExams);
-
 
 
         setVisible(true);
@@ -1189,7 +1177,8 @@ public class AdminGUI extends JFrame {
         }
 
     }
-    void dashboardComponents(){
+
+    void dashboardComponents() {
         JPanel welcometext = new JPanel();
         welcometext.setBounds(50, 20, 1100, 154);
         welcometext.setBackground(new Color(250, 250, 250));
@@ -1210,7 +1199,7 @@ public class AdminGUI extends JFrame {
 
 
         total_studentspanel = new JPanel();
-        total_studentspanel.setBackground(new Color(255,109,106));
+        total_studentspanel.setBackground(new Color(255, 109, 106));
         total_studentspanel.setBounds(130, 200, 199, 123);
         homepanel.add(total_studentspanel);
         total_studentspanel.setLayout(null);
@@ -1228,7 +1217,7 @@ public class AdminGUI extends JFrame {
         total_studentspanel.add(tot_students);
 
         total_teacherspanel = new JPanel();
-        total_teacherspanel.setBackground(new Color(138,43,226));
+        total_teacherspanel.setBackground(new Color(138, 43, 226));
         total_teacherspanel.setBounds(420, 200, 199, 123);
         homepanel.add(total_teacherspanel);
         total_teacherspanel.setLayout(null);
@@ -1262,7 +1251,7 @@ public class AdminGUI extends JFrame {
         set_classpanel.add(comboBox);
 
         JPanel class_panel = new JPanel();
-        class_panel.setBackground(new Color(255,109,106));
+        class_panel.setBackground(new Color(255, 109, 106));
         class_panel.setBounds(130, 450, 199, 123);
         homepanel.add(class_panel);
         class_panel.setLayout(null);
@@ -1316,7 +1305,7 @@ public class AdminGUI extends JFrame {
         performance_panel.add(percentage);
 
         for (String s : adminDBHelper.getAllClass()) {
-         //   System.out.println(s);
+            //   System.out.println(s);
             comboBox.addItem(s);
         }
         int studentCount = adminDBHelper.getTotalStudentCount();
@@ -1343,7 +1332,8 @@ public class AdminGUI extends JFrame {
         });
 
     }
-    void defaultVisible(){
+
+    void defaultVisible() {
         homepanel.setVisible(true);
         attendancepanel.setVisible(false);
         exampanel.setVisible(false);
@@ -1353,7 +1343,8 @@ public class AdminGUI extends JFrame {
         forumpanel.setVisible(false);
         payrollpanel.setVisible(false);
     }
-    void examComponents(){
+
+    void examComponents() {
         exampanel = new JPanel();
         exampanel.setBackground(Color.white);
         exampanel.setBounds(132, 0, 1336, 777);
@@ -1419,6 +1410,8 @@ public class AdminGUI extends JFrame {
         addExam_panel.add(addButton);
 
 
+
+
         JPanel viewExam_panel = new JPanel();
         viewExam_panel.setBounds(560, 270, 555, 446);
         exampanel.add(viewExam_panel);
@@ -1430,21 +1423,24 @@ public class AdminGUI extends JFrame {
         Exam_label.setBounds(58, 74, 141, 35);
         viewExam_panel.add(Exam_label);
 
-        JComboBox exams_combobox = new JComboBox();
+        JComboBox<String> exams_combobox = new JComboBox<String>();
         exams_combobox.setBounds(227, 74, 199, 34);
         viewExam_panel.add(exams_combobox);
+
+        setComboExam(exams_combobox);
 
         JLabel start_label = new JLabel("Start Date  :");
         start_label.setFont(new Font("Segoe UI", Font.BOLD, 23));
         start_label.setBounds(58, 158, 141, 35);
         viewExam_panel.add(start_label);
 
+
         JLabel start_label_1 = new JLabel("End Date  :");
         start_label_1.setFont(new Font("Segoe UI", Font.BOLD, 23));
         start_label_1.setBounds(285, 158, 141, 35);
         viewExam_panel.add(start_label_1);
 
-         viewStart = new JTextField();
+        viewStart = new JTextField();
         viewStart.setFont(new Font("Segoe UI", Font.BOLD, 18));
         viewStart.setBounds(58, 203, 153, 35);
         viewExam_panel.add(viewStart);
@@ -1459,11 +1455,8 @@ public class AdminGUI extends JFrame {
         JButton update_exambtn = new JButton("Update");
         update_exambtn.setFont(new Font("Segoe UI", Font.BOLD, 18));
         update_exambtn.setFocusPainted(false);
-        update_exambtn.setBackground(new Color( 136, 217, 242));
-        update_exambtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-            }
-        });
+        update_exambtn.setBackground(new Color(136, 217, 242));
+
 
         update_exambtn.setBounds(77, 325, 111, 35);
         viewExam_panel.add(update_exambtn);
@@ -1474,5 +1467,82 @@ public class AdminGUI extends JFrame {
         removebtn.setBackground(new Color(242, 136, 168));
         removebtn.setFocusPainted(false);
         viewExam_panel.add(removebtn);
+
+
+        addButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (Title_text.getText().length() == 0 || Start_text.getText().length() != 10 || End_Text.getText().length() != 10) {
+                            JOptionPane.showMessageDialog(AdminGUI.this, "Enter all the fields correctly");
+                        } else {
+                            Exam exam = new Exam(Title_text.getText(), Start_text.getText(), End_Text.getText());
+                            if (adminDBHelper.createExam(exam)) {
+                                JOptionPane.showMessageDialog(AdminGUI.this, "Exam added");
+                                Title_text.setText("");
+                                Start_text.setText("");
+                                End_Text.setText("");
+                                setComboExam(exams_combobox);
+                            } else {
+                                JOptionPane.showMessageDialog(AdminGUI.this, "Error in adding");
+                            }
+                        }
+                    }
+                }
+        );
+        exams_combobox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = exams_combobox.getSelectedIndex();
+                if (index != -1) {
+                    viewStart.setText(alExams.get(index).getStart_date());
+                    viewEnd.setText(alExams.get(index).getEnd_date());
+
+                }
+
+            }
+        });
+        update_exambtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (viewStart.getText().length() != 10 || viewEnd.getText().length() != 10) {
+                    JOptionPane.showMessageDialog(AdminGUI.this, "Enter all the fields correctly");
+                } else {
+                    Exam exam = new Exam((exams_combobox.getItemAt(exams_combobox.getSelectedIndex())), viewStart.getText(), viewEnd.getText());
+                    if (adminDBHelper.updateExam(exam)) {
+                        JOptionPane.showMessageDialog(AdminGUI.this, "Exam Updated");
+                        setComboExam(exams_combobox);
+                    } else {
+
+                        JOptionPane.showMessageDialog(AdminGUI.this, "Update failed");
+                    }
+                }
+            }
+        });
+        removebtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (exams_combobox.getSelectedIndex() != -1) {
+                    if (adminDBHelper.deleteExam(exams_combobox.getItemAt(exams_combobox.getSelectedIndex()))) {
+                        JOptionPane.showMessageDialog(AdminGUI.this, "Removed");
+                        setComboExam(exams_combobox);
+                    } else {
+                        JOptionPane.showMessageDialog(AdminGUI.this, "Error in removing");
+                    }
+                }
+
+            }
+        });
+    }
+
+    void setComboExam(JComboBox<String> combo) {
+
+        alExams.clear();
+        alExams = adminDBHelper.getExams();
+        combo.removeAllItems();
+        for (Exam ex : alExams) {
+            combo.addItem(ex.getTitle());
+        }
+
     }
 }

@@ -175,6 +175,7 @@ public class AdminDBHelper implements AdminTableOperations {
             String insertQuery = String.format(ExamsTable.insertExam, exam.getTitle(), exam.getStart_date(), exam.getEnd_date());
             PreparedStatement stmt = con.prepareStatement(insertQuery);
             stmt.executeUpdate();
+            return true;
         } catch (Exception e) {
             System.out.println("Exception occurred : " + e.getMessage());
         }
@@ -184,11 +185,13 @@ public class AdminDBHelper implements AdminTableOperations {
     }
 
     public boolean updateExam(Exam exam) {
+
         try {
             Connection con = getConnection();
             String updateQuery = String.format(ExamsTable.updateExam, exam.getStart_date(), exam.getEnd_date(), exam.getTitle());
             PreparedStatement stmt = con.prepareStatement(updateQuery);
             stmt.executeUpdate();
+            return true;
         } catch (Exception e) {
             System.out.println("Exception occurred : " + e.getMessage());
         }
@@ -197,12 +200,13 @@ public class AdminDBHelper implements AdminTableOperations {
         return false;
     }
 
-    public boolean deleteExam(Exam exam) {
+    public boolean deleteExam(String title) {
         try {
             Connection con = getConnection();
-            String deleteQuery = String.format(ExamsTable.deleteExam, exam.getTitle());
+            String deleteQuery = String.format(ExamsTable.deleteExam, title);
             PreparedStatement stmt = con.prepareStatement(deleteQuery);
             stmt.executeUpdate();
+            return true;
         } catch (Exception e) {
             System.out.println("Exception occurred : " + e.getMessage());
         }
