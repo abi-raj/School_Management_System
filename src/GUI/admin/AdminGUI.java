@@ -1,7 +1,6 @@
 package GUI.admin;
 
-import GUI.EventsGUI;
-import GUI.LoginGUI;
+import database.AdminDBHelper;
 import database.StudentDBHelper;
 import database.TeacherDBHelper;
 import models.Attendance;
@@ -10,15 +9,12 @@ import models.Leave;
 import models.Teacher;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.font.TextAttribute;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Objects;
 
 
@@ -42,15 +38,16 @@ public class AdminGUI extends JFrame {
     ArrayList<Forum> inquiries;
     String[][] teacherRecordArray;
     JComboBox<String> f_id_cb;
-    TeacherDBHelper teacherDB = new TeacherDBHelper();
+
+    AdminDBHelper adminDBHelper = new AdminDBHelper();
     Teacher teacher = null;
     Attendance attendance = null;
     Color BG_COLOR = new Color(176, 0, 32);
     Color BG_GREEN = new Color(11, 138, 62);
     Color BG_BLUE = new Color(28, 133, 232);
+    JList<String> a = new JList<>();
     private JTextField a_stu_name;
     private JTextField a_student_date;
-JList<String> a= new JList<>();
 
     public AdminGUI(Teacher teacher) {
         this.teacher = teacher;
@@ -319,9 +316,6 @@ JList<String> a= new JList<>();
 //                }
 //            }
 //        });
-
-
-
 
 
 //        JButton schedule_events_button = new JButton("View Important Schedules & Events");
@@ -1104,7 +1098,7 @@ JList<String> a= new JList<>();
 
         JPanel addExams = new JPanel();
         addExams.setBackground(new Color(230, 250, 250));
-        addExams.setBounds(25,200,500,500);
+        addExams.setBounds(25, 200, 500, 500);
         payrollpanel.add(addExams);
 
 //        JLabel l_examtitle = new JLabel("Exam Title:                ");
@@ -1116,16 +1110,14 @@ JList<String> a= new JList<>();
         JTextField t_examtitle = new JTextField();
         t_examtitle.setBounds(220, 400, 300, 40);
         t_examtitle.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-     //   t_examtitle.setMargin(new Insets(10, 100, 10, 50));
+        //   t_examtitle.setMargin(new Insets(10, 100, 10, 50));
         addExams.add(t_examtitle);
-
 
 
         JPanel viewExams = new JPanel();
         viewExams.setBackground(new Color(230, 250, 250));
-        viewExams.setBounds(600,200,500,500);
+        viewExams.setBounds(600, 200, 500, 500);
         payrollpanel.add(viewExams);
-
 
 
         setVisible(true);
@@ -1169,7 +1161,7 @@ JList<String> a= new JList<>();
     }
 
     void setTeacher(String email) {
-        teacher = teacherDB.getTeacherId(email);
+        teacher = teacherDBHelper.getTeacherId(email);
     }
 
     void addTeacherRecords() {
@@ -1201,7 +1193,8 @@ JList<String> a= new JList<>();
         }
 
     }
-    void dashboardComponents(){
+
+    void dashboardComponents() {
         JPanel welcometext = new JPanel();
         welcometext.setBounds(50, 20, 1100, 154);
         welcometext.setBackground(new Color(250, 250, 250));
@@ -1222,7 +1215,7 @@ JList<String> a= new JList<>();
 
 
         total_studentspanel = new JPanel();
-        total_studentspanel.setBackground(new Color(255,109,106));
+        total_studentspanel.setBackground(new Color(255, 109, 106));
         total_studentspanel.setBounds(130, 200, 199, 123);
         homepanel.add(total_studentspanel);
         total_studentspanel.setLayout(null);
@@ -1233,23 +1226,23 @@ JList<String> a= new JList<>();
         class_students.setFont(new Font("Segoe UI", Font.BOLD, 19));
         total_studentspanel.add(class_students);
 
-        JLabel count = new JLabel("...........");
-        count.setForeground(Color.WHITE);
-        count.setFont(new Font("Segoe UI", Font.BOLD, 40));
-        count.setBounds(78, 39, 33, 74);
-        total_studentspanel.add(count);
+        JLabel tot_students = new JLabel("...........");
+        tot_students.setForeground(Color.WHITE);
+        tot_students.setFont(new Font("Segoe UI", Font.BOLD, 40));
+        tot_students.setBounds(78, 39, 33, 74);
+        total_studentspanel.add(tot_students);
 
         total_teacherspanel = new JPanel();
-        total_teacherspanel.setBackground(new Color(138,43,226));
+        total_teacherspanel.setBackground(new Color(138, 43, 226));
         total_teacherspanel.setBounds(420, 200, 199, 123);
         homepanel.add(total_teacherspanel);
         total_teacherspanel.setLayout(null);
 
-        JLabel Tot_teachers = new JLabel(" Total Teachers");
-        Tot_teachers.setBounds(30, 10, 159, 30);
-        Tot_teachers.setForeground(Color.WHITE);
-        Tot_teachers.setFont(new Font("Segoe UI", Font.BOLD, 19));
-        total_teacherspanel.add(Tot_teachers);
+        JLabel tot_teachers = new JLabel(" Total Teachers");
+        tot_teachers.setBounds(30, 10, 159, 30);
+        tot_teachers.setForeground(Color.WHITE);
+        tot_teachers.setFont(new Font("Segoe UI", Font.BOLD, 19));
+        total_teacherspanel.add(tot_teachers);
 
         JLabel teacher_count = new JLabel("...........");
         teacher_count.setForeground(Color.WHITE);
@@ -1268,13 +1261,13 @@ JList<String> a= new JList<>();
         set_class.setBounds(33, 10, 128, 33);
         set_classpanel.add(set_class);
 
-        JComboBox comboBox = new JComboBox();
+        JComboBox<String> comboBox = new JComboBox<String>();
         comboBox.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         comboBox.setBounds(171, 16, 139, 27);
         set_classpanel.add(comboBox);
 
         JPanel class_panel = new JPanel();
-        class_panel.setBackground(new Color(255,109,106));
+        class_panel.setBackground(new Color(255, 109, 106));
         class_panel.setBounds(130, 450, 199, 123);
         homepanel.add(class_panel);
         class_panel.setLayout(null);
@@ -1291,7 +1284,7 @@ JList<String> a= new JList<>();
         lblNewLabel.setBounds(78, 39, 33, 74);
         class_panel.add(lblNewLabel);
 
-        JPanel  present_panel = new JPanel();
+        JPanel present_panel = new JPanel();
         present_panel.setBackground(new Color(84, 99, 85));
         present_panel.setBounds(420, 450, 199, 123);
         homepanel.add(present_panel);
@@ -1309,8 +1302,8 @@ JList<String> a= new JList<>();
         present_count.setBounds(78, 39, 33, 74);
         present_panel.add(present_count);
 
-        JPanel  performance_panel = new JPanel();
-        performance_panel.setBackground(new Color(255,109,106));
+        JPanel performance_panel = new JPanel();
+        performance_panel.setBackground(new Color(255, 109, 106));
         performance_panel.setBounds(700, 450, 199, 123);
         homepanel.add(performance_panel);
         performance_panel.setLayout(null);
@@ -1326,8 +1319,37 @@ JList<String> a= new JList<>();
         percentage.setFont(new Font("Segoe UI", Font.BOLD, 40));
         percentage.setBounds(78, 39, 33, 74);
         performance_panel.add(percentage);
+
+        for (String s : adminDBHelper.getAllClass()) {
+         //   System.out.println(s);
+            comboBox.addItem(s);
+        }
+        int studentCount = adminDBHelper.getTotalStudentCount();
+        int teacherCount = adminDBHelper.getTeacherCount();
+        tot_students.setText(studentCount + "");
+        teacher_count.setText(teacherCount + "");
+
+
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = comboBox.getSelectedIndex();
+                if (index != -1) {
+                    int classStudentCount = adminDBHelper.getStudentCountByClass(comboBox.getItemAt(index));
+                    int presentTodayCount = adminDBHelper.getPresentToday("23-08-2021", comboBox.getItemAt(index));
+                    double performanceCount = adminDBHelper.attendancePercentage("23-08-2021", comboBox.getItemAt(index));
+                    lblNewLabel.setText(classStudentCount + "");
+                    present_count.setText(presentTodayCount + "");
+                    percentage.setText(performanceCount + "");
+
+                }
+
+            }
+        });
+
     }
-    void defaultVisible(){
+
+    void defaultVisible() {
         homepanel.setVisible(true);
         attendancepanel.setVisible(false);
         gradespanel.setVisible(false);
@@ -1337,4 +1359,5 @@ JList<String> a= new JList<>();
         forumpanel.setVisible(false);
         payrollpanel.setVisible(false);
     }
+
 }

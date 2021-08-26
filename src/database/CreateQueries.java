@@ -22,6 +22,7 @@ class StudentTable {
     public static final String updateStudent = "update student set password='%s',name='%s',std='%s',email='%s',gender='%s',dob='%s',phone='%s',fees='%d' where student_id='%s'";
     public static final String deleteStudent = "delete from student where regno='%s'";
     public static final String selectSingleStudent = "select * from student where student_id='%s'";
+    public static final String getAllClass = "select distinct std from student";
 }
 
 class LeaveTable {

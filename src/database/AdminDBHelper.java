@@ -27,10 +27,10 @@ interface AdminTableOperations {
 }
 
 public class AdminDBHelper implements AdminTableOperations {
-    private static final String url = "jdbc:postgresql://localhost:5432/teacher";
+    private static final String url = "jdbc:postgresql://localhost:5432/bootathon";
     private static final String driverName = "org.postgresql.Driver";
     private static final String username = "postgres";
-    private static final String password = "12345";
+    private static final String password = "Test@123";
     private Connection connection = null;
 
     public static void main(String[] args) {
@@ -257,5 +257,21 @@ public class AdminDBHelper implements AdminTableOperations {
 
 
         return per;
+    }
+
+    public ArrayList<String> getAllClass() {
+        ArrayList<String> alClass = new ArrayList<>();
+        try {
+            Connection con = getConnection();
+
+            PreparedStatement stmt = con.prepareStatement(StudentTable.getAllClass);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                alClass.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception occurred : " + e.getMessage());
+        }
+        return alClass;
     }
 }
