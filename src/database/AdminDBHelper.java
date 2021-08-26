@@ -27,10 +27,10 @@ interface AdminTableOperations {
 }
 
 public class AdminDBHelper implements AdminTableOperations {
-    private static final String url = "jdbc:postgresql://localhost:5432/bootathon";
+    private static final String url = "jdbc:postgresql://localhost:5432/teacher";
     private static final String driverName = "org.postgresql.Driver";
     private static final String username = "postgres";
-    private static final String password = "Test@123";
+    private static final String password = "12345";
     private Connection connection = null;
 
     public static void main(String[] args) {
