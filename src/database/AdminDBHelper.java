@@ -1,6 +1,5 @@
 package database;
 
-
 import models.Attendance;
 import models.Materials;
 import models.Teacher;
@@ -10,19 +9,20 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import database.ValidationHelper;
 
 interface AdminTableOperations {
     boolean checkAdminLogin(String id, String password);
 
     boolean createAdmin(String id, String password);
 
-    void sendEmailNotification(); //Has to be done by the Epic Guy
+    void sendEmailNotification(); // Has to be done by the Epic Guy
 
     boolean markPayroll(String teacher_id, int salary);
 
     ArrayList<Attendance> viewAttendance(String std);
 
-    void addEventData(); //required clarification
+    void addEventData(); // required clarification
 
 }
 
@@ -48,8 +48,9 @@ public class AdminDBHelper implements AdminTableOperations {
     }
 
     public static void main(String[] args) {
-        System.out.println(new AdminDBHelper().checkAdminLogin("19teach001","12345"));
+        System.out.println(new AdminDBHelper().checkAdminLogin("19teach001", "12345"));
     }
+
     @Override
     public boolean checkAdminLogin(String id, String password) {
         try {
@@ -104,7 +105,8 @@ public class AdminDBHelper implements AdminTableOperations {
             PreparedStatement stmt = con.prepareStatement(selectAttendance);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Attendance attendance = new Attendance(rs.getString(1), rs.getString(2),rs.getString(3),rs.getString(4) );
+                Attendance attendance = new Attendance(rs.getString(1), rs.getString(2), rs.getString(3),
+                        rs.getString(4));
                 attendanceResult.add(attendance);
             }
         } catch (Exception e) {
@@ -113,10 +115,8 @@ public class AdminDBHelper implements AdminTableOperations {
         return attendanceResult;
     }
 
-
     @Override
     public void addEventData() {
-
 
     }
 }

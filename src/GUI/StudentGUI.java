@@ -29,7 +29,8 @@ public class StudentGUI extends JFrame {
     JLabel lbl_dob1;
     JLabel lbl_cno1;
     JLabel lbl_remainingFee1;
-    JPanel panel_profileWindow, panel_gradeWindow, panel_MaterialsWindow, panel_leaveFormWindow, panel_inquiryWindow, panel_feeWindow;
+    JPanel panel_profileWindow, panel_gradeWindow, panel_MaterialsWindow, panel_leaveFormWindow, panel_inquiryWindow,
+            panel_feeWindow;
     private JPanel panel_content;
     private JLabel lbl_checkStatus, lbl_LfSubmit, lbl_Isubmit, lbl_checkResponse;
     private JLabel lbl_pay;
@@ -42,11 +43,12 @@ public class StudentGUI extends JFrame {
     private JComboBox<String> comboBox_Lfno;
     private JComboBox<String> comboBox_Ifno;
     private JLabel lb_view;
+
     public StudentGUI(String student_id) {
         setStudent(student_id);
         sidePanel();
         profile();
-        setGradesTable(); //for a reason
+        setGradesTable(); // for a reason
         grade();
         leraningMaterials();
         leaveForm();
@@ -54,7 +56,7 @@ public class StudentGUI extends JFrame {
         feePayment();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(2, 2, 1237, 665);
-        //setBounds(0, 0, 1350, 750);
+        // setBounds(0, 0, 1350, 750);
         setVisible(true);
         setResizable(false);
         setInitialProfileValues();
@@ -84,7 +86,6 @@ public class StudentGUI extends JFrame {
         panel_content.add(panel_side);
         panel_side.setLayout(null);
 
-
         JLabel lbl_profileIcon = new JLabel("");
         lbl_profileIcon.addMouseListener(new MouseAdapter() {
             @Override
@@ -98,7 +99,8 @@ public class StudentGUI extends JFrame {
 
             }
         });
-        lbl_profileIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/profileIcon.png"))));
+        lbl_profileIcon
+                .setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/profileIcon.png"))));
         lbl_profileIcon.setBounds(44, 77, 48, 51);
         lbl_profileIcon.setToolTipText("Profile\r\n");
         panel_side.add(lbl_profileIcon);
@@ -116,7 +118,8 @@ public class StudentGUI extends JFrame {
             }
         });
         lbl_gradeIcon.setToolTipText("Grades");
-        lbl_gradeIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/gradeIcon.png"))));
+        lbl_gradeIcon
+                .setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/gradeIcon.png"))));
         lbl_profileIcon.setToolTipText("Profile");
         lbl_gradeIcon.setBounds(44, 162, 53, 51);
         panel_side.add(lbl_gradeIcon);
@@ -134,7 +137,8 @@ public class StudentGUI extends JFrame {
             }
         });
         lbl_materialsIcon.setToolTipText("Learning Materials");
-        lbl_materialsIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/materialsIcon.png"))));
+        lbl_materialsIcon.setIcon(
+                new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/materialsIcon.png"))));
         lbl_materialsIcon.setBounds(44, 251, 48, 51);
         panel_side.add(lbl_materialsIcon);
 
@@ -152,7 +156,8 @@ public class StudentGUI extends JFrame {
             }
         });
         lbl_leaveFormIcon.setToolTipText("Leave Form");
-        lbl_leaveFormIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/leaveFormIcon.png"))));
+        lbl_leaveFormIcon.setIcon(
+                new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/leaveFormIcon.png"))));
         lbl_leaveFormIcon.setBounds(44, 340, 48, 51);
         panel_side.add(lbl_leaveFormIcon);
 
@@ -169,7 +174,8 @@ public class StudentGUI extends JFrame {
             }
         });
         lbl_InquiryIcon.setToolTipText("Inquiry");
-        lbl_InquiryIcon.setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/inquiryIcon.png"))));
+        lbl_InquiryIcon
+                .setIcon(new ImageIcon(Objects.requireNonNull(StudentGUI.class.getResource("icons/inquiryIcon.png"))));
         lbl_InquiryIcon.setBounds(44, 426, 48, 51);
         panel_side.add(lbl_InquiryIcon);
 
@@ -243,7 +249,8 @@ public class StudentGUI extends JFrame {
                         JOptionPane.showMessageDialog(StudentGUI.this, "Enter a valid number");
                     } else {
                         int amount_entered = Integer.parseInt(str);
-                        if (amount_entered < 0 || amount_entered > student.getFees() || !(studentDBHelper.payFees(student.getId(), amount_entered))) {
+                        if (amount_entered < 0 || amount_entered > student.getFees()
+                                || !(studentDBHelper.payFees(student.getId(), amount_entered))) {
                             JOptionPane.showMessageDialog(StudentGUI.this, "Payment Failure");
                         } else {
                             JOptionPane.showMessageDialog(StudentGUI.this, "Payment Success");
@@ -255,7 +262,6 @@ public class StudentGUI extends JFrame {
                 }
             }
         });
-
 
         panel_pay.setBounds(327, 312, 174, 41);
         panel_feeWindow.add(panel_pay);
@@ -291,7 +297,6 @@ public class StudentGUI extends JFrame {
         panel_feeWindow.setVisible(false);
 
         panel_profileWindow.setVisible(true);
-
 
     }
 
@@ -352,7 +357,6 @@ public class StudentGUI extends JFrame {
                     } else {
                         JOptionPane.showMessageDialog(StudentGUI.this, "Inquiry post failed");
                     }
-
 
                 }
             }
@@ -450,7 +454,6 @@ public class StudentGUI extends JFrame {
         JTextField choose_date1 = new JTextField();
         choose_date1.setBounds(180, 440, 100, 30);
         panel_leaveFormWindow.add(choose_date1);
-
 
         JButton submitLeave_button = new JButton();
 
@@ -628,7 +631,7 @@ public class StudentGUI extends JFrame {
         panel_MaterialsWindow.add(panel_material);
         panel_material.setLayout(null);
 
-        JTextArea textArea_material = new JTextArea();
+        textArea_material = new JTextArea();
         textArea_material.setBounds(10, 11, 776, 342);
         panel_material.add(textArea_material);
 
@@ -675,7 +678,7 @@ public class StudentGUI extends JFrame {
         lbl_Grade.setBounds(23, 25, 1052, 27);
         lbl_Grade.setFont(new Font("Tahoma", Font.BOLD, 22));
 
-        String[] column = {"Exam", "Grades"};
+        String[] column = { "Exam", "Grades" };
 
         panel_gradeWindow.setLayout(null);
         panel_gradeWindow.add(lbl_Grade);
@@ -694,7 +697,6 @@ public class StudentGUI extends JFrame {
         int height = table.getRowHeight();
         table.setRowHeight(height + 15);
         scrollPane.setViewportView(table);
-
 
     }
 
@@ -784,8 +786,7 @@ public class StudentGUI extends JFrame {
         lbl_welcome.setFont(new Font("Tahoma", Font.BOLD, 22));
         lbl_welcome.setBounds(10, 11, 472, 63);
         panel_profileWindow.add(lbl_welcome);
-//methods
-
+        // methods
 
     }
 
@@ -794,7 +795,6 @@ public class StudentGUI extends JFrame {
     }
 
     void setInitialProfileValues() {
-
 
         lbl_name1.setText(student.getName());
         lbl_class1.setText(student.getStd());
