@@ -2,10 +2,7 @@ package GUI;
 
 import database.StudentDBHelper;
 import database.TeacherDBHelper;
-import models.Attendance;
-import models.Forum;
-import models.Leave;
-import models.Teacher;
+import models.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -38,6 +35,7 @@ public class TeacherGUI extends JFrame {
     TeacherDBHelper teacherDB = new TeacherDBHelper();
     Teacher teacher = null;
     Attendance attendance = null;
+    DefaultTableModel defModel =new DefaultTableModel();
 
     public TeacherGUI(Teacher teacher) {
         this.teacher = teacher;
@@ -599,24 +597,22 @@ public class TeacherGUI extends JFrame {
         add_btn.setBounds(1020, 210, 64, 64);
         add_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                new AddStudentForm();
+                new AddStudentForm(TeacherGUI.this);
             }
         });
         studentpanel.add(add_btn);
 
-        String s_data[][] = { { "19eucs001", "Abiraj", "10", "abi@gmail.com", "30-11-2001", "Male", "9655047766" } };
-        String s_column[] = { "ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE" };
-        JTable s_jt = new JTable(s_data, s_column);
-        s_jt.setModel(new DefaultTableModel(new Object[][] {
-                { "S.NO.", "ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE" },
-                { "1", "19eucs001", "Abiraj", "10", "abi@gmail.com", "30-11-2001", "Male", "9655047766" },
-                { null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
 
-        }, new String[] { "SNO", "ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE" }));
+
+        String s_column[] = { "ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE" };
+
+        for(String s:s_column){
+            defModel.addColumn(s);
+        }
+
+        JTable s_jt = new JTable();
+        s_jt.setModel(defModel);
+    setStudentRecords();
         s_jt.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         s_jt.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
         s_jt.setBounds(30, 320, 1100, 390);
@@ -1147,6 +1143,15 @@ public class TeacherGUI extends JFrame {
         setLeaveDates();
         setInquiries();
 
+        homepanel.setVisible(true);
+        attendancepanel.setVisible(false);
+        gradespanel.setVisible(false);
+        leaveformpanel.setVisible(false);
+        studentpanel.setVisible(false);
+        learningpanel.setVisible(false);
+        forumpanel.setVisible(false);
+        payrollpanel.setVisible(false);
+
     }
 
     public static void main(String[] args) {
@@ -1180,7 +1185,19 @@ public class TeacherGUI extends JFrame {
             f_id_cb.addItem(i + "");
         }
     }
+    void setStudentRecords(){
+        defModel.setRowCount(0);
 
+        defModel.addRow(new Object[]{"ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE"});
+
+        ArrayList<Student> studentsAl = StudentDBHelper.allStudentsByClass(teacher.gettClass());
+        int i=1;
+        for(Student st:studentsAl){
+            defModel.addRow(new Object[]{i,st.getId(),st.getName(),st.getStd(),st.getEmail(),st.getDob(),st.getGender(),st.getPhone()});
+            i++;
+        }
+
+    }
     void setTeacher(String email) {
         teacher = TeacherDBHelper.getTeacherId(email);
     }

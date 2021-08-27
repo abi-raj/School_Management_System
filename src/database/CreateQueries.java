@@ -20,9 +20,10 @@ class StudentTable {
     public static final String checkStudentPresent = "select * from student where student_id='%s'";
     public static final String checkStudentLogin = "select * from student where email='%s' and password='%s'";
     public static final String updateStudent = "update student set password='%s',name='%s',std='%s',email='%s',gender='%s',dob='%s',phone='%s',fees='%d' where student_id='%s'";
-    public static final String deleteStudent = "delete from student where regno='%s'";
+    public static final String deleteStudent = "delete from student where student_id='%s'";
     public static final String selectSingleStudent = "select * from student where student_id='%s'";
     public static final String getAllClass = "select distinct std from student";
+    public static final String studentByClass ="select * from student where std='%s'";
 }
 
 class LeaveTable {

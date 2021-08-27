@@ -21,7 +21,7 @@ public class TeacherDBHelper {
 
             stmt.executeUpdate(CreateQueries.createTeacher);
             System.out.println("Table Teacher created");
-            conn.close();
+          //  conn.close();
         } catch (Exception e) {
             System.out.println("Exception Occured: " + e);
         }
@@ -36,14 +36,14 @@ public class TeacherDBHelper {
             ResultSet tables = con.getMetaData().getTables(null, null, TeacherTable.tableName, null);
             if (tables.next()) {
                 System.out.println("Teacher table exists");
-                con.close();
+//                con.close();
                 return true;
             } else {
                 System.out.println("Teacher Table doesn't exist");
                 createTable();
 
             }
-            con.close();
+//            con.close();
             return true;
         } catch (Exception e) {
             System.out.println("Exception occured: " + e.getMessage());
@@ -77,7 +77,7 @@ public class TeacherDBHelper {
     // }
 
     public static boolean createTeacher(Teacher user) {
-        teacher_tableExists();
+      //  teacher_tableExists();
         String insertQuery = String.format(TeacherTable.createTeacher, user.getTeacher_id(), user.getPassword(),
                 user.gettClass(), user.getName(), user.getEmail(), user.getExperience(), user.getPhone(),
                 user.getSalary());
@@ -88,10 +88,10 @@ public class TeacherDBHelper {
 
             stmt.executeUpdate();
             System.out.println("user record inserted");
-            conn.close();
+            //conn.close();
             return true;
         } catch (Exception e) {
-            System.out.println("Exception occured:" + e.getMessage());
+            System.out.println("Exception occured: create" + e.getMessage());
         }
         return false;
     }
@@ -103,7 +103,7 @@ public class TeacherDBHelper {
             Connection conn = Connector.getConnection();
             PreparedStatement stmt = conn.prepareStatement(selectQuery);
             ResultSet rs = stmt.executeQuery();
-            conn.close();
+          //  conn.close();
             return rs.next();
         } catch (Exception e) {
             System.out.println("Exception occurred " + e.getMessage());
@@ -141,7 +141,7 @@ public class TeacherDBHelper {
                     user.getTeacher_id());
             PreparedStatement stmt = conn.prepareStatement(updateQuery);
             stmt.executeUpdate();
-            conn.close();
+            //conn.close();
             System.out.println("Updated");
             return true;
         } catch (Exception e) {
@@ -158,7 +158,7 @@ public class TeacherDBHelper {
             String deleteQuery = String.format(TeacherTable.deleteTeacher, id);
             PreparedStatement stmt = conn.prepareStatement(deleteQuery);
             stmt.executeUpdate();
-            conn.close();
+            //conn.close();
             System.out.println("Record Deleted");
             return true;
         } catch (Exception e) {
@@ -202,7 +202,7 @@ public class TeacherDBHelper {
             try {
                 PreparedStatement stmt = con.prepareStatement(attendanceQuery);
                 stmt.executeUpdate();
-                con.close();
+//                con.close();
             } catch (Exception e) {
                 System.out.println("Exception occured:" + e.getMessage());
             }

@@ -26,8 +26,9 @@ public class ModTeacher extends JFrame {
     TeacherDBHelper teacherDBHelper = new TeacherDBHelper();
     ArrayList<Teacher> alTeachers;
 
-    public ModTeacher() {
-
+    AdminGUI adminGUI=null;
+    public ModTeacher(AdminGUI adminGUI) {
+this.adminGUI = adminGUI;
         setBounds(50, 50, 500, 600);
         setVisible(true);
         setLayout(null);
@@ -47,9 +48,9 @@ public class ModTeacher extends JFrame {
 
     }
 
-    public static void main(String[] args) {
-        new ModTeacher();
-    }
+//    public static void main(String[] args) {
+//        new ModTeacher();
+//    }
 
     void setLabelBounds() {
         l_id = new JLabel("ID ");
@@ -160,6 +161,7 @@ public class ModTeacher extends JFrame {
                         if (new TeacherDBHelper().updateTeacher(user)) {
                             JOptionPane.showMessageDialog(ModTeacher.this, "Teacher Updated successfully");
                             setTeacherBox();
+                            adminGUI.setTableRecords();
                             //dispose();
                         } else {
                             JOptionPane.showMessageDialog(ModTeacher.this, "Failure updating teacher");
@@ -189,6 +191,7 @@ public class ModTeacher extends JFrame {
                         if(teacherDBHelper.deleteTeacher(alTeachers.get(index).getTeacher_id())){
                             JOptionPane.showMessageDialog(ModTeacher.this,"Deleted Succesfully");
                             setEmpty();
+                            adminGUI.setTableRecords();
                         }else{
                             JOptionPane.showMessageDialog(ModTeacher.this,"Deletion Failed");
                         }
