@@ -2,10 +2,8 @@
   <library name="postgresql-42.2.23">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/postgresql-42.2.23.jar!/" />
-      <root url="file://$PROJECT_DIR$/../../../jfreechart.jar" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
-    <jarDirectory url="file://$PROJECT_DIR$/../../../jfreechart.jar" recursive="false" />
   </library>
 </component>
