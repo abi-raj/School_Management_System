@@ -75,7 +75,7 @@ public class Teacher {
     public void setSalary(int salary) {
         this.salary = salary;
     }
-    public Teacher(String id, String pwd, String name, String tclass,String email, int experience, String phone, int salary){
+    public Teacher(String id, String pwd, String tclass, String name,String email, int experience, String phone, int salary){
         this.teacher_id=id;
         this.password=pwd;
         this.name=name;
