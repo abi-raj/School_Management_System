@@ -3,12 +3,83 @@ package database;
 import models.*;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
 
-public class TeacherDBHelper {
-    public static void createTable() {
+interface TeacherTableOperations {
+
+    void createTable();
+
+    boolean teacher_tableExists();
+
+    boolean checkTeacherLogin(String id, String password);
+
+    boolean createTeacher(Teacher user);
+
+    Teacher viewTeacher(String id);
+
+    boolean updateTeacher(Teacher user);
+
+    boolean deleteTeacher(String id);
+
+
+    //Data types for below void methods are yet to be defined
+    void replyQuestion(Forum query);
+
+    void markAttendance(String id, String date, String status);
+
+    void editStudent(Student user);
+
+    boolean postMaterials(String id, String Class, String description);
+
+    void addGrades(Marks std);
+
+    void approveLeave(Leave user);
+
+    void RejectLeave(Leave user);
+
+    void LeavePending(Leave user);
+
+    int getLeaveCount(String email);
+
+
+    Teacher getTeacherId(String email);
+
+    ArrayList<Teacher> allTeachers();
+
+    // boolean teacherExist(String id);
+    ArrayList<Forum> allUnrespondedQueries();
+}
+
+public class TeacherDBHelper implements TeacherTableOperations {
+    private static final String url = "jdbc:postgresql://localhost:5432/bootathon";
+    private static final String driverName = "org.postgresql.Driver";
+    private static final String username = "postgres";
+    private static final String password = "Test@123";
+    private static Connection connection;
+
+    public static Connection getConnection() {
         try {
-            Connection conn = Connector.getConnection();
+            Class.forName(driverName);
+            connection = DriverManager.getConnection(url, username, password);
+            System.out.println("Connected to Test Database");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return connection;
+    }
+
+    public static void main(String[] args) throws Exception {
+//        Teacher teacher = new Teacher("19eucs005", "12345", "Ajay", "12", "ajai@gmail", 3, "9545454545", 5000000);
+//        new TeacherDBHelper().createTeacher(teacher);
+
+
+    }
+
+    @Override
+    public void createTable() {
+        try {
+            Connection conn = getConnection();
             Statement stmt = conn.createStatement();
 
             stmt.executeUpdate(CreateQueries.createTeacher);
@@ -19,7 +90,8 @@ public class TeacherDBHelper {
         }
     }
 
-    public static boolean teacher_tableExists() {
+    @Override
+    public boolean teacher_tableExists() {
 
         try {
 
@@ -44,35 +116,33 @@ public class TeacherDBHelper {
         return false;
     }
 
-    //
-    // public static boolean teacherExist(String id){
-    // teacher_tableExists();
-    // ResultSet Allusers=null;
-    // ArrayList<String> users=null;
-    // String checkQuery=String.format("select teacher_id from teacher_details");
-    // try{
-    // Connection con=Connector.getConnection();
-    // PreparedStatement stmt = con.prepareStatement(checkQuery);
-    // Allusers = stmt.executeQuery();
-    // users=new ArrayList<>();
-    // int i=1;
-    // while(Allusers.next()){
-    // users.add(Allusers.getString(i));
-    // i++;
-    // }
-    //
-    //
-    // }catch(Exception e){
-    // System.out.println("Exception"+e);
-    // }
-    // return users.contains(id);
-    // }
-
-    public static boolean createTeacher(Teacher user) {
+    //    @Override
+//    public  boolean teacherExist(String id){
+//        teacher_tableExists();
+//        ResultSet Allusers=null;
+//        ArrayList<String> users=null;
+//        String checkQuery=String.format("select teacher_id from teacher_details");
+//        try{
+//            Connection con=getConnection();
+//            PreparedStatement stmt = con.prepareStatement(checkQuery);
+//            Allusers = stmt.executeQuery();
+//             users=new ArrayList<>();
+//            int i=1;
+//            while(Allusers.next()){
+//                users.add(Allusers.getString(i));
+//                i++;
+//            }
+//
+//
+//        }catch(Exception e){
+//            System.out.println("Exception"+e);
+//        }
+//        return users.contains(id);
+//    }
+    @Override
+    public boolean createTeacher(Teacher user) {
         teacher_tableExists();
-        String insertQuery = String.format(TeacherTable.createTeacher, user.getTeacher_id(), user.getPassword(),
-                user.getName(), user.gettClass(), user.getEmail(), user.getExperience(), user.getPhone(),
-                user.getSalary());
+        String insertQuery = String.format(TeacherTable.createTeacher, user.getTeacher_id(), user.getPassword(), user.gettClass(), user.getName(), user.getEmail(), user.getExperience(), user.getPhone(), user.getSalary());
 
         try {
             Connection conn = Connector.getConnection();
@@ -104,7 +174,7 @@ public class TeacherDBHelper {
         return false;
     }
 
-    public static Teacher viewTeacher(String id) {
+    public Teacher viewTeacher(String id) {
         Teacher user = null;
         teacher_tableExists();
         try {
@@ -113,9 +183,8 @@ public class TeacherDBHelper {
             PreparedStatement stmt = con.prepareStatement(selectUserQuery);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                user = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-                        rs.getInt(6), rs.getString(7), rs.getInt(8));
-                // System.out.println(rs.getString(3));
+                user = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8));
+//                System.out.println(rs.getString(3));
             }
 
         } catch (Exception e) {
@@ -124,13 +193,12 @@ public class TeacherDBHelper {
         return user;
     }
 
-    public static boolean updateTeacher(Teacher user) {
+    @Override
+    public boolean updateTeacher(Teacher user) {
         teacher_tableExists();
         try {
-            Connection conn = Connector.getConnection();
-            String updateQuery = String.format(TeacherTable.updateTeacher, user.getPassword(), user.getName(),
-                    user.gettClass(), user.getEmail(), user.getExperience(), user.getPhone(), user.getSalary(),
-                    user.getTeacher_id());
+            Connection conn = getConnection();
+            String updateQuery = String.format(TeacherTable.updateTeacher, user.getPassword(), user.getName(), user.gettClass(), user.getEmail(), user.getExperience(), user.getPhone(), user.getSalary(), user.getTeacher_id());
             PreparedStatement stmt = conn.prepareStatement(updateQuery);
             stmt.executeUpdate();
             conn.close();
@@ -143,13 +211,14 @@ public class TeacherDBHelper {
         return false;
     }
 
-    public static boolean deleteTeacher(String id) {
+    @Override
+    public boolean deleteTeacher(String id) {
         teacher_tableExists();
         try {
             Connection conn = Connector.getConnection();
             String deleteQuery = String.format(TeacherTable.deleteTeacher, id);
             PreparedStatement stmt = conn.prepareStatement(deleteQuery);
-            stmt.executeQuery();
+            stmt.executeUpdate();
             conn.close();
             System.out.println("Record Deleted");
             return true;
@@ -159,11 +228,11 @@ public class TeacherDBHelper {
         return false;
     }
 
-    public static void replyQuestion(Forum query) {
-        Connection con = Connector.getConnection();
+    @Override
+    public void replyQuestion(Forum query) {
+        Connection con = getConnection();
         try {
-            String updatequery = String.format(ForumTable.updateResponse, query.getResponse(), query.getDescription(),
-                    "No response yet");
+            String updatequery = String.format(ForumTable.updateResponse, query.getResponse(), query.getDescription(), "No response yet");
             PreparedStatement stmt = con.prepareStatement(updatequery);
             stmt.executeUpdate();
             System.out.println("Replied");
@@ -173,10 +242,11 @@ public class TeacherDBHelper {
         }
     }
 
-    public static void markAttendance(String id, String date, String status) {
+    @Override
+    public void markAttendance(String id, String date, String status) {
         teacher_tableExists();
-        Connection con = Connector.getConnection();
-        if (StudentDBHelper.checkStudentExists(id)) {
+        Connection con = getConnection();
+        if (new StudentDBHelper().checkStudentExists(id)) {
             String stdQuery = String.format("select std from student where student_id='%s'", id);
             String std = null;
             try {
@@ -189,8 +259,7 @@ public class TeacherDBHelper {
             } catch (Exception e) {
                 System.out.println("Exception:" + e);
             }
-            String attendanceQuery = String.format("insert into attendance values('%s','%s','%s','%s')", id, std, date,
-                    status);
+            String attendanceQuery = String.format("insert into attendance values('%s','%s','%s','%s')", id, std, date, status);
             try {
                 PreparedStatement stmt = con.prepareStatement(attendanceQuery);
                 stmt.executeUpdate();
@@ -203,12 +272,11 @@ public class TeacherDBHelper {
         }
     }
 
-    public static void editStudent(Student user) {
-        Connection con = Connector.getConnection();
+    @Override
+    public void editStudent(Student user) {
+        Connection con = getConnection();
         try {
-            String editdetails = String.format(StudentTable.updateStudent, user.getPassword(), user.getName(),
-                    user.getStd(), user.getEmail(), user.getGender(), user.getDob(), user.getPhone(), user.getFees(),
-                    user.getId());
+            String editdetails = String.format(StudentTable.updateStudent, user.getPassword(), user.getName(), user.getStd(), user.getEmail(), user.getGender(), user.getDob(), user.getPhone(), user.getFees(), user.getId());
             PreparedStatement stmt = con.prepareStatement(editdetails);
             stmt.executeUpdate();
             System.out.println(user.getId() + "'s Details Updated");
@@ -218,12 +286,13 @@ public class TeacherDBHelper {
         }
     }
 
-    public static boolean postMaterials(String id, String Class, String description) {
+    @Override
+    public boolean postMaterials(String id, String Class, String description) {
         try {
-            // table check yet to be defined
+            //table check yet to be defined
             String insertmaterials = String.format(MaterialsTable.postMaterials, id, Class, description);
             String checkClass = String.format("select class from teacher_details where teacher_id='%s'", id);
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
 
             PreparedStatement stmt2 = con.prepareStatement(checkClass);
             ResultSet rs = stmt2.executeQuery();
@@ -248,64 +317,69 @@ public class TeacherDBHelper {
         }
     }
 
-    public static void addGrades(Marks std) {
-        Connection con = Connector.getConnection();
+    @Override
+    public void addGrades(Marks std) {
+        Connection con = getConnection();
         try {
-            String insertQuery = String.format(MarksTable.insertMarks, std.getStudent_id(), std.getExam_title(),
-                    std.getSub1(), std.getSub2(), std.getSub3(), std.calcGrade());
+            String insertQuery = String.format(MarksTable.insertMarks, std.getStudent_id(), std.getExam_title(), std.getSub1(), std.getSub2(), std.getSub3(), std.calcGrade());
             PreparedStatement stmt = con.prepareStatement(insertQuery);
             stmt.executeUpdate();
             System.out.println(std.getStudent_id() + "'s Marks Entered");
 
+
         } catch (Exception e) {
             System.out.println("Exception:" + e);
         }
 
     }
 
-    public static void approveLeave(Leave user) {
-        Connection con = Connector.getConnection();
+    @Override
+    public void approveLeave(Leave user) {
+        Connection con = getConnection();
         try {
-            String updatequery = String.format(LeaveTable.leaveStatus, LeaveTable.statusApproved, user.getStudent_id(),
-                    user.getDate());
+            String updatequery = String.format(LeaveTable.leaveStatus, LeaveTable.statusApproved, user.getStudent_id(), user.getDate());
             PreparedStatement stmt = con.prepareStatement(updatequery);
             stmt.executeUpdate();
 
+
         } catch (Exception e) {
             System.out.println("Exception:" + e);
         }
 
     }
 
-    public static void RejectLeave(Leave user) {
-        Connection con = Connector.getConnection();
+    @Override
+    public void RejectLeave(Leave user) {
+        Connection con = getConnection();
         try {
-            String updatequery = String.format(LeaveTable.leaveStatus, LeaveTable.statusRejected, user.getStudent_id(),
-                    user.getDate());
+            String updatequery = String.format(LeaveTable.leaveStatus, LeaveTable.statusRejected, user.getStudent_id(), user.getDate());
             PreparedStatement stmt = con.prepareStatement(updatequery);
             stmt.executeUpdate();
 
+
         } catch (Exception e) {
             System.out.println("Exception:" + e);
         }
     }
 
-    public static void LeavePending(Leave user) {
-        Connection con = Connector.getConnection();
+    @Override
+    public void LeavePending(Leave user) {
+        Connection con = getConnection();
         try {
-            String updatequery = String.format(LeaveTable.leaveStatus, LeaveTable.statusPending, user.getStudent_id(),
-                    user.getDate());
+            String updatequery = String.format(LeaveTable.leaveStatus, LeaveTable.statusPending, user.getStudent_id(), user.getDate());
             PreparedStatement stmt = con.prepareStatement(updatequery);
             stmt.executeUpdate();
 
+
         } catch (Exception e) {
             System.out.println("Exception:" + e);
         }
 
     }
 
-    public static int getLeaveCount(String email) {
-        Connection con = Connector.getConnection();
+    @Override
+    public int getLeaveCount(String email) {
+        Connection con = getConnection();
         int count = 0;
         try {
             String countquery = String.format(LeaveTable.leaveCount, email);
@@ -320,7 +394,73 @@ public class TeacherDBHelper {
         return count;
     }
 
-    public static Teacher getTeacherId(String email) {
+    public int approvedLeaveCount(String email) {
+        Connection con = getConnection();
+        int count = 0;
+        try {
+            String countquery = String.format(CountQueries.approvedLeaveRequestsCount, email);
+            PreparedStatement stmt = con.prepareStatement(countquery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                count = Integer.parseInt(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception" + e);
+        }
+        return count;
+    }
+
+    public int PendingLeaveCount(String email) {
+        Connection con = getConnection();
+        int count = 0;
+        try {
+            String countquery = String.format(CountQueries.pendingLeaveRequestsCount, email);
+            PreparedStatement stmt = con.prepareStatement(countquery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                count = Integer.parseInt(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception" + e);
+        }
+        return count;
+    }
+
+    public int totalInquiryCount() {
+        Connection con = getConnection();
+        int count = 0;
+        try {
+            String countquery = (CountQueries.totalInquiryCount);
+            PreparedStatement stmt = con.prepareStatement(countquery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                count = Integer.parseInt(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception" + e);
+        }
+        return count;
+    }
+
+    public int respondedInquiryCount() {
+        Connection con = getConnection();
+        int count = 0;
+        try {
+            String countquery = (CountQueries.respondedInquiryCount);
+            PreparedStatement stmt = con.prepareStatement(countquery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                count = Integer.parseInt(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception" + e);
+        }
+        return count;
+    }
+
+
+    @Override
+    public Teacher getTeacherId(String email) {
         Teacher user = null;
         try {
             Connection con = Connector.getConnection();
@@ -338,7 +478,26 @@ public class TeacherDBHelper {
         return user;
     }
 
-    public static ArrayList<Forum> allUnrespondedQueries() {
+    @Override
+    public ArrayList<Teacher> allTeachers() {
+        ArrayList<Teacher> alTeachers = new ArrayList<>();
+        try {
+            Connection con = getConnection();
+            String query = TeacherTable.allTeachers;
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Teacher teacher = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8));
+                alTeachers.add(teacher);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception occurred : " + e.getMessage());
+        }
+        return alTeachers;
+    }
+
+    @Override
+    public ArrayList<Forum> allUnrespondedQueries() {
         ArrayList<Forum> alForum = new ArrayList<Forum>();
 
         try {
@@ -356,15 +515,10 @@ public class TeacherDBHelper {
         return alForum;
     }
 
-    public static void main(String[] args) throws Exception {
-        Teacher teacher = new Teacher("19eucs005", "12345", "Ajay", "12", "ajai@gmail", 3, "9545454545", 5000000);
-        TeacherDBHelper.createTeacher(teacher);
-    }
-
-    public static ArrayList<String> getDistinctDates() {
+    public ArrayList<String> getDistinctDates() {
         ArrayList<String> dates = new ArrayList<String>();
         try {
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
             String dateQuery = LeaveTable.selectDistinctDate;
             PreparedStatement stmt = con.prepareStatement(dateQuery);
             ResultSet rs = stmt.executeQuery();
@@ -378,10 +532,10 @@ public class TeacherDBHelper {
         return dates;
     }
 
-    public static ArrayList<Leave> getPendingLeavesFromDate(String date) {
+    public ArrayList<Leave> getPendingLeavesFromDate(String date) {
         ArrayList<Leave> pendingLeaves = new ArrayList<>();
         try {
-            Connection con = Connector.getConnection();
+            Connection con = getConnection();
             String dateQuery = String.format(LeaveTable.selectPendingLeaves, date);
             PreparedStatement stmt = con.prepareStatement(dateQuery);
             ResultSet rs = stmt.executeQuery();
@@ -393,11 +547,12 @@ public class TeacherDBHelper {
             System.out.println("exception occurred " + e.getMessage());
         }
 
+
         return pendingLeaves;
     }
 
-    public static String totalStudents(String std) {
-        Connection con = Connector.getConnection();
+    public String totalStudents(String std) {
+        Connection con = getConnection();
         String count = null;
         try {
             String countQuery = String.format(TeacherTable.totStudents, std);
@@ -412,5 +567,6 @@ public class TeacherDBHelper {
         }
         return count;
     }
+
 
 }
