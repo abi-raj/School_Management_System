@@ -3,10 +3,7 @@ package GUI.admin;
 import database.AdminDBHelper;
 import database.StudentDBHelper;
 import database.TeacherDBHelper;
-import models.Attendance;
-import models.Forum;
-import models.Leave;
-import models.Teacher;
+import models.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -50,7 +47,7 @@ public class AdminGUI extends JFrame {
     ArrayList<Forum> inquiries;
     String[][] teacherRecordArray;
     JComboBox<String> f_id_cb;
-
+    ArrayList<Exam> alExams = new ArrayList<>();
     AdminDBHelper adminDBHelper = new AdminDBHelper();
     Teacher teacher = null;
     Attendance attendance = null;
@@ -1428,9 +1425,11 @@ public class AdminGUI extends JFrame {
         Exam_label.setBounds(58, 74, 141, 35);
         viewExam_panel.add(Exam_label);
 
-        JComboBox exams_combobox = new JComboBox();
+        JComboBox<String> exams_combobox = new JComboBox<String>();
         exams_combobox.setBounds(227, 74, 199, 34);
         viewExam_panel.add(exams_combobox);
+
+        setComboExam(exams_combobox);
 
         JLabel start_label = new JLabel("Start Date  :");
         start_label.setFont(new Font("Segoe UI", Font.BOLD, 23));
@@ -1457,11 +1456,8 @@ public class AdminGUI extends JFrame {
         JButton update_exambtn = new JButton("UPDATE");
         update_exambtn.setFont(new Font("Segoe UI", Font.BOLD, 18));
         update_exambtn.setFocusPainted(false);
-        update_exambtn.setBackground(new Color( 136, 217, 242));
-        update_exambtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-            }
-        });
+        update_exambtn.setBackground(new Color(136, 217, 242));
+
 
         update_exambtn.setBounds(77, 325, 111, 35);
         viewExam_panel.add(update_exambtn);
@@ -1472,6 +1468,83 @@ public class AdminGUI extends JFrame {
         removebtn.setBackground(new Color(242, 136, 168));
         removebtn.setFocusPainted(false);
         viewExam_panel.add(removebtn);
+
+
+        addButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (Title_text.getText().length() == 0 || Start_text.getText().length() != 10 || End_Text.getText().length() != 10) {
+                            JOptionPane.showMessageDialog(AdminGUI.this, "Enter all the fields correctly");
+                        } else {
+                            Exam exam = new Exam(Title_text.getText(), Start_text.getText(), End_Text.getText());
+                            if (adminDBHelper.createExam(exam)) {
+                                JOptionPane.showMessageDialog(AdminGUI.this, "Exam added");
+                                Title_text.setText("");
+                                Start_text.setText("");
+                                End_Text.setText("");
+                                setComboExam(exams_combobox);
+                            } else {
+                                JOptionPane.showMessageDialog(AdminGUI.this, "Error in adding");
+                            }
+                        }
+                    }
+                }
+        );
+        exams_combobox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = exams_combobox.getSelectedIndex();
+                if (index != -1) {
+                    viewStart.setText(alExams.get(index).getStart_date());
+                    viewEnd.setText(alExams.get(index).getEnd_date());
+
+                }
+
+            }
+        });
+        update_exambtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (viewStart.getText().length() != 10 || viewEnd.getText().length() != 10) {
+                    JOptionPane.showMessageDialog(AdminGUI.this, "Enter all the fields correctly");
+                } else {
+                    Exam exam = new Exam((exams_combobox.getItemAt(exams_combobox.getSelectedIndex())), viewStart.getText(), viewEnd.getText());
+                    if (adminDBHelper.updateExam(exam)) {
+                        JOptionPane.showMessageDialog(AdminGUI.this, "Exam Updated");
+                        setComboExam(exams_combobox);
+                    } else {
+
+                        JOptionPane.showMessageDialog(AdminGUI.this, "Update failed");
+                    }
+                }
+            }
+        });
+        removebtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (exams_combobox.getSelectedIndex() != -1) {
+                    if (adminDBHelper.deleteExam(exams_combobox.getItemAt(exams_combobox.getSelectedIndex()))) {
+                        JOptionPane.showMessageDialog(AdminGUI.this, "Removed");
+                        setComboExam(exams_combobox);
+                    } else {
+                        JOptionPane.showMessageDialog(AdminGUI.this, "Error in removing");
+                    }
+                }
+
+            }
+        });
+    }
+
+    void setComboExam(JComboBox<String> combo) {
+
+        alExams.clear();
+        alExams = adminDBHelper.getExams();
+        combo.removeAllItems();
+        for (Exam ex : alExams) {
+            combo.addItem(ex.getTitle());
+        }
+
     }
     void mailComponents(){
         notification_panel = new JPanel();

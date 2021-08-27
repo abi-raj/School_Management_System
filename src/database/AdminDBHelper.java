@@ -10,32 +10,29 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import database.ValidationHelper;
 
 interface AdminTableOperations {
     boolean checkAdminLogin(String id, String password);
 
     boolean createAdmin(String id, String password);
 
-    void sendEmailNotification(); //Has to be done by the Epic Guy
+    void sendEmailNotification(); // Has to be done by the Epic Guy
 
     boolean markPayroll(String teacher_id, int salary);
 
     ArrayList<Attendance> viewAttendance(String std);
 
-    void addEventData(); //required clarification
+    void addEventData(); // required clarification
 
 }
 
 public class AdminDBHelper implements AdminTableOperations {
-    private static final String url = "jdbc:postgresql://localhost:5432/teacher";
+    private static final String url = "jdbc:postgresql://localhost:5432/bootathon";
     private static final String driverName = "org.postgresql.Driver";
     private static final String username = "postgres";
-    private static final String password = "12345";
+    private static final String password = "Test@123";
     private Connection connection = null;
-
-    public static void main(String[] args) {
-        System.out.println(new AdminDBHelper().checkAdminLogin("19teach001", "12345"));
-    }
 
     public Connection getConnection() {
         try {
@@ -49,6 +46,10 @@ public class AdminDBHelper implements AdminTableOperations {
         }
 
         return connection;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new AdminDBHelper().checkAdminLogin("19teach001", "12345"));
     }
 
     @Override
@@ -105,7 +106,8 @@ public class AdminDBHelper implements AdminTableOperations {
             PreparedStatement stmt = con.prepareStatement(selectAttendance);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Attendance attendance = new Attendance(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
+                Attendance attendance = new Attendance(rs.getString(1), rs.getString(2), rs.getString(3),
+                        rs.getString(4));
                 attendanceResult.add(attendance);
             }
         } catch (Exception e) {
@@ -175,6 +177,7 @@ public class AdminDBHelper implements AdminTableOperations {
             String insertQuery = String.format(ExamsTable.insertExam, exam.getTitle(), exam.getStart_date(), exam.getEnd_date());
             PreparedStatement stmt = con.prepareStatement(insertQuery);
             stmt.executeUpdate();
+            return true;
         } catch (Exception e) {
             System.out.println("Exception occurred : " + e.getMessage());
         }
@@ -184,11 +187,13 @@ public class AdminDBHelper implements AdminTableOperations {
     }
 
     public boolean updateExam(Exam exam) {
+
         try {
             Connection con = getConnection();
             String updateQuery = String.format(ExamsTable.updateExam, exam.getStart_date(), exam.getEnd_date(), exam.getTitle());
             PreparedStatement stmt = con.prepareStatement(updateQuery);
             stmt.executeUpdate();
+            return true;
         } catch (Exception e) {
             System.out.println("Exception occurred : " + e.getMessage());
         }
@@ -197,12 +202,13 @@ public class AdminDBHelper implements AdminTableOperations {
         return false;
     }
 
-    public boolean deleteExam(Exam exam) {
+    public boolean deleteExam(String title) {
         try {
             Connection con = getConnection();
-            String deleteQuery = String.format(ExamsTable.deleteExam, exam.getTitle());
+            String deleteQuery = String.format(ExamsTable.deleteExam, title);
             PreparedStatement stmt = con.prepareStatement(deleteQuery);
             stmt.executeUpdate();
+            return true;
         } catch (Exception e) {
             System.out.println("Exception occurred : " + e.getMessage());
         }
