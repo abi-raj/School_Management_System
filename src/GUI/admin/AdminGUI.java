@@ -1425,7 +1425,7 @@ public class AdminGUI extends JFrame {
         Exam_label.setBounds(58, 74, 141, 35);
         viewExam_panel.add(Exam_label);
 
-        JComboBox exams_combobox = new JComboBox();
+        JComboBox<String> exams_combobox = new JComboBox<String>();
         exams_combobox.setBounds(227, 74, 199, 34);
         viewExam_panel.add(exams_combobox);
 

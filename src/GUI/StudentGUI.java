@@ -857,6 +857,7 @@ public class StudentGUI extends JFrame {
 
     void setStudent(String student_id) {
         student = studentDBHelper.viewProfile(student_id);
+        System.out.println(student_id);
     }
 
     void setInitialProfileValues() {
