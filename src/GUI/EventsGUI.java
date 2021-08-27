@@ -5,6 +5,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.Objects;
+import java.awt.event.WindowAdapter;
 
 public class EventsGUI extends JFrame{
     public EventsGUI(){

@@ -1,6 +1,5 @@
 package GUI;
 
-import GUI.teacherscreen.ViewGrades;
 import database.StudentDBHelper;
 import database.TeacherDBHelper;
 import models.Attendance;
@@ -574,7 +573,7 @@ public class TeacherGUI extends JFrame {
         assign_grade_btn.setBounds(970, 230,  200,40);
         assign_grade_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                new ViewGrades();
+                new AssignGradeForm();
             }
         });
         gradespanel.add(assign_grade_btn);
@@ -1252,10 +1251,10 @@ public class TeacherGUI extends JFrame {
 
     public static void main(String[] args) {
 
-new TeacherGUI(new TeacherDBHelper().getTeacherId("hari@gmail.com"));
+//new TeacherGUI(new TeacherDBHelper().getTeacherId("hari@gmail.com"));
 
-//        Teacher teacher = new Teacher("19eucs005","12345","Ajay","12","ajai@gmail",3,"9545454545",5000000);
-//        new TeacherGUI(teacher);
+      Teacher teacher = new Teacher("19eucs005","12345","12","Ajai","ajai@gmail",3,"9545454545",5000000);
+       new TeacherGUI(teacher);
     }
 
     void setLeaveDates() {
