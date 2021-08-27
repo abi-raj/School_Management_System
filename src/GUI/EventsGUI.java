@@ -12,6 +12,15 @@ public class EventsGUI extends JFrame{
         p.setBackground(new Color(255, 255, 255));
         p.setBounds(0,0,1400,790);
 
+        JLabel event_info=new JLabel("   Upcoming events");
+        event_info.setBounds(100,50,300,60);
+        event_info.setForeground(Color.white);
+        event_info.setBackground(new Color(242,106,109));
+        event_info.setOpaque(true);
+        event_info.setFont(new Font("Segeo UI",Font.BOLD,28));
+        p.add(event_info);
+
+
 
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

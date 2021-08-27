@@ -1,35 +1,5 @@
 package GUI;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.font.TextAttribute;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
-
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-
 import GUI.teacherscreen.ViewGrades;
 import database.StudentDBHelper;
 import database.TeacherDBHelper;
@@ -37,6 +7,22 @@ import models.Attendance;
 import models.Forum;
 import models.Leave;
 import models.Teacher;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.font.TextAttribute;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
+
+
 
 public class TeacherGUI extends JFrame {
 
@@ -54,14 +40,19 @@ public class TeacherGUI extends JFrame {
     JPanel payrollpanel;
     ArrayList<Forum> inquiries;
     JComboBox<String> f_id_cb;
+    private JTextField a_stu_name;
     private JTextField a_student_date;
-    TeacherDBHelper teacherDB = new TeacherDBHelper();
-    Teacher teacher = null;
-    Attendance attendance = null;
+    TeacherDBHelper teacherDB=new TeacherDBHelper();
+     Teacher teacher=null;
+    Attendance attendance=null;
+
+
+
+
 
     public TeacherGUI(Teacher teacher) {
-        this.teacher = teacher;
-        // setTeacher(email);
+        this.teacher=teacher;
+        //setTeacher(email);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1336, 814);
@@ -70,26 +61,24 @@ public class TeacherGUI extends JFrame {
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
 
-
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         p.setLayout(null);
         contentPane.add(p);
 
         JPanel sidebar = new JPanel();
-        sidebar.setBackground(new Color(29,217,171));
+        sidebar.setBackground(new Color(29, 217, 171));
         sidebar.setBounds(0, 0, 120, 814);
         p.add(sidebar);
         sidebar.setLayout(null);
 
-        UIManager.put("ToolTip.background", new Color(253,253,150));
-
+        UIManager.put("ToolTip.background", new Color(253, 253, 150));
 
         JButton home = new JButton();
         home.setBounds(41, 58, 43, 63);
         home.setToolTipText("Home");
         home.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/home profile.png"))));
-        home.setBackground(new Color(29,217,171));
+        home.setBackground(new Color(29, 217, 171));
         home.setLayout(null);
         home.setFocusPainted(false);
         home.setBorder(null);
@@ -98,12 +87,12 @@ public class TeacherGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 homepanel.setVisible(true);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false) ;
-                leaveformpanel.setVisible(false) ;
-                studentpanel.setVisible(false) ;
+                gradespanel.setVisible(false);
+                leaveformpanel.setVisible(false);
+                studentpanel.setVisible(false);
                 learningpanel.setVisible(false);
-                forumpanel.setVisible(false) ;
-                payrollpanel.setVisible(false) ;
+                forumpanel.setVisible(false);
+                payrollpanel.setVisible(false);
 
             }
         });
@@ -113,12 +102,12 @@ public class TeacherGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(true);
-                gradespanel.setVisible(false) ;
-                leaveformpanel.setVisible(false) ;
-                studentpanel.setVisible(false) ;
+                gradespanel.setVisible(false);
+                leaveformpanel.setVisible(false);
+                studentpanel.setVisible(false);
                 learningpanel.setVisible(false);
-                forumpanel.setVisible(false) ;
-                payrollpanel.setVisible(false) ;
+                forumpanel.setVisible(false);
+                payrollpanel.setVisible(false);
             }
 
         });
@@ -226,17 +215,17 @@ public class TeacherGUI extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false) ;
-                leaveformpanel.setVisible(false) ;
-                studentpanel.setVisible(false) ;
+                gradespanel.setVisible(false);
+                leaveformpanel.setVisible(false);
+                studentpanel.setVisible(false);
                 learningpanel.setVisible(true);
-                forumpanel.setVisible(false) ;
-                payrollpanel.setVisible(false) ;
+                forumpanel.setVisible(false);
+                payrollpanel.setVisible(false);
             }
         });
         learning.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/learning.png"))));
         learning.setToolTipText("Learning Materials");
-        learning.setBackground(new Color(29,217,171));
+        learning.setBackground(new Color(29, 217, 171));
         learning.setLayout(null);
         learning.setFocusPainted(false);
         learning.setBorder(null);
@@ -248,9 +237,9 @@ public class TeacherGUI extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
                 homepanel.setVisible(false);
                 attendancepanel.setVisible(false);
-                gradespanel.setVisible(false) ;
-                leaveformpanel.setVisible(false) ;
-                studentpanel.setVisible(false) ;
+                gradespanel.setVisible(false);
+                leaveformpanel.setVisible(false);
+                studentpanel.setVisible(false);
                 learningpanel.setVisible(false);
                 forumpanel.setVisible(false) ;
                 payrollpanel.setVisible(true) ;
@@ -263,7 +252,7 @@ public class TeacherGUI extends JFrame {
         payroll.setFocusPainted(false);
         payroll.setBorder(null);
         payroll.setBounds(41, 644, 45, 63);
-        payroll.setBackground(new Color(29,217,171));
+        payroll.setBackground(new Color(29, 217, 171));
         sidebar.add(payroll);
 
         homepanel = new JPanel();
@@ -272,14 +261,12 @@ public class TeacherGUI extends JFrame {
         homepanel.setLayout(null);
         p.add(homepanel);
 
-
         JLabel teacher_name = new JLabel("Teacher Name");
         teacher_name.setBounds(400, 271, 300, 40);
         teacher_name.setFont(new Font("Segoe UI", Font.BOLD, 36));
         teacher_name.setForeground(new Color(102, 102, 102));
         teacher_name.setText(teacher.getName());
         homepanel.add(teacher_name);
-
 
         JLabel teacher_email = new JLabel("emailaddress@schoolname.com");
         teacher_email.setBounds(400, 321, 300, 40);
@@ -288,7 +275,6 @@ public class TeacherGUI extends JFrame {
         teacher_email.setText(teacher.getEmail());
         homepanel.add(teacher_email);
 
-
         JLabel teacher_phone = new JLabel("9876543210");
         teacher_phone.setBounds(400, 371, 300, 40);
         teacher_phone.setFont(new Font("Segoe UI", Font.PLAIN, 18));
@@ -296,32 +282,32 @@ public class TeacherGUI extends JFrame {
         teacher_phone.setText(teacher.getPhone());
         homepanel.add(teacher_phone);
 
-
         JLabel teacher_work_exp = new JLabel("5 years work experience");
         teacher_work_exp.setBounds(400, 421, 300, 40);
         teacher_work_exp.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         teacher_work_exp.setForeground(new Color(102, 102, 102));
-        teacher_work_exp.setText(teacher.getExperience()+" years work experience");
+        teacher_work_exp.setText(teacher.getExperience() + " years work experience");
         homepanel.add(teacher_work_exp);
 
-
-        JLabel teacher_profile=new JLabel();
+        JLabel teacher_profile = new JLabel();
         teacher_profile.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/avatar.png"))));
         teacher_profile.setBounds(100,230,300,281);
         teacher_profile.setFont(new Font("Segoe UI",Font.PLAIN, 18));
         teacher_profile.setForeground(new Color(102, 102, 102));
         homepanel.add(teacher_profile);
 
-        JLabel logout_img=new JLabel();
-        logout_img.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/logout.png"))));
-        logout_img.setBounds(100,650,30,40);
-        homepanel.add(logout_img);
+
+
+        JLabel notify_img=new JLabel();
+        notify_img.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/notify.png"))));
+        notify_img.setBounds(150,670,30,40);
+        homepanel.add(notify_img);
 
 
         JButton logout_button=new JButton("Log out");
-        logout_button.setBounds(115,650,100,40);
+        logout_button.setBounds(50,670,100,40);
         logout_button.setFont(new Font("Segoe UI",Font.BOLD, 18));
-        logout_button.setForeground(new Color(255,98,98));
+        logout_button.setForeground(Color.black);
         logout_button.setLayout(null);
         logout_button.setBackground(Color.WHITE);
         logout_button.setBorder(null);
@@ -370,12 +356,11 @@ public class TeacherGUI extends JFrame {
         text2.setBounds(60, 77, 226, 26);
         welcometext.add(text2);
 
-
-        JButton schedule_events_button=new JButton("View Important Schedules & Events");
+        JButton schedule_events_button = new JButton("View Important Schedules & Events");
         schedule_events_button.setLayout(null);
         schedule_events_button.setFont(new Font("Segoe UI", Font.BOLD, 18));
         schedule_events_button.setForeground(Color.WHITE);
-        schedule_events_button.setBackground(new Color(29,217,171));
+        schedule_events_button.setBackground(new Color(29, 217, 171));
         schedule_events_button.setBounds(800, 230, 350, 70);
         schedule_events_button.setFocusPainted(false);
         schedule_events_button.setBorder(null);
@@ -388,48 +373,45 @@ public class TeacherGUI extends JFrame {
 
         homepanel.add(schedule_events_button);
 
-        JLabel class_text_lbl=new JLabel("Class Summary");
+        JLabel class_text_lbl = new JLabel("Class Summary");
         class_text_lbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
         class_text_lbl.setForeground(Color.BLACK);
-        class_text_lbl.setBounds(800,350 , 300, 50);
+        class_text_lbl.setBounds(800, 350, 300, 50);
         homepanel.add(class_text_lbl);
 
-
-        JLabel class_name_lbl=new JLabel("Class 10",SwingConstants.CENTER);
+        JLabel class_name_lbl = new JLabel("Class 10", SwingConstants.CENTER);
         class_name_lbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
         class_name_lbl.setForeground(Color.BLACK);
-        class_name_lbl.setBounds(800,410 , 350, 50);
+        class_name_lbl.setBounds(800, 410, 350, 50);
         Border blackline = BorderFactory.createLineBorder(Color.black);
         class_name_lbl.setBorder(blackline);
-        class_name_lbl.setText("Class "+teacher.gettClass());
+        class_name_lbl.setText("Class " + teacher.gettClass());
         homepanel.add(class_name_lbl);
 
-
-
-        JPanel class_summary_table =new JPanel();
+        JPanel class_summary_table = new JPanel();
         class_summary_table.setBounds(800, 480, 350, 200);
         class_summary_table.setLayout(null);
-        class_summary_table.setBackground(new Color(255,109,106));
+        class_summary_table.setBackground(new Color(255, 109, 106));
         homepanel.add(class_summary_table);
 
-        JTextArea tot_student_text=new JTextArea("Total Students in your Class        ...");
-        tot_student_text.setBounds(20,20,300,50);
+        JTextArea tot_student_text = new JTextArea("Total Students in your Class        ...");
+        tot_student_text.setBounds(20, 20, 300, 50);
         tot_student_text.setLineWrap(true);
         tot_student_text.setWrapStyleWord(true);
         tot_student_text.setForeground(Color.white);
-        tot_student_text.setBackground(new Color(255,109,106));
+        tot_student_text.setBackground(new Color(255, 109, 106));
         tot_student_text.setFont(new Font("Segoe UI", Font.BOLD, 20));
         class_summary_table.add(tot_student_text);
 
-        JLabel tot_students =new JLabel("54");
-        tot_students.setBounds(20,80,100,80);
+        JLabel tot_students = new JLabel("54");
+        tot_students.setBounds(20, 80, 100, 80);
         tot_students.setFont(new Font("Segoe UI", Font.BOLD, 80));
         tot_students.setForeground(Color.white);
         tot_students.setText(teacherDB.totalStudents(teacher.gettClass()));
         class_summary_table.add(tot_students);
 
         attendancepanel = new JPanel();
-        attendancepanel.setBackground(new Color(250,250,250));
+        attendancepanel.setBackground(new Color(250, 250, 250));
         attendancepanel.setBounds(132, 0, 1336, 1000);
         attendancepanel.setLayout(null);
         p.add(attendancepanel);
@@ -441,7 +423,7 @@ public class TeacherGUI extends JFrame {
         attendancepanel.add(updateAttendance);
 
         JLabel l1 = new JLabel("Attendance Entry");
-        l1.setBounds(70,30,300,40);
+        l1.setBounds(70, 30, 300, 40);
         updateAttendance.add(l1);
         l1.setFont(new Font("Segoe UI", Font.BOLD, 36));
 
@@ -450,7 +432,7 @@ public class TeacherGUI extends JFrame {
         a_student.setBounds(70, 114, 279, 31);
         updateAttendance.add(a_student);
 
-        String s_id[]={"001","002","003","004"};
+        String s_id[] = { "001", "002", "003", "004" };
         JComboBox a_stu_id = new JComboBox(s_id);
         a_stu_id.setBounds(70, 164, 200, 47);
         a_stu_id.setBackground(Color.white);
@@ -462,7 +444,8 @@ public class TeacherGUI extends JFrame {
         a_date.setBounds(350, 114, 100, 30);
         updateAttendance.add(a_date);
 
-        a_student_date = new JTextField();
+
+        JTextField a_student_date = new JTextField();
         a_student_date.setBounds(350, 164, 200, 47);
         updateAttendance.add(a_student_date);
         a_student_date.setMargin(new Insets(5, 10, 5, 5));
@@ -484,18 +467,16 @@ public class TeacherGUI extends JFrame {
         present.setBackground(Color.WHITE);
         absent.setBackground(Color.WHITE);
         absent.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        ButtonGroup bg = new ButtonGroup();
-        bg.add(present);
-        bg.add(absent);
+        ButtonGroup bg=new ButtonGroup();
+        bg.add(present);bg.add(absent);
         updateAttendance.add(present);
         updateAttendance.add(absent);
-
 
         JButton updatebutton = new JButton("Update");
         updatebutton.setFont(new Font("Segoe UI", Font.BOLD, 16));
         updatebutton.setForeground(Color.WHITE);
         updatebutton.setBackground(new Color(255, 160, 122));
-        updatebutton.setBounds(70, 250, 100, 40);
+        updatebutton.setBounds(70,250,100, 40);
         updatebutton.setLayout(null);
         updatebutton.setFocusPainted(false);
         updatebutton.setBorder(null);
@@ -507,20 +488,48 @@ public class TeacherGUI extends JFrame {
         });
         updateAttendance.add(updatebutton);
 
-        String data[][] = { { "001", "Aisha", "P" }, { "102", "Jay", "P" }, { "101", "Steafn", "A" } };
-        String column[] = { "ID", "NAME", "P/A" };
-        JTable jt = new JTable(data, column);
-        jt.setModel(new DefaultTableModel(new Object[][] { { "ID", "NAME", "P/A" }, { "001", "Aisha", "P" },
-                { "102", "Jay", "P" }, { "101", "Stefan", "A" }, { null, null, null }, { null, null, null },
-                { null, null, null }, { null, null, null }, { null, null, null }, { null, null, null },
+        JLabel consolidated_att_lbl=new JLabel("Select the date to display the consolidated attendance:");
+        consolidated_att_lbl.setBounds(40, 400, 500, 47);
+        consolidated_att_lbl.setBackground(Color.white);
+        consolidated_att_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        attendancepanel.add(consolidated_att_lbl);
 
-        }, new String[] { "ID", "NAME", "P/A" }));
+
+        String pick_date[]={""};
+        JComboBox date_dd = new JComboBox(pick_date);
+        date_dd.setBounds(550, 400, 200, 47);
+        date_dd.setBackground(Color.white);
+        date_dd.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        attendancepanel.add(date_dd);
+
+
+        String data[][]={ {"001","Aisha","P"},
+                {"102","Jay","P"},
+                {"101","Steafn","A"}};
+        String column[]={"ID","NAME","P/A"};
+        JTable jt=new JTable(data,column);
+        jt.setModel(new DefaultTableModel(
+                new Object[][] {
+                        {"ID", "NAME", "P/A"},
+                        {"001", "Aisha", "P"},
+                        {"102", "Jay", "P"},
+                        {"101", "Stefan", "A"},
+                        {null, null, null},
+                        {null, null, null},
+                        {null, null, null},
+
+
+
+                },
+                new String[] {
+                        "ID", "NAME", "P/A"
+                }
+        ));
         jt.setRowHeight(jt.getRowHeight() + 20);
         jt.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
         jt.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        jt.setBounds(40, 400, 1100, 350);
+        jt.setBounds(40,480,1100,280);
         attendancepanel.add(jt);
-
 
         gradespanel = new JPanel();
         gradespanel.setBackground(Color.white);
@@ -545,44 +554,62 @@ public class TeacherGUI extends JFrame {
         g_l2.setBounds(57, 84, 398, 33);
         grade_info.add(g_l2);
 
-        JLabel exam_name_lbl=new JLabel("Examination Name:");
-        exam_name_lbl.setBounds(24,200,200,40);
-        exam_name_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        gradespanel.add(exam_name_lbl);
+        JLabel grade_subhead=new JLabel("Consolidated Grade Report");
+        grade_subhead.setFont(new Font("Segeo UI",Font.BOLD,24));
+        grade_subhead.setForeground(Color.black);
+        grade_subhead.setBorder(null);
+        grade_subhead.setBounds(24, 210, 600, 80);
+        gradespanel.add(grade_subhead);
 
-        String exam_name[] = { "Quarterly Exam", "Half Yearly Exam" };
-        JComboBox grades_exam_name_cb = new JComboBox(exam_name);
-        grades_exam_name_cb.setBounds(220, 200, 200, 40);
-        grades_exam_name_cb.setBackground(Color.white);
-        grades_exam_name_cb.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        gradespanel.add(grades_exam_name_cb);
 
-        JLabel student_id_lbl = new JLabel("Student ID:");
-        student_id_lbl.setBounds(460, 200, 200, 40);
-        student_id_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        gradespanel.add(student_id_lbl);
-
-        String grade_student_id[] = { "001", "002", "003", "004" };
-        JComboBox grade_student_id_cb = new JComboBox(grade_student_id);
-        grade_student_id_cb.setBounds(580, 200, 200, 40);
-        grade_student_id_cb.setBackground(Color.white);
-        grade_student_id_cb.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        gradespanel.add(grade_student_id_cb);
-
-        JButton view_grade_btn = new JButton("Edit Grades");
-        view_grade_btn.setBounds(850, 200, 200, 40);
-        view_grade_btn.setForeground(Color.white);
-        view_grade_btn.setBackground(new Color(128, 179, 255));
-        view_grade_btn.setLayout(null);
-        view_grade_btn.setFocusPainted(false);
-        view_grade_btn.setBorder(null);
-        view_grade_btn.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        view_grade_btn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        JButton assign_grade_btn=new JButton("Assign Grade");
+        assign_grade_btn.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/assign.png"))));
+        assign_grade_btn.setToolTipText("You can add new student details here");
+        assign_grade_btn.setLayout(null);
+        assign_grade_btn.setForeground(Color.white);
+        assign_grade_btn.setFont(new Font("Segeo UI",Font.BOLD,16));
+        assign_grade_btn.setBackground(new Color(29, 217, 171));
+        assign_grade_btn.setFocusPainted(false);
+        assign_grade_btn.setBorder(null);
+        assign_grade_btn.setBounds(970, 230,  200,40);
+        assign_grade_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
                 new ViewGrades();
             }
         });
-        gradespanel.add(view_grade_btn);
+        gradespanel.add(assign_grade_btn);
+
+
+        String grade_s_data[][]={ {"001","Aisha","98","99","100","S","Pass"}};
+        String g_column[]={"ID","NAME","Science","Social","Maths","Grade","Result"};
+        JTable grades_jt=new JTable(data,column);
+        grades_jt.setModel(new DefaultTableModel(
+                new Object[][] {
+                        {"ID","NAME","Science","Social","Maths","Grade","Result"},{"001","Aisha","98","99","100","S","Pass"},
+                        {null, null, null},
+                        {null, null, null},
+                        {null, null, null},
+                        {null, null, null},
+                        {null, null, null},
+                        {null, null, null},
+                        {null, null, null},
+                        {null, null, null},
+
+
+
+                },
+                new String[] {
+                        "ID","NAME","Science","Social","Maths","Grade","Result"
+                }
+        ));
+        grades_jt.setRowHeight(jt.getRowHeight() + 20);
+        grades_jt.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+        grades_jt.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+         grades_jt.setBounds(24,300,1150,440);
+        gradespanel.add(grades_jt);
+
+
+
 
         studentpanel = new JPanel();
         studentpanel.setBackground(Color.white);
@@ -591,43 +618,77 @@ public class TeacherGUI extends JFrame {
         p.add(studentpanel);
 
         JPanel panel = new JPanel();
-        panel.setBackground(new Color(250, 250, 250));
-        panel.setBounds(60, 66, 1100, 200);
+        panel.setBackground(new Color(250,250,250));
+        panel.setBounds(30, 10, 1100, 120);
         panel.setLayout(null);
         studentpanel.add(panel);
 
         JLabel s_text1 = new JLabel("Student Record");
         s_text1.setFont(new Font("Segoe UI", Font.BOLD, 30));
-        s_text1.setBounds(80, 50, 489, 40);
+        s_text1.setBounds(30, 10, 489, 40);
         panel.add(s_text1);
 
         JLabel s_text2 = new JLabel("Class 10");
         s_text2.setForeground(Color.GRAY);
-        s_text2.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        s_text2.setBounds( 80,100, 214, 30);
+        s_text2.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        s_text2.setBounds( 30,60, 214, 30);
         panel.add(s_text2);
 
-        String s_data[][] = { { "19eucs001", "Abiraj", "10", "abi@gmail.com", "30-11-2001", "Male", "9655047766" } };
-        String s_column[] = { "ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE" };
-        JTable s_jt = new JTable(s_data, s_column);
-        s_jt.setModel(new DefaultTableModel(new Object[][] {
-                { "S.NO.", "ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE" },
-                { "1", "19eucs001", "Abiraj", "10", "abi@gmail.com", "30-11-2001", "Male", "9655047766" },
-                { null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null }
+        JLabel stu_panel_subhead=new JLabel("Consolidated Student Details of Class 10");
+        stu_panel_subhead.setFont(new Font("Segeo UI",Font.BOLD,24));
+        stu_panel_subhead.setForeground(Color.black);
+        stu_panel_subhead.setBorder(null);
+        stu_panel_subhead.setBounds(50, 210, 600, 80);
+        studentpanel.add(stu_panel_subhead);
 
-        }, new String[] { "SNO", "ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE" }));
+
+
+        JButton add_btn=new JButton();
+        add_btn.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("images/add.png"))));
+        add_btn.setToolTipText("You can add new student details here");
+        add_btn.setLayout(null);
+        add_btn.setBackground(Color.WHITE);
+        add_btn.setFocusPainted(false);
+        add_btn.setBorder(null);
+        add_btn.setBounds(1020, 210, 64, 64);
+        add_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                new AddStudentForm();
+            }
+        });
+        studentpanel.add(add_btn);
+
+        String s_data[][]={ {"19eucs001","Abiraj","10","abi@gmail.com","30-11-2001","Male","9655047766"}};
+        String s_column[]={"ID","NAME","STD","EMAIL","DOB","GENDER","PHONE"};
+        JTable s_jt=new JTable(s_data,s_column);
+        s_jt.setModel(new DefaultTableModel(
+                new Object[][] {
+                        {"S.NO.","ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE"},
+                                {"1","19eucs001", "Abiraj", "10", "abi@gmail.com", "30-11-2001", "Male", "9655047766"},
+                        {null, null, null, null, null, null, null,null},
+                        {null, null, null, null, null, null, null,null},
+                        {null, null, null, null, null, null, null,null},
+                        {null, null, null, null, null, null, null,null},
+                        {null, null, null, null, null, null, null,null},
+                        {null, null, null, null, null, null, null,null},
+                        {null, null, null, null, null, null, null,null},
+                        {null, null, null, null, null, null, null,null},
+                        {null, null, null, null, null, null, null,null},
+                        {null, null, null, null, null, null, null,null},
+
+
+
+                },
+                new String[] {
+                        "SNO","ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE"
+                }
+        ));
         s_jt.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         s_jt.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        s_jt.setBounds(60, 312, 1100, 421);
+        s_jt.setBounds(30,320,1100,390);
         s_jt.setBackground(Color.white);
         s_jt.setRowHeight(s_jt.getRowHeight() + 20);
         studentpanel.add(s_jt);
-
-
 
         learningpanel = new JPanel();
         learningpanel.setBackground(Color.white);
@@ -653,36 +714,79 @@ public class TeacherGUI extends JFrame {
         l_l2.setBounds(30, 73, 318, 37);
         learn_info.add(l_l2);
 
-        JPanel learn_assign_panel = new JPanel();
-        learn_assign_panel.setBackground(Color.WHITE);
-        learn_assign_panel.setBounds(34, 203, 1150, 530);
-        learn_assign_panel.setLayout(null);
-        learningpanel.add(learn_assign_panel);
-
-        JLabel assign_text = new JLabel("Assign Here !");
+        JLabel assign_text = new JLabel("Assign Learning materials Here... !                                           Uploaded Materials");
         assign_text.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        assign_text.setBounds(47, 43, 364, 52);
-        learn_assign_panel.add(assign_text);
+        assign_text.setBounds(100, 170, 800, 52);
+        learningpanel.add(assign_text);
 
         JButton upload_btn = new JButton("Upload");
         upload_btn.setForeground(Color.WHITE);
         upload_btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
         upload_btn.setBackground(new Color(255, 127, 80));
-        upload_btn.setBounds(47, 134, 275, 41);
+        upload_btn.setBounds(150, 240, 200, 41);
         upload_btn.setLayout(null);
         upload_btn.setFocusPainted(false);
         upload_btn.setBorder(null);
-        learn_assign_panel.add(upload_btn);
+        learningpanel.add(upload_btn);
+
+
+
+        JTextArea assign_text_2 = new JTextArea("Bigger File?Please provide a Google Drive link in the box below...");
+        assign_text_2.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        assign_text_2.setBounds(100, 360, 400, 50);
+        assign_text_2.setWrapStyleWord(true);
+        assign_text_2.setForeground(Color.lightGray);
+        assign_text_2.setLineWrap(true);
+        learningpanel.add(assign_text_2);
+
+        JTextArea drive_link=new JTextArea("");
+        drive_link.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        drive_link.setBounds(100, 430, 400, 250);
+        drive_link.setBackground(Color.white);
+        drive_link.setWrapStyleWord(true);
+        drive_link.setBorder(blackline);
+        drive_link.setMargin(new Insets(10,20,10,10));
+        drive_link.setLineWrap(true);
+        learningpanel.add(drive_link);
+
+        String material[][]={ {"1.","science_material.pdf"}};
+        String mat_column[]={"S.NO.","MATERIAL"};
+        JTable material_jt=new JTable(data,column);
+        material_jt.setModel(new DefaultTableModel(
+                new Object[][] {
+                        {"S.NO","MATERIAL"},
+                        {null, null, null},
+                        {null, null, null},
+                        {null, null, null},
+                        {null, null, null},
+                        {null, null, null},
+                        {null, null, null},
+                        {null, null, null},
+                        {null, null, null}
+
+
+
+                },
+                new String[] {
+                        "S.NO.", "MATERIAL"
+                }
+        ));
+        material_jt.setRowHeight(jt.getRowHeight() + 20);
+        material_jt.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+        material_jt.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        material_jt.setBounds(600,240,500,440);
+        learningpanel.add(material_jt);
+
 
         leaveformpanel = new JPanel();
-        leaveformpanel.setBackground(new Color(250, 250, 250));
+        leaveformpanel.setBackground(new Color(250,250,250));
         leaveformpanel.setBounds(124, 0, 1336, 777);
         leaveformpanel.setLayout(null);
         p.add(leaveformpanel);
 
         JPanel leave_info = new JPanel();
         leave_info.setBounds(24, 10, 1150, 282);
-        leave_info.setBackground(new Color(255, 255, 255));
+        leave_info.setBackground(new Color(255,255,255));
         leaveformpanel.add(leave_info);
         leave_info.setLayout(null);
 
@@ -768,7 +872,7 @@ public class TeacherGUI extends JFrame {
         label3.setBounds(300, 100, 100, 49);
         leave_apply_panel.add(label3);
 
-//        String l_date[]={"21/08/2021","22/08/2021"};
+        // String l_date[]={"21/08/2021","22/08/2021"};
         cb_2 = new JComboBox<String>();
         cb_2.setBounds(300, 150, 200, 40);
         cb_2.setBackground(Color.white);
@@ -784,10 +888,10 @@ public class TeacherGUI extends JFrame {
             }
         });
 
-        JButton leave_req_view_btn = new JButton("View Leave Request");
-        leave_req_view_btn.setBounds(65, 220, 200, 40);
+        JButton leave_req_view_btn=new JButton("View Leave Request");
+        leave_req_view_btn.setBounds(65,220,200,40);
         leave_req_view_btn.setForeground(Color.WHITE);
-        leave_req_view_btn.setBackground(new Color(150, 200, 255));
+        leave_req_view_btn.setBackground(new Color(150,200,255));
         leave_req_view_btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
         leave_req_view_btn.setLayout(null);
         leave_req_view_btn.setFocusPainted(false);
@@ -807,10 +911,10 @@ public class TeacherGUI extends JFrame {
             }
         });
 
-
         leave_req_ta.setBounds(600, 100, 500, 200);
         leave_req_ta.setMargin(new Insets(10, 10, 10, 10));
-        leave_req_ta.setBackground(new Color(240, 240, 240));
+        leave_req_ta.setBackground(Color.WHITE);
+        leave_req_ta.setBorder(blackline);
         leave_req_ta.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         leave_apply_panel.add(leave_req_ta);
 
@@ -818,8 +922,6 @@ public class TeacherGUI extends JFrame {
         label1.setFont(new Font("Segoe UI", Font.BOLD, 28));
         label1.setBounds(65, 26, 295, 49);
         leave_apply_panel.add(label1);
-
-
 
         JButton d1 = new JButton("Disapprove");
         d1.setForeground(Color.WHITE);
@@ -853,7 +955,7 @@ public class TeacherGUI extends JFrame {
                     leave_req_ta.setText("");
                     setLeaveDates();
 
-                    //Clear Text functions
+                    // Clear Text functions
                 }
             }
         });
@@ -880,10 +982,9 @@ public class TeacherGUI extends JFrame {
 
         JPanel panel_2 = new JPanel();
         panel_2.setBounds(24, 21, 1100, 130);
-        panel_2.setBackground(new Color(250,250,250));
+        panel_2.setBackground(new Color(250, 250, 250));
         panel_2.setLayout(null);
         forumpanel.add(panel_2);
-
 
         JLabel forum_head = new JLabel("Respond to  Student Inquiry");
         forum_head.setFont(new Font("Segoe UI", Font.BOLD, 28));
@@ -908,22 +1009,10 @@ public class TeacherGUI extends JFrame {
         forum_response_panel.add(forum_info_text);
 
 
-        JLabel inq_s_id_head = new JLabel("Student ID:");
-        inq_s_id_head.setFont(new Font("Segoe UI", Font.BOLD, 17));
-        inq_s_id_head.setBounds(400, 150, 116, 31);
-        forum_response_panel.add(inq_s_id_head);
-
-        JTextField t_inq_s_id = new JTextField();
-        t_inq_s_id.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        t_inq_s_id.setBounds(510, 150, 50, 40);
-        forum_response_panel.add(t_inq_s_id);
-
-
         JLabel inq_recieved_head = new JLabel("Inquiry ID:");
         inq_recieved_head.setFont(new Font("Segoe UI", Font.BOLD, 17));
         inq_recieved_head.setBounds(14, 155, 89, 20);
         forum_response_panel.add(inq_recieved_head);
-
 
         f_id_cb = new JComboBox<String>();
         f_id_cb.setBounds(120, 150,100,40);
@@ -932,32 +1021,45 @@ public class TeacherGUI extends JFrame {
         forum_response_panel.add(f_id_cb);
 
 
+        JLabel inq_s_id_head = new JLabel("Student ID:");
+        inq_s_id_head.setFont(new Font("Segoe UI", Font.BOLD, 17));
+        inq_s_id_head.setBounds(250, 150, 116, 31);
+        forum_response_panel.add(inq_s_id_head);
+
+        JTextField t_inq_s_id = new JTextField();
+        t_inq_s_id.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        t_inq_s_id.setBounds(350, 150, 200, 40);
+        forum_response_panel.add(t_inq_s_id);
+
+
 
         JTextArea inquiry_textarea = new JTextArea();
-        inquiry_textarea.setBackground(new Color(240, 240, 255));
+        inquiry_textarea.setBackground(Color.WHITE);
         inquiry_textarea.setWrapStyleWord(true);
+        inquiry_textarea.setBorder(blackline);
         inquiry_textarea.setRows(3);
-        inquiry_textarea.setMargin(new Insets(10, 15, 10, 10));
+        inquiry_textarea.setMargin(new Insets(30, 30, 10, 10));
         inquiry_textarea.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         inquiry_textarea.setBounds(14, 220, 540, 163);
         forum_response_panel.add(inquiry_textarea);
 
 
 
-        JTextArea inquiry_textarea_2 = new JTextArea("Respond to Inquiry here....");
-        inquiry_textarea_2.setBackground(new Color(240, 240, 255));
+        JTextArea inquiry_textarea_2 = new JTextArea("    Respond to Inquiry here....");
+        inquiry_textarea_2.setBackground(Color.WHITE);
         inquiry_textarea_2.setWrapStyleWord(true);
         inquiry_textarea_2.setRows(3);
-        inquiry_textarea_2.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        inquiry_textarea_2.setBorder(blackline);
+        inquiry_textarea_2.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         inquiry_textarea_2.setForeground(Color.gray);
-        inquiry_textarea_2.setMargin(new Insets(10, 15, 10, 10));
-        inquiry_textarea_2.setBounds(14, 420, 540, 163);
+        inquiry_textarea_2.setMargin(new Insets(30,30,10,10));
+        inquiry_textarea_2.setBounds(14, 410, 540, 170);
         forum_response_panel.add(inquiry_textarea_2);
 
         JButton respond_btn_2 = new JButton("Submit Response");
         respond_btn_2.setFont(new Font("Segoe UI", Font.BOLD, 14));
         respond_btn_2.setBackground(new Color(250, 128, 114));
-        respond_btn_2.setBounds(14, 600, 200, 40);
+        respond_btn_2.setBounds(14, 600,200,40);
         respond_btn_2.setLayout(null);
         respond_btn_2.setForeground(Color.white);
         respond_btn_2.setFocusPainted(false);
@@ -973,9 +1075,10 @@ public class TeacherGUI extends JFrame {
                     inquiry_textarea.setText(forum.getDescription());
                     inquiry_textarea.setEditable(false);
 
+                        }
+                    }
                 }
-            }
-        });
+        );
         respond_btn_2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1004,7 +1107,6 @@ public class TeacherGUI extends JFrame {
         no_of_inq.setBounds(114, 21, 43, 64);
         inquiry_rec_panel.add(no_of_inq);
 
-
         JPanel inq_responded_panel = new JPanel();
         inq_responded_panel.setBackground(new Color(255, 160, 122));
         inq_responded_panel.setBounds(789, 450, 237, 154);
@@ -1023,14 +1125,11 @@ public class TeacherGUI extends JFrame {
         responded_inq.setForeground(new Color(255, 255, 255));
         responded_inq.setFont(new Font("Segoe UI", Font.BOLD, 42));
 
-
         JLabel responded_inq_text = new JLabel("Inquiries Responded");
         responded_inq_text.setBounds(50, 90, 218, 28);
         inq_responded_panel.add(responded_inq_text);
         responded_inq_text.setForeground(new Color(255, 255, 255));
         responded_inq_text.setFont(new Font("Segoe UI", Font.BOLD, 16));
-
-
 
         payrollpanel = new JPanel();
         payrollpanel.setBackground(Color.white);
@@ -1039,7 +1138,7 @@ public class TeacherGUI extends JFrame {
         p.add(payrollpanel);
 
         JPanel payroll_info = new JPanel();
-        payroll_info.setBackground(new Color(250, 250, 250));
+        payroll_info.setBackground(new Color(250,250,250));
         payroll_info.setBounds(10, 21, 1150, 158);
         payroll_info.setLayout(null);
         payrollpanel.add(payroll_info);
@@ -1056,6 +1155,94 @@ public class TeacherGUI extends JFrame {
         payroll_info.add(p_l2);
 
         setVisible(true);
+        JLabel pay_text_1=new JLabel("Click below to access your payroll");
+        pay_text_1.setForeground(Color.black);
+        pay_text_1.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        pay_text_1.setBounds(46, 250, 500, 40);
+        payrollpanel.add(pay_text_1);
+
+        JButton access_pay_btn=new JButton("Access payroll");
+        access_pay_btn.setBackground(new Color(255,154,162));
+        access_pay_btn.setForeground(Color.white);
+        access_pay_btn.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        access_pay_btn.setBounds(46, 320, 200, 50);
+        access_pay_btn.setLayout(null);
+        access_pay_btn.setBorder(null);
+        access_pay_btn.setFocusPainted(false);
+        payrollpanel.add(access_pay_btn);
+
+        JLabel sal_lbl=new JLabel("Your have been credited with:");
+        sal_lbl.setForeground(Color.black);
+        sal_lbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        sal_lbl.setBounds(46, 390, 300, 150);
+        sal_lbl.setBorder(null);
+        payrollpanel.add(sal_lbl);
+
+
+        JLabel salary_amt=new JLabel();
+        salary_amt.setBackground(new Color(139,217,199));
+        salary_amt.setForeground(Color.white);
+        salary_amt.setFont(new Font("Segoe UI", Font.BOLD, 34));
+        salary_amt.setBounds(46, 500, 200, 150);
+        salary_amt.setOpaque(true);
+        salary_amt.setBorder(null);
+        payrollpanel.add(salary_amt);
+
+        JLabel teacher_performance=new JLabel("Your Performance Analysis");
+        teacher_performance.setForeground(Color.black);
+        teacher_performance.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        teacher_performance.setBounds(800, 200, 400, 150);
+        teacher_performance.setBorder(null);
+        payrollpanel.add(teacher_performance);
+
+        JSeparator sep = new JSeparator();
+        sep.setOrientation(SwingConstants.HORIZONTAL);
+        sep.setForeground(Color.BLACK);
+        sep.setBounds(800,300,300,20);
+        payrollpanel.add(sep);
+
+
+        JLabel teacher_ap_lbl =new JLabel("Attendance Performance");
+        teacher_ap_lbl.setForeground(Color.black);
+        teacher_ap_lbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        teacher_ap_lbl.setBounds(800, 350, 400, 50);
+        teacher_ap_lbl.setBorder(null);
+        payrollpanel.add(teacher_ap_lbl);
+
+        JLabel teacher_att_percent=new JLabel(" 90%");
+        teacher_att_percent.setBackground(new Color(139,217,199));
+        teacher_att_percent.setForeground(Color.white);
+        teacher_att_percent.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        teacher_att_percent.setBounds(1060, 350, 50, 40);
+        teacher_att_percent.setOpaque(true);
+        teacher_att_percent.setBorder(null);
+        payrollpanel.add(teacher_att_percent);
+
+
+
+
+
+        access_pay_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String high_sec_pin="1234";
+                String pin= JOptionPane.showInputDialog("Enter your high security 4-digit pin");
+
+
+                if(pin.equals(high_sec_pin)){
+                    JOptionPane.showMessageDialog(null,"Congratulations !!! your account isn credited with your new payroll");
+                    salary_amt.setText("  $3000.00");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"Invalid pin number!!");
+                }
+
+            }
+
+                });
+
+
+
+        setVisible( true );
         setLayout(null);
         setResizable(false);
         setLeaveDates();
@@ -1063,11 +1250,12 @@ public class TeacherGUI extends JFrame {
 
     }
 
-
     public static void main(String[] args) {
 
 new TeacherGUI(new TeacherDBHelper().getTeacherId("hari@gmail.com"));
 
+//        Teacher teacher = new Teacher("19eucs005","12345","Ajay","12","ajai@gmail",3,"9545454545",5000000);
+//        new TeacherGUI(teacher);
     }
 
     void setLeaveDates() {
