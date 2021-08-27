@@ -38,9 +38,9 @@ import models.Forum;
 import models.Leave;
 import models.Teacher;
 
+@SuppressWarnings("unchecked")
 public class TeacherGUI extends JFrame {
 
-    TeacherDBHelper teacherDBHelper = new TeacherDBHelper();
     JComboBox<String> cb_2;
     JComboBox<String> cb;
     JPanel contentPane;
@@ -55,7 +55,6 @@ public class TeacherGUI extends JFrame {
     ArrayList<Forum> inquiries;
     JComboBox<String> f_id_cb;
     private JTextField a_student_date;
-    TeacherDBHelper teacherDB = new TeacherDBHelper();
     Teacher teacher = null;
     Attendance attendance = null;
 
@@ -406,7 +405,7 @@ public class TeacherGUI extends JFrame {
         tot_students.setBounds(20, 80, 100, 80);
         tot_students.setFont(new Font("Segoe UI", Font.BOLD, 80));
         tot_students.setForeground(Color.white);
-        tot_students.setText(teacherDB.totalStudents(teacher.gettClass()));
+        tot_students.setText(TeacherDBHelper.totalStudents(teacher.gettClass()));
         class_summary_table.add(tot_students);
 
         attendancepanel = new JPanel();
@@ -823,7 +822,7 @@ public class TeacherGUI extends JFrame {
                 if (index1 != -1 && index2 != -1) {
                     StudentDBHelper studentDBHelper = new StudentDBHelper();
                     Leave leave = studentDBHelper.getSingleLeave(cb.getItemAt(index1), cb_2.getItemAt(index2));
-                    teacherDBHelper.approveLeave(leave);
+                    TeacherDBHelper.approveLeave(leave);
                     leave_req_ta.setText("");
                     setLeaveDates();
 
@@ -839,7 +838,7 @@ public class TeacherGUI extends JFrame {
                 if (index1 != -1 && index2 != -1) {
                     StudentDBHelper studentDBHelper = new StudentDBHelper();
                     Leave leave = studentDBHelper.getSingleLeave(cb.getItemAt(index1), cb_2.getItemAt(index2));
-                    teacherDBHelper.RejectLeave(leave);
+                    TeacherDBHelper.RejectLeave(leave);
                     leave_req_ta.setText("");
                     setLeaveDates();
                 }
@@ -951,7 +950,7 @@ public class TeacherGUI extends JFrame {
                 } else if (index != -1) {
                     Forum forum = inquiries.get(index);
                     forum.setResponse(inquiry_textarea_2.getText());
-                    teacherDBHelper.replyQuestion(forum);
+                    TeacherDBHelper.replyQuestion(forum);
                     setInquiries();
                     JOptionPane.showMessageDialog(TeacherGUI.this, "Replied!");
                     inquiry_textarea_2.setText("");
@@ -1026,12 +1025,12 @@ public class TeacherGUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        new TeacherGUI(new TeacherDBHelper().getTeacherId("19eucs117@skcet.ac.in"));
+        new TeacherGUI(TeacherDBHelper.getTeacherId("19eucs117@skcet.ac.in"));
     }
 
     void setLeaveDates() {
         cb_2.removeAllItems();
-        ArrayList<String> dates = teacherDBHelper.getDistinctDates();
+        ArrayList<String> dates = TeacherDBHelper.getDistinctDates();
         for (String s : dates) {
             cb_2.addItem(s);
         }
@@ -1039,7 +1038,7 @@ public class TeacherGUI extends JFrame {
 
     void setStudentsLeave(String date) {
         cb.removeAllItems();
-        ArrayList<Leave> leaves = teacherDBHelper.getPendingLeavesFromDate(date);
+        ArrayList<Leave> leaves = TeacherDBHelper.getPendingLeavesFromDate(date);
         for (Leave l : leaves) {
             cb.addItem(l.getStudent_id());
         }
@@ -1047,13 +1046,13 @@ public class TeacherGUI extends JFrame {
 
     void setInquiries() {
         f_id_cb.removeAllItems();
-        inquiries = teacherDBHelper.allUnrespondedQueries();
+        inquiries = TeacherDBHelper.allUnrespondedQueries();
         for (int i = 1; i <= inquiries.size(); i++) {
             f_id_cb.addItem(i + "");
         }
     }
 
     void setTeacher(String email) {
-        teacher = teacherDB.getTeacherId(email);
+        teacher = TeacherDBHelper.getTeacherId(email);
     }
 }

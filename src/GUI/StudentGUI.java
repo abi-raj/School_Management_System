@@ -16,7 +16,6 @@ import java.util.Objects;
 
 public class StudentGUI extends JFrame {
 
-    StudentDBHelper studentDBHelper = new StudentDBHelper();
     Student student = null;
     ArrayList<Leave> alLeave;
     ArrayList<Forum> alForum;
@@ -69,7 +68,7 @@ public class StudentGUI extends JFrame {
 
     public static void main(String[] args) {
 
-        StudentGUI frame = new StudentGUI("19eucs001");
+        new StudentGUI("19eucs001");
 
     }
 
@@ -250,7 +249,7 @@ public class StudentGUI extends JFrame {
                     } else {
                         int amount_entered = Integer.parseInt(str);
                         if (amount_entered < 0 || amount_entered > student.getFees()
-                                || !(studentDBHelper.payFees(student.getId(), amount_entered))) {
+                                || !(StudentDBHelper.payFees(student.getId(), amount_entered))) {
                             JOptionPane.showMessageDialog(StudentGUI.this, "Payment Failure");
                         } else {
                             JOptionPane.showMessageDialog(StudentGUI.this, "Payment Success");
@@ -349,7 +348,7 @@ public class StudentGUI extends JFrame {
                 if (txta_IForm.getText().length() < 5) {
                     JOptionPane.showMessageDialog(StudentGUI.this, "Minimum 5 characters is required");
                 } else {
-                    if (studentDBHelper.askQuestion(student.getId(), txta_IForm.getText())) {
+                    if (StudentDBHelper.askQuestion(student.getId(), txta_IForm.getText())) {
                         JOptionPane.showMessageDialog(StudentGUI.this, "Inquiry posted");
                         alForum.clear();
 
@@ -478,10 +477,10 @@ public class StudentGUI extends JFrame {
                         JOptionPane.showMessageDialog(StudentGUI.this, "Minimum 5 characters is required");
                     } else if (choose_date1.getText().length() != 10) {
                         JOptionPane.showMessageDialog(StudentGUI.this, "Enter a valid date");
-                    } else if (studentDBHelper.checkLeaveAlreadyPresent(student.getId(), choose_date1.getText())) {
+                    } else if (StudentDBHelper.checkLeaveAlreadyPresent(student.getId(), choose_date1.getText())) {
                         JOptionPane.showMessageDialog(StudentGUI.this, "This date is already applied!");
                     } else {
-                        if (studentDBHelper.applyLeave(student.getId(), choose_date1.getText(), txta_LForm.getText())) {
+                        if (StudentDBHelper.applyLeave(student.getId(), choose_date1.getText(), txta_LForm.getText())) {
                             JOptionPane.showMessageDialog(StudentGUI.this, "Leave applied");
                             alLeave.clear();
 
@@ -791,7 +790,7 @@ public class StudentGUI extends JFrame {
     }
 
     void setStudent(String student_id) {
-        student = studentDBHelper.viewProfile(student_id);
+        student = StudentDBHelper.viewProfile(student_id);
     }
 
     void setInitialProfileValues() {
@@ -809,7 +808,7 @@ public class StudentGUI extends JFrame {
 
     void setLeaveFormComboBox() {
         comboBox_Lfno.removeAllItems();
-        alLeave = studentDBHelper.getLeaveStatus(student.getId());
+        alLeave = StudentDBHelper.getLeaveStatus(student.getId());
         for (int i = 1; i <= alLeave.size(); i++) {
 
             comboBox_Lfno.addItem(i + "");
@@ -818,21 +817,21 @@ public class StudentGUI extends JFrame {
 
     void setInquiryComboBox() {
         comboBox_Ifno.removeAllItems();
-        alForum = studentDBHelper.getQuestionsResponse(student.getId());
+        alForum = StudentDBHelper.getQuestionsResponse(student.getId());
         for (int i = 1; i <= alForum.size(); i++) {
             comboBox_Ifno.addItem(i + "");
         }
     }
 
     void setModelComboBox() {
-        alMaterials = studentDBHelper.getMaterials(student.getStd());
+        alMaterials = StudentDBHelper.getMaterials(student.getStd());
         for (int i = 1; i <= alMaterials.size(); i++) {
             comboBox_materialno.addItem(i + "");
         }
     }
 
     void setGradesTable() {
-        alMarks = studentDBHelper.viewGrades(student.getId());
+        alMarks = StudentDBHelper.viewGrades(student.getId());
         marksArray = new String[alMarks.size()][2];
         for (int i = 0; i < alMarks.size(); i++) {
             marksArray[i][0] = alMarks.get(i).getExam_title();

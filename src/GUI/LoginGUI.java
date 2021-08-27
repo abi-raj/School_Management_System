@@ -138,7 +138,7 @@ public class LoginGUI extends JFrame {
 
                 // Log Admin in
                 if (email.contains("admin")) {
-                    if (new AdminDBHelper().checkAdminLogin(email, pwd)) {
+                    if (AdminDBHelper.checkAdminLogin(email, pwd)) {
                         JOptionPane.showMessageDialog(LoginGUI.this, "Welcome");
                         f.dispose();
                     } else
@@ -147,7 +147,7 @@ public class LoginGUI extends JFrame {
                 }
 
                 // Log Student in
-                if (new StudentDBHelper().checkStudentLogin(email, pwd)) {
+                if (StudentDBHelper.checkStudentLogin(email, pwd)) {
                     JOptionPane.showMessageDialog(LoginGUI.this, "Welcome");
                     f.dispose();
 
@@ -158,9 +158,9 @@ public class LoginGUI extends JFrame {
                 }
 
                 // Log Teacher in
-                if (new TeacherDBHelper().checkTeacherLogin(email, pwd)) {
+                if (TeacherDBHelper.checkTeacherLogin(email, pwd)) {
                     JOptionPane.showMessageDialog(LoginGUI.this, "Welcome");
-                    Teacher teacher = new TeacherDBHelper().getTeacherId(email);
+                    Teacher teacher = TeacherDBHelper.getTeacherId(email);
                     f.dispose();
                     new TeacherGUI(teacher);
                     return;
