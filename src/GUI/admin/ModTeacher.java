@@ -140,6 +140,7 @@ public class ModTeacher extends JFrame {
         editButton.setBounds(100, 460, 100, 30);
         editButton.setBorder(new EtchedBorder());
         editButton.setForeground(Color.white);
+        editButton.setFocusPainted(false);
         editButton.setBackground(new Color(28, 133, 232));
         panel.add(editButton);
 
@@ -176,6 +177,7 @@ public class ModTeacher extends JFrame {
         deleteButton.setBorder(new EtchedBorder());
         deleteButton.setBackground(new Color(176, 0, 32));
         deleteButton.setForeground(Color.white);
+        deleteButton.setFocusPainted(false);
         panel.add(deleteButton);
         deleteButton.addActionListener(new ActionListener() {
             @Override
