@@ -1,16 +1,12 @@
 package GUI;
 
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.Objects;
 
-public class AssignGradeForm extends JFrame{
+public class AssignGradeForm extends JFrame {
 
-    private JComboBox Student_id_lbl;
-
+    private JComboBox<String> student_id_lbl;
 
     public AssignGradeForm() {
         formComponents();
@@ -21,10 +17,8 @@ public class AssignGradeForm extends JFrame{
         setTitle("School Management System");
         JPanel p = new JPanel();
         p.setBackground(new Color(255, 255, 255));
-        p.setBounds(0,0,830,640);
+        p.setBounds(0, 0, 830, 640);
 
-
-        
         JPanel view_gradePanel = new JPanel();
         view_gradePanel.setBackground(new Color(250, 235, 215));
         view_gradePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -42,12 +36,12 @@ public class AssignGradeForm extends JFrame{
         lblStudentid.setBounds(476, 37, 106, 28);
         view_gradePanel.add(lblStudentid);
 
-        JComboBox exam_namelbl = new JComboBox();
+        JComboBox<String> exam_namelbl = new JComboBox<String>();
         exam_namelbl.setBounds(231, 39, 199, 40);
         exam_namelbl.setBackground(Color.white);
         view_gradePanel.add(exam_namelbl);
 
-        JComboBox student_id_lbl = new JComboBox();
+        student_id_lbl = new JComboBox<String>();
         student_id_lbl.setBounds(592, 37, 170, 40);
         student_id_lbl.setBackground(Color.white);
         view_gradePanel.add(student_id_lbl);
@@ -110,30 +104,14 @@ public class AssignGradeForm extends JFrame{
         assign_grade_btn.setBorder(null);
         view_gradePanel.add(assign_grade_btn);
 
-
-
-
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         add(p);
         p.setLayout(null);
-        setBounds(300,100,830,640);
-        setVisible( true );
+        setBounds(300, 100, 830, 640);
+        setVisible(true);
         setLayout(null);
         setResizable(false);
 
     }
 
-
-
-
 }
-    
-       
-
-
-   
-
-
-       
-
-   

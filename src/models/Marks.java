@@ -2,7 +2,6 @@ package models;
 
 public class Marks {
 
-
     private String student_id;
     private String exam_title;
     private String sub1;

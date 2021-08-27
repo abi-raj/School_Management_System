@@ -1,47 +1,13 @@
 package database;
 
-
 import models.Attendance;
 import models.Exam;
 import models.Teacher;
 
 import java.sql.PreparedStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import database.ValidationHelper;
-
-interface AdminTableOperations {
-    boolean checkAdminLogin(String id, String password);
-
-    boolean createAdmin(String id, String password);
-
-    void sendEmailNotification(); // Has to be done by the Epic Guy
-
-    boolean markPayroll(String teacher_id, int salary);
-
-    ArrayList<Attendance> viewAttendance(String std);
-
-    void addEventData(); // required clarification
-
-}
-
-public class AdminDBHelper implements AdminTableOperations {
-    private static final String url = "jdbc:postgresql://localhost:5432/bootathon";
-    private static final String driverName = "org.postgresql.Driver";
-    private static final String username = "postgres";
-    private static final String password = "Test@123";
-    private Connection connection = null;
-
-    public Connection getConnection() {
-        try {
-            if (connection == null) {
-                Class.forName(driverName);
-                connection = DriverManager.getConnection(url, username, password);
-                System.out.println("Connected to Bootathon Database");
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
 
 public class AdminDBHelper {
 
@@ -107,15 +73,12 @@ public class AdminDBHelper {
         return attendanceResult;
     }
 
-
-    @Override
-    public void addEventData() {
-
+    public static void addEventData() {
 
     }
 
-    public int getTotalStudentCount() {
-        Connection con = getConnection();
+    public static int getTotalStudentCount() {
+        Connection con = Connector.getConnection();
         int count = 0;
         try {
             String countquery = (CountQueries.totalStudentCount);
@@ -130,8 +93,8 @@ public class AdminDBHelper {
         return count;
     }
 
-    public int getTeacherCount() {
-        Connection con = getConnection();
+    public static int getTeacherCount() {
+        Connection con = Connector.getConnection();
         int count = 0;
         try {
             String countquery = (CountQueries.teacherCount);
@@ -146,8 +109,8 @@ public class AdminDBHelper {
         return count;
     }
 
-    public int getStudentCountByClass(String std) {
-        Connection con = getConnection();
+    public static int getStudentCountByClass(String std) {
+        Connection con = Connector.getConnection();
         int count = 0;
         try {
             String countquery = String.format(CountQueries.studentCountByClass, std);
@@ -162,10 +125,11 @@ public class AdminDBHelper {
         return count;
     }
 
-    public boolean createExam(Exam exam) {
+    public static boolean createExam(Exam exam) {
         try {
-            Connection con = getConnection();
-            String insertQuery = String.format(ExamsTable.insertExam, exam.getTitle(), exam.getStart_date(), exam.getEnd_date());
+            Connection con = Connector.getConnection();
+            String insertQuery = String.format(ExamsTable.insertExam, exam.getTitle(), exam.getStart_date(),
+                    exam.getEnd_date());
             PreparedStatement stmt = con.prepareStatement(insertQuery);
             stmt.executeUpdate();
             return true;
@@ -173,15 +137,15 @@ public class AdminDBHelper {
             System.out.println("Exception occurred : " + e.getMessage());
         }
 
-
         return false;
     }
 
-    public boolean updateExam(Exam exam) {
+    public static boolean updateExam(Exam exam) {
 
         try {
-            Connection con = getConnection();
-            String updateQuery = String.format(ExamsTable.updateExam, exam.getStart_date(), exam.getEnd_date(), exam.getTitle());
+            Connection con = Connector.getConnection();
+            String updateQuery = String.format(ExamsTable.updateExam, exam.getStart_date(), exam.getEnd_date(),
+                    exam.getTitle());
             PreparedStatement stmt = con.prepareStatement(updateQuery);
             stmt.executeUpdate();
             return true;
@@ -189,13 +153,12 @@ public class AdminDBHelper {
             System.out.println("Exception occurred : " + e.getMessage());
         }
 
-
         return false;
     }
 
-    public boolean deleteExam(String title) {
+    public static boolean deleteExam(String title) {
         try {
-            Connection con = getConnection();
+            Connection con = Connector.getConnection();
             String deleteQuery = String.format(ExamsTable.deleteExam, title);
             PreparedStatement stmt = con.prepareStatement(deleteQuery);
             stmt.executeUpdate();
@@ -204,14 +167,13 @@ public class AdminDBHelper {
             System.out.println("Exception occurred : " + e.getMessage());
         }
 
-
         return false;
     }
 
-    public ArrayList<Exam> getExams() {
+    public static ArrayList<Exam> getExams() {
         ArrayList<Exam> alExam = new ArrayList<>();
         try {
-            Connection con = getConnection();
+            Connection con = Connector.getConnection();
             String selectQuery = ExamsTable.selectExam;
             PreparedStatement stmt = con.prepareStatement(selectQuery);
             ResultSet rs = stmt.executeQuery();
@@ -226,8 +188,8 @@ public class AdminDBHelper {
         return alExam;
     }
 
-    public int getPresentToday(String date, String std) {
-        Connection con = getConnection();
+    public static int getPresentToday(String date, String std) {
+        Connection con = Connector.getConnection();
         int count = 0;
         try {
             String countquery = String.format(CountQueries.attendanceTodayByClass, date, std);
@@ -242,7 +204,7 @@ public class AdminDBHelper {
         return count;
     }
 
-    public double attendancePercentage(String date, String std) {
+    public static double attendancePercentage(String date, String std) {
         double per = 0;
         try {
             double totalCount = getStudentCountByClass(std);
@@ -252,14 +214,13 @@ public class AdminDBHelper {
             System.out.println(e.getMessage());
         }
 
-
         return per;
     }
 
-    public ArrayList<String> getAllClass() {
+    public static ArrayList<String> getAllClass() {
         ArrayList<String> alClass = new ArrayList<>();
         try {
-            Connection con = getConnection();
+            Connection con = Connector.getConnection();
 
             PreparedStatement stmt = con.prepareStatement(StudentTable.getAllClass);
             ResultSet rs = stmt.executeQuery();

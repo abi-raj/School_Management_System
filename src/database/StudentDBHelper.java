@@ -268,7 +268,7 @@ public class StudentDBHelper {
         return student;
     }
 
-    public Leave getSingleLeave(String id, String date) {
+    public static Leave getSingleLeave(String id, String date) {
         Leave leave = null;
 
         try {
