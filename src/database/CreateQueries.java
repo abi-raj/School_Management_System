@@ -64,8 +64,8 @@ class ForumTable {
 
 class TeacherTable {
     public static final String tableName = "teacher_details";
-    public static final String createTeacher = "insert into teacher_details values('%s','%s','%s','%s','%s',%d,'%s',%d)";
-    public static final String updateTeacher = "update teacher_details set password='%s',name='%s',class='%s',email='%s',experience=%d,phone='%s',salary=%d where teacher_id='%s'";
+    public static final String createTeacher = "insert into teacher_details values('%s','%s','%s','%s','%s',%d,'%s',%d,%d)";
+    public static final String updateTeacher = "update teacher_details set password='%s',name='%s',class='%s',email='%s',experience=%d,phone='%s',salary=%d  where teacher_id='%s'";
     public static final String deleteTeacher = "delete from teacher_details where teacher_id='%s'";
     public static final String viewTeacher = "select * from teacher_details where teacher_id='%s'";
     public static final String teacherLogin = "select * from teacher_details where email='%s' and password='%s'";

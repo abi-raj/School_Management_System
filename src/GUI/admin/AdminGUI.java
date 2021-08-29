@@ -29,7 +29,10 @@ public class AdminGUI extends JFrame {
     JPanel homepanel, p;
     JPanel notification_panel;
     JPanel exampanel;
+    //JPanel leaveformpanel;
     JPanel teacherpanel;
+//    JPanel learningpanel;
+   // JPanel forumpanel;
     JPanel payrollpanel;
     JPanel total_studentspanel;
     JPanel total_teacherspanel;
@@ -286,6 +289,7 @@ public class AdminGUI extends JFrame {
 
     void addTeacherRecords() {
         ArrayList<Teacher> al = teacherDBHelper.allTeachers();
+        System.out.println("Count INside all teacher records"+al.size());
         teacherRecordArray = new String[al.size() + 1][8];
 
         teacherRecordArray[0][0] = "S.NO";
@@ -895,7 +899,7 @@ public class AdminGUI extends JFrame {
         Event_descp_lbl.setBounds(32, 127, 157, 41);
         event_panel.add(Event_descp_lbl);
 
-        txt_desc = new JTextArea();
+         txt_desc = new JTextArea();
         txt_desc.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         txt_desc.setBackground(Color.WHITE);
         txt_desc.setToolTipText("Enter Description");

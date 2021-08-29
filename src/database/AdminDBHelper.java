@@ -1,5 +1,6 @@
 package database;
 
+
 import models.Attendance;
 import models.Exam;
 import models.Teacher;
@@ -8,6 +9,10 @@ import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import database.ValidationHelper;
+
+interface AdminTableOperations {
+    boolean checkAdminLogin(String id, String password);
 
 public class AdminDBHelper {
 
@@ -137,6 +142,7 @@ public class AdminDBHelper {
             System.out.println("Exception occurred : " + e.getMessage());
         }
 
+
         return false;
     }
 
@@ -166,6 +172,7 @@ public class AdminDBHelper {
         } catch (Exception e) {
             System.out.println("Exception occurred : " + e.getMessage());
         }
+
 
         return false;
     }
@@ -213,6 +220,7 @@ public class AdminDBHelper {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
 
         return per;
     }

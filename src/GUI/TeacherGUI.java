@@ -445,9 +445,8 @@ public class TeacherGUI extends JFrame {
         present.setBackground(Color.WHITE);
         absent.setBackground(Color.WHITE);
         absent.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        ButtonGroup bg = new ButtonGroup();
-        bg.add(present);
-        bg.add(absent);
+        ButtonGroup bg=new ButtonGroup();
+        bg.add(present);bg.add(absent);
         updateAttendance.add(present);
         updateAttendance.add(absent);
 
@@ -507,6 +506,12 @@ public class TeacherGUI extends JFrame {
         attendancepanel.add(consolidated_att_lbl);
 
 
+        String pick_date[]={""};
+        JComboBox date_dd = new JComboBox(pick_date);
+        date_dd.setBounds(550, 400, 200, 47);
+        date_dd.setBackground(Color.white);
+        date_dd.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        attendancepanel.add(date_dd);
 
         date_dd.addActionListener(new ActionListener() {
             @Override
