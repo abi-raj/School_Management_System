@@ -22,6 +22,7 @@ public class Attendance {
         this.student_id = student_id;
         this.std = std;
         this.date = date;
+        this.status =status;
     }
 
     public String getStudent_id() {

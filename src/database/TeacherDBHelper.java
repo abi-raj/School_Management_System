@@ -2,7 +2,10 @@ package database;
 
 import models.*;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class TeacherDBHelper {
@@ -21,7 +24,7 @@ public class TeacherDBHelper {
 
             stmt.executeUpdate(CreateQueries.createTeacher);
             System.out.println("Table Teacher created");
-          //  conn.close();
+            //  conn.close();
         } catch (Exception e) {
             System.out.println("Exception Occured: " + e);
         }
@@ -77,7 +80,7 @@ public class TeacherDBHelper {
     // }
 
     public static boolean createTeacher(Teacher user) {
-      //  teacher_tableExists();
+        //  teacher_tableExists();
         String insertQuery = String.format(TeacherTable.createTeacher, user.getTeacher_id(), user.getPassword(),
                 user.gettClass(), user.getName(), user.getEmail(), user.getExperience(), user.getPhone(),
                 user.getSalary());
@@ -103,7 +106,7 @@ public class TeacherDBHelper {
             Connection conn = Connector.getConnection();
             PreparedStatement stmt = conn.prepareStatement(selectQuery);
             ResultSet rs = stmt.executeQuery();
-          //  conn.close();
+            //  conn.close();
             return rs.next();
         } catch (Exception e) {
             System.out.println("Exception occurred " + e.getMessage());
@@ -185,15 +188,17 @@ public class TeacherDBHelper {
         teacher_tableExists();
         Connection con = Connector.getConnection();
         if (StudentDBHelper.checkStudentExists(id)) {
-            String stdQuery = String.format("select std from student where student_id='%s'", id);
+            String stdQuery = String.format("select * from student where student_id='%s'", id);
             String std = null;
             try {
                 PreparedStatement stmt = con.prepareStatement(stdQuery);
                 ResultSet rs = stmt.executeQuery();
-                while (rs.next()) {
-                    std = rs.getString(1);
+                if (rs.next()) {
+                    std = rs.getString(4);
                 }
-                System.out.println(rs.getString(1));
+
+
+//                System.out.println(rs.getString(1));
             } catch (Exception e) {
                 System.out.println("Exception:" + e);
             }
@@ -328,11 +333,11 @@ public class TeacherDBHelper {
         return count;
     }
 
-    public static int approvedLeaveCount(String email) {
+    public static int approvedLeaveCount(String id) {
         Connection con = Connector.getConnection();
         int count = 0;
         try {
-            String countquery = String.format(CountQueries.approvedLeaveRequestsCount, email);
+            String countquery = String.format(CountQueries.approvedLeaveRequestsCount, id);
             PreparedStatement stmt = con.prepareStatement(countquery);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -498,4 +503,55 @@ public class TeacherDBHelper {
         return count;
     }
 
+    public static ArrayList<String> getDistinctDatesAttendance() {
+        ArrayList<String> str = new ArrayList<>();
+        try {
+            Connection con = Connector.getConnection();
+            String dateQuery = AttendanceTable.selectDistinctDates;
+            PreparedStatement stmt = con.prepareStatement(dateQuery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                str.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("exception occurred " + e.getMessage());
+        }
+        return str;
+    }
+
+    public static ArrayList<Attendance> getAttendanceByDate(String date, String std) {
+        ArrayList<Attendance> alAttendance = new ArrayList<>();
+        try {
+            String query = String.format(AttendanceTable.selectAttendanceDate, date, std);
+            Connection con = Connector.getConnection();
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Attendance attendance = new Attendance(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
+                alAttendance.add(attendance);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception : " + e.getMessage());
+        }
+        return alAttendance;
+    }
+
+    public static ArrayList<Marks> getMarksByClass(String std) {
+        ArrayList<Marks> alMarks = new ArrayList<>();
+        try {
+            String query = String.format(MarksTable.marksByClass, std);
+            Connection con = Connector.getConnection();
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Marks mark = new Marks(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+                alMarks.add(mark);
+            }
+        } catch (Exception rx) {
+            System.out.println("Exception occurred : " + rx.getMessage());
+        }
+
+        return alMarks;
+
+    }
 }

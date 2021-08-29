@@ -1,14 +1,30 @@
 package GUI;
 
+import database.AdminDBHelper;
+import database.StudentDBHelper;
+import database.TeacherDBHelper;
+import models.Exam;
+import models.Marks;
+import models.Student;
+import models.Teacher;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AssignGradeForm extends JFrame {
 
+    TeacherGUI teacherGUI;
+    Teacher teacher;
     private JComboBox<String> student_id_lbl;
 
-    public AssignGradeForm() {
+    public AssignGradeForm(
+            TeacherGUI teacherGUI, Teacher teacher
+    ) {
+        this.teacherGUI = teacherGUI;
+        this.teacher = teacher;
         formComponents();
     }
 
@@ -36,12 +52,14 @@ public class AssignGradeForm extends JFrame {
         lblStudentid.setBounds(476, 37, 106, 28);
         view_gradePanel.add(lblStudentid);
 
+
         JComboBox<String> exam_namelbl = new JComboBox<String>();
         exam_namelbl.setBounds(231, 39, 199, 40);
         exam_namelbl.setBackground(Color.white);
         view_gradePanel.add(exam_namelbl);
-
+        setExamCombo(exam_namelbl);
         student_id_lbl = new JComboBox<String>();
+        setStudentCombo(student_id_lbl);
         student_id_lbl.setBounds(592, 37, 170, 40);
         student_id_lbl.setBackground(Color.white);
         view_gradePanel.add(student_id_lbl);
@@ -104,6 +122,37 @@ public class AssignGradeForm extends JFrame {
         assign_grade_btn.setBorder(null);
         view_gradePanel.add(assign_grade_btn);
 
+
+        assign_grade_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String sci = science_txt.getText();
+                String maths=maths_txt.getText();
+                String soc = social_txt.getText();
+
+                if(sci!="" && maths!="" && soc!=""){
+                    Marks mark=new Marks(student_id_lbl.getSelectedItem().toString(),exam_namelbl.getSelectedItem().toString(),sci,maths,soc,"");
+                    TeacherDBHelper.addGrades(mark);
+                    JOptionPane.showMessageDialog(AssignGradeForm.this,"Added");
+                    if(student_id_lbl.getSelectedIndex()==0){
+                        student_id_lbl.removeAllItems();
+                    }
+                    else{
+                        student_id_lbl.remove(student_id_lbl.getSelectedIndex());
+                        science_txt.setText("");
+                        maths_txt.setText("");
+                        social_txt.setText("");
+                        teacherGUI.setConsolidatedGrades();
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(AssignGradeForm.this,"Enter all values");
+                }
+
+            }
+        });
+
+
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         add(p);
         p.setLayout(null);
@@ -112,6 +161,20 @@ public class AssignGradeForm extends JFrame {
         setLayout(null);
         setResizable(false);
 
+    }
+
+    void setStudentCombo(JComboBox<String> cbx) {
+        cbx.removeAllItems();
+        for (Student s : StudentDBHelper.allStudentsByClass(teacher.gettClass())) {
+            cbx.addItem(s.getId());
+        }
+    }
+
+    void setExamCombo(JComboBox<String> cbx) {
+        for (Exam exam : AdminDBHelper.getExams()) {
+            cbx.addItem(exam.getTitle());
+
+        }
     }
 
 }

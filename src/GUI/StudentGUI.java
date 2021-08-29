@@ -68,7 +68,7 @@ public class StudentGUI extends JFrame {
 
     public static void main(String[] args) {
 
-        new StudentGUI("19eucs001");
+        new StudentGUI("19eucs033");
 
     }
 

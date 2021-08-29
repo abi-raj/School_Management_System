@@ -35,7 +35,7 @@ class LeaveTable {
     public static final String leaveStatus = "update leave set status='%s' where std_id='%s' and date='%s'";
     public static final String selectStudentLeave = "select * from leave where std_id='%s'";
     public static final String checkLeaveExists = "select * from leave where std_id='%s' and date='%s'";
-    public static final String selectDistinctDate = "select distinct date from leave";
+    public static final String selectDistinctDate = "select distinct date from leave ";
     public static final String selectPendingLeaves = "select * from leave where date='%s' and status='Pending'";
 
     public static final String leaveCount = "select count(date) from leave where std_id in(select student_id from student where std in (select class from teacher_details where email='%s'))";
@@ -51,6 +51,7 @@ class MarksTable {
     public static final String tableName = "marks";
     public static final String selectStudentMarks = "select * from marks where student_id = '%s'";
     public static final String insertMarks = "insert into marks values('%s','%s','%s','%s','%s','%s')";
+    public static final String marksByClass = "select * from marks where student_id in(select student_id from student where std='%s')";
 }
 
 class ForumTable {
@@ -71,6 +72,7 @@ class TeacherTable {
     public static final String fetchid = "select * from teacher_details where email='%s'";
     public static final String totStudents = "select count(name) from student where std='%s'";
     public static final String allTeachers = "select * from teacher_details";
+
 }
 
 class AdminTable {
@@ -82,6 +84,9 @@ class AdminTable {
 class AttendanceTable {
     public static final String tableName = "admin";
     public static final String getClassAttendance = "select * from attendance where class='%s'";
+    public static final String selectDistinctDates = "select distinct date from attendance  ";
+    public static final String selectAttendanceDate = "select * from attendance where date='%s' and class='%s'";
+
 }
 
 class CountQueries{
@@ -92,7 +97,7 @@ class CountQueries{
     public static final String respondedInquiryCount = "select count(std_id) from forum where response not in ('No response yet')";  //Teacher
     public static final String totalLeaveRequestsCount = "select count(date) from leave where std_id in(select student_id from student where std in (select class from teacher_details where email='%s'))"; //Teacher
     public static final String approvedLeaveRequestsCount = "select count(date) from leave where std_id in(select student_id from student where std in (select class from teacher_details where email='%s')) and status='Approved'"; //Teacher
-    public static final String pendingLeaveRequestsCount = "select count(date) from leave where std_id in(select student_id from student where std in (select class from teacher_details where email='%s')) and status='Pending'"; //Teacher
+    public static final String pendingLeaveRequestsCount = "select count(date) from leave where std_id in(select student_id from student where std in (select class from teacher_details where teacher_id='%s')) and status='Pending'"; //Teacher
     public static final String datedLeaveCount = "select count(std_id) from leave where status='Approved' and date='%s'"; //Admin additional dash
     public static final String datedLeaveCountByClass = "select count(date) from leave where std_id in(select student_id from student where std='%s') and date='%s'"; //Admin (dobut)
     public static final String attendanceTodayByClass = "select count(std_id) from attendance where date='%s' and class='%s' and status='Present'"; //Admin
