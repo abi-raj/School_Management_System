@@ -23,9 +23,10 @@ public class AddTeacher extends JFrame {
     Font font = new Font("Times New Roman", 1, 21);
     JPanel panel=new JPanel();
     JButton addButton = new JButton("Add");
+    AdminGUI admin=null;
 
-    public AddTeacher() {
-
+    public AddTeacher(AdminGUI admin) {
+        this.admin=admin;
         setBounds(50, 50, 500, 600);
 
         panel.setBounds(50, 50, 500, 600);
@@ -45,9 +46,9 @@ public class AddTeacher extends JFrame {
 
     }
 
-    public static void main(String[] args) {
-        new AddTeacher();
-    }
+//   // public static void main(String[] args) {
+//        new AddTeacher();
+//    }
 
     void setLabelBounds() {
         l_id = new JLabel("ID ");
@@ -145,17 +146,19 @@ public class AddTeacher extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Teacher teacher;
                 if (validatempty()) {
                     JOptionPane.showMessageDialog(AddTeacher.this, "Enter all Details");
                 } else {
                     setColor();
                     if (validateEmail() && validatePhone() && validatePwd() && validateName()) {
-                        Teacher teacher = new Teacher(t_id.getText(), t_pwd.getText(),  t_class.getText(),t_name.getText(), t_email.getText(), Integer.parseInt(t_exp.getText()), t_phone.getText(), Integer.parseInt(t_salary.getText()));
-                        System.out.println(teacher.getName());
-                        System.out.println(teacher.gettClass());
+                         teacher = new Teacher(t_id.getText(), t_pwd.getText(),  t_class.getText(),t_name.getText(), t_email.getText(), Integer.parseInt(t_exp.getText()), t_phone.getText(), Integer.parseInt(t_salary.getText()),0);
+//                        System.out.println(teacher.getName());
+//                        System.out.println(teacher.gettClass());
 
                         if (new TeacherDBHelper().createTeacher(teacher)) {
                             JOptionPane.showMessageDialog(AddTeacher.this, "Teacher added successfully");
+                           admin.addTeacherRecords();
                             //dispose();
                         } else {
                             JOptionPane.showMessageDialog(AddTeacher.this, "Failure adding teacher");

@@ -51,10 +51,10 @@ interface TeacherTableOperations {
 }
 
 public class TeacherDBHelper implements TeacherTableOperations {
-    private static final String url = "jdbc:postgresql://localhost:5432/bootathon";
+    private static final String url = "jdbc:postgresql://localhost:5432/teacher";
     private static final String driverName = "org.postgresql.Driver";
     private static final String username = "postgres";
-    private static final String password = "Test@123";
+    private static final String password = "12345";
     private static Connection connection;
 
     public static Connection getConnection() {
@@ -142,7 +142,7 @@ public class TeacherDBHelper implements TeacherTableOperations {
     @Override
     public boolean createTeacher(Teacher user) {
         teacher_tableExists();
-        String insertQuery = String.format(TeacherTable.createTeacher, user.getTeacher_id(), user.getPassword(), user.gettClass(), user.getName(), user.getEmail(), user.getExperience(), user.getPhone(), user.getSalary());
+        String insertQuery = String.format(TeacherTable.createTeacher, user.getTeacher_id(), user.getPassword(), user.gettClass(), user.getName(), user.getEmail(), user.getExperience(), user.getPhone(), user.getSalary(),user.getPayroll());
 
         try {
             Connection conn = getConnection();
@@ -184,7 +184,7 @@ public class TeacherDBHelper implements TeacherTableOperations {
             PreparedStatement stmt = con.prepareStatement(selectUserQuery);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                user = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8));
+                user = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8),rs.getInt(9));
 //                System.out.println(rs.getString(3));
             }
 
@@ -199,7 +199,7 @@ public class TeacherDBHelper implements TeacherTableOperations {
         teacher_tableExists();
         try {
             Connection conn = getConnection();
-            String updateQuery = String.format(TeacherTable.updateTeacher, user.getPassword(), user.getName(), user.gettClass(), user.getEmail(), user.getExperience(), user.getPhone(), user.getSalary(), user.getTeacher_id());
+            String updateQuery = String.format(TeacherTable.updateTeacher, user.getPassword(), user.getName(), user.gettClass(), user.getEmail(), user.getExperience(), user.getPhone(), user.getSalary(),user.getTeacher_id());
             PreparedStatement stmt = conn.prepareStatement(updateQuery);
             stmt.executeUpdate();
             conn.close();
@@ -469,7 +469,7 @@ public class TeacherDBHelper implements TeacherTableOperations {
             PreparedStatement stmt = con.prepareStatement(selectUserQuery);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                user = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8));
+                user = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8),rs.getInt(9));
 //                System.out.println(rs.getString(3));
             }
         } catch (Exception e) {
@@ -486,13 +486,18 @@ public class TeacherDBHelper implements TeacherTableOperations {
             String query = TeacherTable.allTeachers;
             PreparedStatement stmt = con.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
+            int c=0;
             while (rs.next()) {
-                Teacher teacher = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8));
+                System.out.println(c++);
+                Teacher teacher = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8),rs.getInt(9));
                 alTeachers.add(teacher);
             }
+
         } catch (Exception e) {
             System.out.println("Exception occurred : " + e.getMessage());
         }
+
+        System.out.println("Inside array list function"+alTeachers.size());
         return alTeachers;
     }
 

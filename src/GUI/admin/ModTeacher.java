@@ -156,7 +156,7 @@ public class ModTeacher extends JFrame {
 
                         int index = teacher_box.getSelectedIndex();
                         Teacher teacher = alTeachers.get(index);
-                        Teacher user = new Teacher(teacher.getTeacher_id(), t_pwd.getText(), t_class.getText(), t_name.getText(), t_email.getText(), Integer.parseInt(t_exp.getText()), t_phone.getText(), Integer.parseInt(t_salary.getText()));
+                        Teacher user = new Teacher(teacher.getTeacher_id(), t_pwd.getText(), t_class.getText(), t_name.getText(), t_email.getText(), Integer.parseInt(t_exp.getText()), t_phone.getText(), Integer.parseInt(t_salary.getText()),0);
 
                         if (new TeacherDBHelper().updateTeacher(user)) {
                             JOptionPane.showMessageDialog(ModTeacher.this, "Teacher Updated successfully");

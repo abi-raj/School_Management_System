@@ -1253,7 +1253,7 @@ public class TeacherGUI extends JFrame {
 
 //new TeacherGUI(new TeacherDBHelper().getTeacherId("hari@gmail.com"));
 
-      Teacher teacher = new Teacher("19eucs005","12345","12","Ajai","ajai@gmail",3,"9545454545",5000000);
+      Teacher teacher = new Teacher("19eucs005","12345","12","Ajai","ajai@gmail",3,"9545454545",5000000,0);
        new TeacherGUI(teacher);
     }
 
