@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 //To Create all the tables required
 public class DummyClass {
-    private static final String url = "jdbc:postgresql://localhost:5432/bootathon";
+    private static final String url = "jdbc:postgresql://localhost:5432/bootcamp";
     private static final String driverName = "org.postgresql.Driver";
     private static final String username = "postgres";
     private static final String password = "Test@123";

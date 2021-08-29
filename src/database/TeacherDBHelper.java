@@ -61,7 +61,7 @@ public class TeacherDBHelper {
         //  teacher_tableExists();
         String insertQuery = String.format(TeacherTable.createTeacher, user.getTeacher_id(), user.getPassword(),
                 user.gettClass(), user.getName(), user.getEmail(), user.getExperience(), user.getPhone(),
-                user.getSalary());
+                user.getSalary(),0);
 
         try {
             Connection conn = Connector.getConnection();
