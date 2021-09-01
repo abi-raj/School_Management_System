@@ -40,7 +40,7 @@ public class TeacherGUI extends JFrame {
 
     public TeacherGUI(Teacher teacher) {
         this.teacher = teacher;
-        // setTeacher(email);
+
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1336, 814);
@@ -1223,7 +1223,7 @@ public class TeacherGUI extends JFrame {
 
     public static void main(String[] args) {
 
-         new TeacherGUI( TeacherDBHelper.getTeacherId("mani@gmail.com"));
+         new TeacherGUI( TeacherDBHelper.getTeacherId("abi@gmail.com"));
 
         //Teacher teacher = new Teacher("19eucs005", "12345", "12", "Ajai", "ajai@gmail", 3, "9545454545", 5000000);
         //new TeacherGUI(teacher);

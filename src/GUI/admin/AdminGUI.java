@@ -47,7 +47,7 @@ public class AdminGUI extends JFrame {
     JComboBox<String> f_id_cb;
     ArrayList<Exam> alExams = new ArrayList<>();
     AdminDBHelper AdminDBHelper = new AdminDBHelper();
-    Teacher teacher = null;
+
     Attendance attendance = null;
     Color BG_COLOR = new Color(176, 0, 32);
     Color BG_GREEN = new Color(11, 138, 62);
@@ -58,8 +58,8 @@ public class AdminGUI extends JFrame {
     private JTextField a_stu_name;
     private JTextField a_student_date;
 
-    public AdminGUI(Teacher teacher) {
-        this.teacher = teacher;
+    public AdminGUI() {
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1336, 814);
         contentPane = new JPanel();
@@ -282,7 +282,7 @@ public class AdminGUI extends JFrame {
 
     public static void main(String[] args) {
 
-        new AdminGUI(new TeacherDBHelper().getTeacherId("ajai@gmail.com"));
+        new AdminGUI();
 
     }
 

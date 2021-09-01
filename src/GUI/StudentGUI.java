@@ -68,11 +68,11 @@ public class StudentGUI extends JFrame {
 
     }
 
-    public static void main(String[] args) {
-
-        new StudentGUI("19eucs005");
-
-    }
+//    public static void main(String[] args) {
+//
+//        new StudentGUI("19eucs005");
+//
+//    }
 
     private void sidePanel() {
         panel_content = new JPanel();
