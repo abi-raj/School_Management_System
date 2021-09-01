@@ -1267,7 +1267,7 @@ public class TeacherGUI extends JFrame {
 
     public static void main(String[] args) {
 
-         new TeacherGUI( TeacherDBHelper.getTeacherId("mani@gmail.com"));
+         new TeacherGUI( TeacherDBHelper.getTeacherId("abi@gmail.com"));
 
         //Teacher teacher = new Teacher("19eucs005", "12345", "12", "Ajai", "ajai@gmail", 3, "9545454545", 5000000);
         //new TeacherGUI(teacher);

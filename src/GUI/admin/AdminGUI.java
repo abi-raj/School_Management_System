@@ -985,13 +985,14 @@ public class AdminGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int index = comboBox.getSelectedIndex();
                 if (index != -1) {
+                    if (TeacherDBHelper.reAssign(1, comboBox.getItemAt(index))) {
+                        JOptionPane.showMessageDialog(AdminGUI.this, "Success");
+                        setTeacherCombo(comboBox);
+                    } else {
+                        JOptionPane.showMessageDialog(AdminGUI.this, "Failure");
+                    }
 
 
-//                    if (TeacherDBHelper.r) {
-//
-//                    } else {
-//                        JOptionPane.showMessageDialog(AdminGUI.this, "Failure");
-//                    }
                 }
             }
         });

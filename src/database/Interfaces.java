@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import models.*;
 
 interface DBcredentials {
-    static final String url = "jdbc:postgresql://localhost:5432/teacher";
+    static final String url = "jdbc:postgresql://localhost:5432/bootcamp";
     static final String driverName = "org.postgresql.Driver";
     static final String username = "postgres";
-    static final String password = "12345";
+    static final String password = "Test@123";
 }
 
 interface StudentTableOperations {
