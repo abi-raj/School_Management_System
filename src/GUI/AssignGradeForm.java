@@ -58,11 +58,22 @@ public class AssignGradeForm extends JFrame {
         exam_namelbl.setBackground(Color.white);
         view_gradePanel.add(exam_namelbl);
         setExamCombo(exam_namelbl);
+
+
         student_id_lbl = new JComboBox<String>();
-        setStudentCombo(student_id_lbl);
+//        setStudentCombo(student_id_lbl);
         student_id_lbl.setBounds(592, 37, 170, 40);
         student_id_lbl.setBackground(Color.white);
         view_gradePanel.add(student_id_lbl);
+        exam_namelbl.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index=exam_namelbl.getSelectedIndex();
+                if(index!=-1){
+                    setStudentCombo(student_id_lbl,exam_namelbl.getItemAt(exam_namelbl.getSelectedIndex()));
+                }
+            }
+        });
 
         JLabel lblSno = new JLabel("S.No.");
         lblSno.setFont(new Font("Segoe UI", Font.BOLD, 20));
@@ -163,10 +174,10 @@ public class AssignGradeForm extends JFrame {
 
     }
 
-    void setStudentCombo(JComboBox<String> cbx) {
+    void setStudentCombo(JComboBox<String> cbx,String examtitle) {
         cbx.removeAllItems();
-        for (Student s : StudentDBHelper.allStudentsByClass(teacher.gettClass())) {
-            cbx.addItem(s.getId());
+        for (String s : StudentDBHelper.getStudents(teacher.gettClass(),examtitle)) {
+            cbx.addItem(s);
         }
     }
 

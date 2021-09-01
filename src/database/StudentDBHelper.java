@@ -302,4 +302,20 @@ public class StudentDBHelper {
         }
         return alStudents;
     }
+    public static ArrayList<String> getStudents(String std,String title){
+        ArrayList<String> alStudents = new ArrayList<>();
+        try{
+            String query=String.format(TeacherTable.getStudentGrades,title,std);
+            Connection con = Connector.getConnection();
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                alStudents.add(rs.getString(1));
+            }
+
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return alStudents;
+    }
 }

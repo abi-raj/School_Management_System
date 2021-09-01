@@ -566,4 +566,18 @@ public class TeacherDBHelper {
         }
         return pwd;
     }
+
+    public static boolean reAssign(int assigned,String id){
+        try{
+            Connection con=Connector.getConnection();
+            String query=String.format(TeacherTable.assignPayroll,assigned,id);
+            PreparedStatement stmt=con.prepareStatement(query);
+            stmt.executeUpdate();
+            return true;
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }
 }

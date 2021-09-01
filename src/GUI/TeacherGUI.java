@@ -14,7 +14,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
@@ -429,6 +431,10 @@ public class TeacherGUI extends JFrame {
 
         JTextField a_student_date = new JTextField();
         a_student_date.setBounds(70, 164, 200, 47);
+        SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
+        Date date=new Date();
+        a_student_date.setText(formatter.format(date));
+        a_student_date.setEditable(false);
         updateAttendance.add(a_student_date);
         a_student_date.setMargin(new Insets(5, 10, 5, 5));
         a_student_date.setFont(new Font("Segoe UI", Font.PLAIN, 18));
@@ -1215,14 +1221,26 @@ public class TeacherGUI extends JFrame {
 
         access_pay_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
                 String high_sec_pin = TeacherDBHelper.getpwd(teacher.getTeacher_id());
                 String pin = JOptionPane.showInputDialog("Enter your high security 4-digit pin");
 
-                if (pin.equals(high_sec_pin)) {
-                    JOptionPane.showMessageDialog(null,
-                            "Congratulations !!! your account isn credited with your new payroll");
-                    salary_amt.setText("  $" + teacher.getSalary());
-                } else {
+
+                    if (pin.equals(high_sec_pin)) {
+                        if(teacher.getPayroll()==1) {
+                        salary_amt.setText("  $" + teacher.getSalary());
+
+                        if(TeacherDBHelper.reAssign(0,teacher.getTeacher_id())){
+                            JOptionPane.showMessageDialog(null,
+                                    "Congratulations !!! your account isn credited with your new payroll");
+                            teacher.setPayroll(0);
+                        }
+                    }
+                        else{
+                            JOptionPane.showMessageDialog(null,"Payroll is yet to be Assigned!");
+                        }
+                }
+                    else {
                     JOptionPane.showMessageDialog(null, "Invalid pin number!!");
                 }
 
@@ -1249,7 +1267,7 @@ public class TeacherGUI extends JFrame {
 
     public static void main(String[] args) {
 
-        new TeacherGUI(TeacherDBHelper.getTeacherId("abi@gmail.com"));
+         new TeacherGUI( TeacherDBHelper.getTeacherId("mani@gmail.com"));
 
         //Teacher teacher = new Teacher("19eucs005", "12345", "12", "Ajai", "ajai@gmail", 3, "9545454545", 5000000);
         //new TeacherGUI(teacher);

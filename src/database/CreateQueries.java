@@ -23,7 +23,7 @@ class StudentTable {
     public static final String updateStudent = "update student set password='%s',name='%s',std='%s',email='%s',gender='%s',dob='%s',phone='%s',fees='%d' where student_id='%s'";
     public static final String deleteStudent = "delete from student where student_id='%s'";
     public static final String selectSingleStudent = "select * from student where student_id='%s'";
-    public static final String getAllClass = "select distinct std from student";
+    public static final String getAllClass = "select distinct class from teacher_details";
     public static final String studentByClass ="select * from student where std='%s'";
 }
 
@@ -75,6 +75,8 @@ class TeacherTable {
     public static final String totStudents = "select count(name) from student where std='%s'";
     public static final String allTeachers = "select * from teacher_details";
     public static final String getpwd="select password from teacher_details where teacher_id='%s'";
+    public static final String getStudentGrades="select student_id from student where student_id not in(select student_id from marks where exam_title='%s') and std='%s'";
+    public static final String assignPayroll="update teacher_details set assigned=%d where teacher_id='%s'";
     public static final String getTeacherWithoutPayroll = "select teacher_id from teacher_details where assigned=0";
 
 
@@ -84,6 +86,7 @@ class AdminTable {
     public static final String tableName = "admin";
     public static final String insertAdmin = "insert into admin values('%s','%s')";
     public static final String checkAdminLogin = "select * from admin where admin_id='%s' and password='%s'";
+    public static final String getCurrentLeave="select count(std_id) from attendance where date in(select to_char(current_date,'DD-MM-YYYY') as string) and status='Present' and class='%s'";
 }
 
 class AttendanceTable {
@@ -106,6 +109,7 @@ class CountQueries{
     public static final String datedLeaveCount = "select count(std_id) from leave where status='Approved' and date='%s'"; //Admin additional dash
     public static final String datedLeaveCountByClass = "select count(date) from leave where std_id in(select student_id from student where std='%s') and date='%s'"; //Admin (dobut)
     public static final String attendanceTodayByClass = "select count(std_id) from attendance where date='%s' and class='%s' and status='Present'"; //Admin
+    public static final String LeaveCount="select count(std_id) from attendance where status='Absent'";
 
 }
 
