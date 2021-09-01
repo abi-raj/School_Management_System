@@ -31,8 +31,8 @@ public class AdminGUI extends JFrame {
     JPanel exampanel;
     //JPanel leaveformpanel;
     JPanel teacherpanel;
-//    JPanel learningpanel;
-   // JPanel forumpanel;
+    //    JPanel learningpanel;
+    // JPanel forumpanel;
     JPanel payrollpanel;
     JPanel total_studentspanel;
     JPanel total_teacherspanel;
@@ -289,7 +289,7 @@ public class AdminGUI extends JFrame {
 
     void addTeacherRecords() {
         ArrayList<Teacher> al = teacherDBHelper.allTeachers();
-        System.out.println("Count INside all teacher records"+al.size());
+        System.out.println("Count INside all teacher records" + al.size());
         teacherRecordArray = new String[al.size() + 1][8];
 
         teacherRecordArray[0][0] = "S.NO";
@@ -899,7 +899,7 @@ public class AdminGUI extends JFrame {
         Event_descp_lbl.setBounds(32, 127, 157, 41);
         event_panel.add(Event_descp_lbl);
 
-         txt_desc = new JTextArea();
+        txt_desc = new JTextArea();
         txt_desc.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         txt_desc.setBackground(Color.WHITE);
         txt_desc.setToolTipText("Enter Description");
@@ -931,10 +931,10 @@ public class AdminGUI extends JFrame {
         id_lbl.setBounds(61, 106, 146, 30);
         assign_panel.add(id_lbl);
 
-        JComboBox comboBox = new JComboBox();
+        JComboBox<String> comboBox = new JComboBox<String>();
         comboBox.setBounds(217, 106, 181, 30);
         assign_panel.add(comboBox);
-
+        setTeacherCombo(comboBox);
         JLabel perf_lbl = new JLabel("Performance   :");
         perf_lbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
         perf_lbl.setBounds(61, 220, 149, 30);
@@ -963,6 +963,41 @@ public class AdminGUI extends JFrame {
         assign_btn.setFocusPainted(false);
         assign_btn.setBorder(new LineBorder(Color.BLACK));
         assign_panel.add(assign_btn);
+
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = comboBox.getSelectedIndex();
+                if (index != -1) {
+                    performance_lbl.setText("96");
+                    Teacher teach = TeacherDBHelper.viewTeacher(comboBox.getItemAt(index));
+                    pay_calculatedlbl.setText(teach.getSalary() + "");
+                }
+            }
+        });
+        assign_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = comboBox.getSelectedIndex();
+                if (index != -1) {
+
+
+//                    if (TeacherDBHelper.r) {
+//
+//                    } else {
+//                        JOptionPane.showMessageDialog(AdminGUI.this, "Failure");
+//                    }
+                }
+            }
+        });
+    }
+
+    void setTeacherCombo(JComboBox<String> cbx) {
+        cbx.removeAllItems();
+        for (String tid : database.AdminDBHelper.getTeachersWithoutPay()) {
+            cbx.addItem(tid);
+        }
+
     }
 
     void setTableRecords() {

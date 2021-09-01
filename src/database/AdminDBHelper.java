@@ -239,5 +239,21 @@ import database.ValidationHelper;
             }
             return alClass;
         }
+        public static ArrayList<String> getTeachersWithoutPay(){
+            ArrayList<String> alTeachers = new ArrayList<>();
+
+            try{
+                Connection con = Connector.getConnection();
+                PreparedStatement stmt = con.prepareStatement(TeacherTable.getTeacherWithoutPayroll);
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()) {
+                    alTeachers.add(rs.getString(1));
+                }
+            }catch (Exception e){
+                System.out.println("Exception occurred : " + e.getMessage());
+            }
+
+            return alTeachers;
+        }
     }
 

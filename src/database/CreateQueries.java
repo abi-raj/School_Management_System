@@ -75,6 +75,8 @@ class TeacherTable {
     public static final String totStudents = "select count(name) from student where std='%s'";
     public static final String allTeachers = "select * from teacher_details";
     public static final String getpwd="select password from teacher_details where teacher_id='%s'";
+    public static final String getTeacherWithoutPayroll = "select teacher_id from teacher_details where assigned=0";
+
 
 }
 
