@@ -239,5 +239,38 @@ import database.ValidationHelper;
             }
             return alClass;
         }
+        public static String todayPresent(String std){
+            String cnt="";
+            try{
+                Connection con = Connector.getConnection();
+                String query=String.format(AdminTable.getCurrentLeave,std);
+                PreparedStatement stmt = con.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery();
+                while(rs.next()){
+                    cnt=rs.getInt(1)+"";
+                }
+
+
+            }catch (Exception e){
+                System.out.println(e);
+            }
+            System.out.println(cnt);
+            return cnt;
+        }
+        public  static  String leaveCount(){
+            String cnt="";
+            try{
+                Connection con=Connector.getConnection();
+                String query=String.format(CountQueries.LeaveCount);
+                PreparedStatement stmt=con.prepareStatement(query);
+                ResultSet rs=stmt.executeQuery();
+                while(rs.next()){
+                    cnt=rs.getInt(1)+"";
+                }
+            }catch(Exception e){
+                System.out.println(e);
+            }
+            return cnt;
+        }
     }
 

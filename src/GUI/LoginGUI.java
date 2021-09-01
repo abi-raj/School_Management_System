@@ -4,7 +4,6 @@ import GUI.admin.AdminGUI;
 import database.AdminDBHelper;
 import database.StudentDBHelper;
 import database.TeacherDBHelper;
-import database.ValidationHelper;
 import models.Teacher;
 
 import javax.swing.*;
@@ -14,9 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-/**
- * @author Grace
- */
+
 public class LoginGUI extends JFrame {
 
     private JLabel img;
@@ -125,14 +122,14 @@ public class LoginGUI extends JFrame {
                 l_pwd.setForeground(Color.black);
 
                 // Validating email
-                if (!Pattern.matches(".+\\@.+\\..+",email)) {
+                if (!Pattern.matches(".+\\@.+\\..+", email)) {
                     l_email.setForeground(Color.red);
                     JOptionPane.showMessageDialog(LoginGUI.this, "Invalid Email");
                     return;
                 }
 
                 // Validating password
-                if (!(pwd.length()<10)) {
+                if (!(pwd.length() < 10)) {
                     l_pwd.setForeground(Color.red);
                     JOptionPane.showMessageDialog(LoginGUI.this, "Invalid Password");
                     return;
@@ -142,7 +139,7 @@ public class LoginGUI extends JFrame {
                 if (email.contains("admin")) {
                     if (AdminDBHelper.checkAdminLogin(email, pwd)) {
                         JOptionPane.showMessageDialog(LoginGUI.this, "Welcome");
-
+                        new AdminGUI();
                         f.dispose();
                     } else
                         JOptionPane.showMessageDialog(LoginGUI.this, "Admin Login Failed");

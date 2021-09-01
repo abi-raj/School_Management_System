@@ -93,6 +93,24 @@ public class TeacherDBHelper {
         return false;
     }
 
+    public static ArrayList<Materials> getTeacherMaterials(String id){
+        ArrayList<Materials > alMaterials = new ArrayList<>();
+        try{
+            Connection con = Connector.getConnection();
+            String query = String.format(MaterialsTable.getTeacherMaterials,id);
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet  rs = stmt.executeQuery();
+            while(rs.next()){
+                Materials material = new Materials(rs.getString(1),rs.getString(2),rs.getString(3));
+                alMaterials.add(material);
+            }
+
+        }catch (Exception e){
+            System.out.println("Exception occurred : "+e.getMessage());
+        }
+        return  alMaterials;
+    }
+
     public static Teacher viewTeacher(String id) {
         Teacher user = null;
         teacher_tableExists();
@@ -547,5 +565,19 @@ public class TeacherDBHelper {
             System.out.println(e);
         }
         return pwd;
+    }
+
+    public static boolean reAssign(int assigned,String id){
+        try{
+            Connection con=Connector.getConnection();
+            String query=String.format(TeacherTable.assignPayroll,assigned,id);
+            PreparedStatement stmt=con.prepareStatement(query);
+            stmt.executeUpdate();
+            return true;
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
     }
 }

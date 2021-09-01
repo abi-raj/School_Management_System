@@ -46,8 +46,8 @@ public class AdminGUI extends JFrame {
     String[][] teacherRecordArray;
     JComboBox<String> f_id_cb;
     ArrayList<Exam> alExams = new ArrayList<>();
-    AdminDBHelper AdminDBHelper = new AdminDBHelper();
-    Teacher teacher = null;
+    //AdminDBHelper AdminDBHelper = new AdminDBHelper();
+
     Attendance attendance = null;
     Color BG_COLOR = new Color(176, 0, 32);
     Color BG_GREEN = new Color(11, 138, 62);
@@ -58,8 +58,8 @@ public class AdminGUI extends JFrame {
     private JTextField a_stu_name;
     private JTextField a_student_date;
 
-    public AdminGUI(Teacher teacher) {
-        this.teacher = teacher;
+    public AdminGUI() {
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1336, 814);
         contentPane = new JPanel();
@@ -282,7 +282,7 @@ public class AdminGUI extends JFrame {
 
     public static void main(String[] args) {
 
-        new AdminGUI(new TeacherDBHelper().getTeacherId("ajai@gmail.com"));
+        new AdminGUI();
 
     }
 
@@ -384,11 +384,13 @@ public class AdminGUI extends JFrame {
         leavecount_label.setBounds(30, 10, 159, 30);
         leavecount_label.setForeground(Color.WHITE);
         leavecount_label.setFont(new Font("Segoe UI", Font.BOLD, 19));
+
         leave_panel.add(leavecount_label);
 
         JLabel leave_percentage = new JLabel("...........");
         leave_percentage.setForeground(Color.WHITE);
         leave_percentage.setFont(new Font("Segoe UI", Font.BOLD, 40));
+        leave_percentage.setText(AdminDBHelper.leaveCount());
         leave_percentage.setBounds(78, 39, 33, 74);
         leave_panel.add(leave_percentage);
 
@@ -456,10 +458,11 @@ public class AdminGUI extends JFrame {
         performance_label.setFont(new Font("Segoe UI", Font.BOLD, 19));
         performance_panel.add(performance_label);
 
-        JLabel percentage = new JLabel("...........");
+        JLabel percentage = new JLabel("");
+        percentage.setText("100%");
         percentage.setForeground(Color.WHITE);
         percentage.setFont(new Font("Segoe UI", Font.BOLD, 40));
-        percentage.setBounds(78, 39, 33, 74);
+        percentage.setBounds(78, 39, 45, 74);
         performance_panel.add(percentage);
 
         for (String s : AdminDBHelper.getAllClass()) {
@@ -478,11 +481,12 @@ public class AdminGUI extends JFrame {
                 int index = comboBox.getSelectedIndex();
                 if (index != -1) {
                     int classStudentCount = AdminDBHelper.getStudentCountByClass(comboBox.getItemAt(index));
-                    int presentTodayCount = AdminDBHelper.getPresentToday("23-08-2021", comboBox.getItemAt(index));
+                    String presentTodayCount = AdminDBHelper.todayPresent(comboBox.getItemAt(index));
                     double performanceCount = AdminDBHelper.attendancePercentage("23-08-2021", comboBox.getItemAt(index));
+                    percentage.setText("10");
                     lblNewLabel.setText(classStudentCount + "");
                     present_count.setText(presentTodayCount + "");
-                    percentage.setText(performanceCount + "");
+
 
                 }
 
