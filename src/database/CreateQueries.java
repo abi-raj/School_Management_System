@@ -46,6 +46,7 @@ class MaterialsTable {
     public static final String tableName = "materials";
     public static final String selectMaterials = "select * from materials where class='%s'";
     public static final String postMaterials = "insert into materials values('%s','%s','%s')";
+    public static final String getTeacherMaterials = "select * from materials where teacher_id='%s'";
 }
 
 class MarksTable {
