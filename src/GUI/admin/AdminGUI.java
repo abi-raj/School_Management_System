@@ -961,6 +961,7 @@ public class AdminGUI extends JFrame {
         assign_btn.setFont(new Font("Segoe UI", Font.BOLD, 20));
         assign_btn.setBounds(171, 406, 116, 35);
         assign_btn.setFocusPainted(false);
+
         assign_btn.setBorder(new LineBorder(Color.BLACK));
         assign_panel.add(assign_btn);
     }

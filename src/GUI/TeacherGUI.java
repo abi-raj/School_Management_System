@@ -1191,13 +1191,19 @@ public class TeacherGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String high_sec_pin = TeacherDBHelper.getpwd(teacher.getTeacher_id());
                 String pin = JOptionPane.showInputDialog("Enter your high security 4-digit pin");
+                if(teacher.getPayroll()==0) {
 
-                if (pin.equals(high_sec_pin)) {
-                    JOptionPane.showMessageDialog(null,
-                            "Congratulations !!! your account isn credited with your new payroll");
-                    salary_amt.setText("  $"+teacher.getSalary());
-                } else {
-                    JOptionPane.showMessageDialog(null, "Invalid pin number!!");
+                    if (pin.equals(high_sec_pin)) {
+                        JOptionPane.showMessageDialog(null,
+                                "Congratulations !!! your account isn credited with your new payroll");
+                        salary_amt.setText("  $" + teacher.getSalary());
+
+                        teacher.setPayroll(1);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Invalid pin number!!");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null,"Already credited");
                 }
 
             }
