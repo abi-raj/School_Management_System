@@ -532,4 +532,20 @@ public class TeacherDBHelper {
         return alMarks;
 
     }
+    public static String getpwd(String id){
+        String pwd="";
+        try{
+            Connection con=Connector.getConnection();
+            String pwdQuery=String.format(TeacherTable.getpwd,id);
+            PreparedStatement stmt=con.prepareStatement(pwdQuery);
+            ResultSet rs= stmt.executeQuery();
+            while(rs.next()){
+                pwd=rs.getString(1);
+            }
+
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return pwd;
+    }
 }

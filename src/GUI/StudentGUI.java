@@ -12,7 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.font.TextAttribute;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 public class StudentGUI extends JFrame {
@@ -68,7 +70,7 @@ public class StudentGUI extends JFrame {
 
     public static void main(String[] args) {
 
-        new StudentGUI("19eucs033");
+        new StudentGUI("19eucs005");
 
     }
 
@@ -295,7 +297,7 @@ public class StudentGUI extends JFrame {
         panel_feepayment.setLayout(null);
 
         JLabel lbl_fee = new JLabel("Fee Payment");
-        lbl_fee.setBounds(10, 11, 144, 27);
+        lbl_fee.setBounds(10, 11, 164, 27);
         panel_feepayment.add(lbl_fee);
         lbl_fee.setFont(new Font("Tahoma", Font.BOLD, 22));
         panel_pay.addMouseListener(new MouseAdapter() {
@@ -565,7 +567,7 @@ public class StudentGUI extends JFrame {
         panel_lform.setLayout(null);
 
         JLabel lbl_Lform = new JLabel("Leave Form");
-        lbl_Lform.setBounds(10, 11, 128, 27);
+        lbl_Lform.setBounds(10, 11, 138, 27);
         panel_lform.add(lbl_Lform);
         lbl_Lform.setFont(new Font("Tahoma", Font.BOLD, 22));
 
@@ -703,7 +705,7 @@ public class StudentGUI extends JFrame {
         panel_lmat.setLayout(null);
 
         JLabel lbl_Materials = new JLabel("Learning Materials");
-        lbl_Materials.setBounds(10, 11, 207, 27);
+        lbl_Materials.setBounds(10, 11, 227, 27);
         panel_lmat.add(lbl_Materials);
         lbl_Materials.setFont(new Font("Tahoma", Font.BOLD, 22));
         panel_view.addMouseListener(new MouseAdapter() {
@@ -780,13 +782,21 @@ public class StudentGUI extends JFrame {
         panel_profileWindow.add(panel_viewEvent);
         panel_viewEvent.setLayout(null);
 
-        JLabel lbl_viewEvents = new JLabel("View Events");
-        lbl_viewEvents.setForeground(Color.WHITE);
-        lbl_viewEvents.setBackground(new Color(255, 228, 225));
-        lbl_viewEvents.setHorizontalAlignment(SwingConstants.CENTER);
-        lbl_viewEvents.setFont(new Font("Tahoma", Font.PLAIN, 17));
-        lbl_viewEvents.setBounds(10, 11, 269, 39);
-        panel_viewEvent.add(lbl_viewEvents);
+        JButton view_events_btn = new JButton("View Events");
+        view_events_btn.setForeground(Color.WHITE);
+        view_events_btn.setBackground(new Color(29, 217, 171));
+        view_events_btn.setBorder(null);
+        view_events_btn.setHorizontalAlignment(SwingConstants.CENTER);
+        view_events_btn.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        view_events_btn.setBounds(10, 11, 269, 39);
+        view_events_btn.setFocusPainted(false);
+        view_events_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new EventsGUI();
+            }
+        });
+        panel_viewEvent.add(view_events_btn);
 
         JLabel lbl_studenticon = new JLabel("");
         lbl_studenticon.setBounds(78, 186, 266, 277);
@@ -848,10 +858,30 @@ public class StudentGUI extends JFrame {
         lbl_dob1.setForeground(Color.BLACK);
         lbl_dob1.setFont(new Font("Tahoma", Font.PLAIN, 17));
 
-        JLabel lbl_Logout = new JLabel("Logout");
+        JButton lbl_Logout = new JButton("Logout");
         lbl_Logout.setFont(new Font("Tahoma", Font.ITALIC, 16));
         lbl_Logout.setForeground(Color.RED);
-        lbl_Logout.setBounds(82, 514, 81, 23);
+        lbl_Logout.setFocusPainted(false);
+        lbl_Logout.setBackground(Color.white);
+        lbl_Logout.setBounds(82, 514, 90, 23);
+        Font font = lbl_Logout.getFont();
+        Map attributes = font.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        lbl_Logout.setFont(font.deriveFont(attributes));
+        lbl_Logout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int logout_result = JOptionPane.showConfirmDialog(panel_profileWindow, "Are you sure want to Logout?", "",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (logout_result == JOptionPane.YES_OPTION) {
+                    dispose();
+                    new LoginGUI();
+                } else if (logout_result == JOptionPane.NO_OPTION) {
+                } else {
+
+                }
+            }
+        });
         panel_profileWindow.add(lbl_Logout);
 
         JLabel lbl_eventImage = new JLabel("");

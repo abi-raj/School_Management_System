@@ -180,7 +180,7 @@ this.teacherGUI=teacherGUI;
                       }
                    }
                    else{
-                       Student st=new Student(id.t_name.getText(),pwd.l_name.getText(),name.t_name.getText(),std.t_name.getText(),email.t_name.getText(),gender.t_name.getText(),DOB.t_name.getText(),phone.t_name.getText(),70000);
+                       Student st=new Student(id.t_name.getText(),pwd.t_name.getText(),name.t_name.getText(),std.t_name.getText(),email.t_name.getText(),gender.t_name.getText(),DOB.t_name.getText(),phone.t_name.getText(),70000);
                        if(StudentDBHelper.createStudent(st)){
                            JOptionPane.showMessageDialog(AddStudentForm.this,"Created !");
                            teacherGUI.setStudentRecords();

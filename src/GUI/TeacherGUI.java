@@ -618,13 +618,13 @@ public class TeacherGUI extends JFrame {
         s_text1.setBounds(30, 10, 489, 40);
         panel.add(s_text1);
 
-        JLabel s_text2 = new JLabel("Class 10");
+        JLabel s_text2 = new JLabel("Class "+teacher.gettClass());
         s_text2.setForeground(Color.GRAY);
         s_text2.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         s_text2.setBounds(30, 60, 214, 30);
         panel.add(s_text2);
 
-        JLabel stu_panel_subhead = new JLabel("Consolidated Student Details of Class 10");
+        JLabel stu_panel_subhead = new JLabel("Consolidated Student Details of Class "+teacher.gettClass());
         stu_panel_subhead.setFont(new Font("Segeo UI", Font.BOLD, 24));
         stu_panel_subhead.setForeground(Color.black);
         stu_panel_subhead.setBorder(null);
@@ -1189,13 +1189,13 @@ public class TeacherGUI extends JFrame {
 
         access_pay_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String high_sec_pin = "1234";
+                String high_sec_pin = TeacherDBHelper.getpwd(teacher.getTeacher_id());
                 String pin = JOptionPane.showInputDialog("Enter your high security 4-digit pin");
 
                 if (pin.equals(high_sec_pin)) {
                     JOptionPane.showMessageDialog(null,
                             "Congratulations !!! your account isn credited with your new payroll");
-                    salary_amt.setText("  $3000.00");
+                    salary_amt.setText("  $"+teacher.getSalary());
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid pin number!!");
                 }
@@ -1223,7 +1223,7 @@ public class TeacherGUI extends JFrame {
 
     public static void main(String[] args) {
 
-         new TeacherGUI( TeacherDBHelper.getTeacherId("ajai@gmail.com"));
+         new TeacherGUI( TeacherDBHelper.getTeacherId("mani@gmail.com"));
 
         //Teacher teacher = new Teacher("19eucs005", "12345", "12", "Ajai", "ajai@gmail", 3, "9545454545", 5000000);
         //new TeacherGUI(teacher);

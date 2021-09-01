@@ -7,10 +7,10 @@ import java.sql.Statement;
 
 //To Create all the tables required
 public class DummyClass {
-    private static final String url = "jdbc:postgresql://localhost:5432/bootcamp";
+    private static final String url = "jdbc:postgresql://localhost:5432/teacher";
     private static final String driverName = "org.postgresql.Driver";
     private static final String username = "postgres";
-    private static final String password = "Test@123";
+    private static final String password = "12345";
     // private static final String createTableQuery = "create table student(student_id varchar(10) PRIMARY KEY,password varchar(50),name varchar(20),std varchar(20),email varchar(30) UNIQUE,gender varchar(50),dob varchar(15),phone varchar(10),fees int)";
     private Connection connection = null;
 
