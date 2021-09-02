@@ -153,6 +153,25 @@ public class StudentDBHelper {
         return materialsResult;
     }
 
+    public static ArrayList<String> allStudentEmails() {
+        ArrayList<String> fin = new ArrayList<String>();
+        try {
+            Connection con = Connector.getConnection();
+            PreparedStatement stmt = con.prepareStatement("SELECT email from student");
+            ResultSet rs = stmt.executeQuery();
+            for (int i = 0; rs.next(); i++) {
+                String email = rs.getString("email");
+                fin.add(email);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Exception occured on allTeacherEmails: " + e);
+
+        }
+        return fin;
+
+    }
+
     public static ArrayList<Marks> viewGrades(String id) {
         ArrayList<Marks> marksResult = new ArrayList<>();
         try {
