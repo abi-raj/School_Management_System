@@ -14,7 +14,7 @@ public class Connector implements DBcredentials {
                 System.out.println("Connected to Bootathon Database");
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Connection error: " + e);
         }
 
         return connection;

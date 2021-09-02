@@ -5,7 +5,15 @@ public class Teacher {
     private String password;
     private String name;
     private String tClass;
+    private int payroll;
 
+    public int getPayroll() {
+        return payroll;
+    }
+
+    public void setPayroll(int payroll) {
+        this.payroll = payroll;
+    }
 
     public String gettClass() {
         return tClass;
@@ -75,7 +83,7 @@ public class Teacher {
     public void setSalary(int salary) {
         this.salary = salary;
     }
-    public Teacher(String id, String pwd, String name, String tclass,String email, int experience, String phone, int salary){
+    public Teacher(String id, String pwd, String tclass, String name,String email, int experience, String phone, int salary,int assigned){
         this.teacher_id=id;
         this.password=pwd;
         this.name=name;
@@ -84,5 +92,6 @@ public class Teacher {
         this.experience=experience;
         this.phone=phone;
         this.salary=salary;
+        this.payroll=assigned;
     }
 }

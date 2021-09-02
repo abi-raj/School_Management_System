@@ -153,6 +153,25 @@ public class StudentDBHelper {
         return materialsResult;
     }
 
+    public static ArrayList<String> allStudentEmails() {
+        ArrayList<String> fin = new ArrayList<String>();
+        try {
+            Connection con = Connector.getConnection();
+            PreparedStatement stmt = con.prepareStatement("SELECT email from student");
+            ResultSet rs = stmt.executeQuery();
+            for (; rs.next();) {
+                String email = rs.getString("email");
+                fin.add(email);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Exception occured on allTeacherEmails: " + e);
+
+        }
+        return fin;
+
+    }
+
     public static ArrayList<Marks> viewGrades(String id) {
         ArrayList<Marks> marksResult = new ArrayList<>();
         try {
@@ -240,7 +259,7 @@ public class StudentDBHelper {
             Connection conn = Connector.getConnection();
             String deleteQuery = String.format(StudentTable.deleteStudent, id);
             PreparedStatement stmt = conn.prepareStatement(deleteQuery);
-            stmt.executeQuery();
+            stmt.executeUpdate();
             return true;
         } catch (Exception e) {
             System.out.println("Exception : " + e.getMessage());
@@ -268,7 +287,7 @@ public class StudentDBHelper {
         return student;
     }
 
-    public Leave getSingleLeave(String id, String date) {
+    public static Leave getSingleLeave(String id, String date) {
         Leave leave = null;
 
         try {
@@ -283,5 +302,40 @@ public class StudentDBHelper {
             System.out.println("Exception occurred : " + e.getMessage());
         }
         return leave;
+    }
+
+    public static ArrayList<Student> allStudentsByClass(String std) {
+        ArrayList<Student> alStudents = new ArrayList<>();
+        try {
+            String query = String.format(StudentTable.studentByClass, std);
+            Connection con = Connector.getConnection();
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Student student = new Student(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getInt(9));
+                alStudents.add(student);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception all students : " + e.getMessage());
+        }
+        return alStudents;
+    }
+
+    public static ArrayList<String> getStudents(String std, String title) {
+        ArrayList<String> alStudents = new ArrayList<>();
+        try {
+            String query = String.format(TeacherTable.getStudentGrades, title, std);
+            Connection con = Connector.getConnection();
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                alStudents.add(rs.getString(1));
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return alStudents;
     }
 }
