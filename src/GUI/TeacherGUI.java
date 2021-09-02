@@ -2,10 +2,7 @@ package GUI;
 
 import database.StudentDBHelper;
 import database.TeacherDBHelper;
-import models.Attendance;
-import models.Forum;
-import models.Leave;
-import models.Teacher;
+import models.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -14,8 +11,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
@@ -38,10 +39,14 @@ public class TeacherGUI extends JFrame {
     TeacherDBHelper teacherDB = new TeacherDBHelper();
     Teacher teacher = null;
     Attendance attendance = null;
+    DefaultTableModel defModel = new DefaultTableModel();
+    DefaultTableModel dateDefModel = new DefaultTableModel();
+    DefaultTableModel gradeDefModel = new DefaultTableModel();
+    DefaultTableModel materialModel = new DefaultTableModel();
 
     public TeacherGUI(Teacher teacher) {
         this.teacher = teacher;
-        // setTeacher(email);
+
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1336, 814);
@@ -408,23 +413,28 @@ public class TeacherGUI extends JFrame {
 
         JLabel a_student = new JLabel("Student ID:");
         a_student.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        a_student.setBounds(70, 114, 279, 31);
+        a_student.setBounds(350, 114, 100, 30);
         updateAttendance.add(a_student);
 
-        String s_id[] = { "001", "002", "003", "004" };
-        JComboBox<String> a_stu_id = new JComboBox<>(s_id);
-        a_stu_id.setBounds(70, 164, 200, 47);
+//70, 164, 200, 47
+        JComboBox<String> a_stu_id = new JComboBox<String>();
+        setTeacherComboBox(a_stu_id);
+        a_stu_id.setBounds(350, 164, 200, 47);
         a_stu_id.setBackground(Color.white);
         a_stu_id.setFont(new Font("Segoe UI", Font.BOLD, 18));
         updateAttendance.add(a_stu_id);
 
         JLabel a_date = new JLabel("Date:");
         a_date.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        a_date.setBounds(350, 114, 100, 30);
+        a_date.setBounds(70, 114, 279, 31);
         updateAttendance.add(a_date);
 
         JTextField a_student_date = new JTextField();
-        a_student_date.setBounds(350, 164, 200, 47);
+        a_student_date.setBounds(70, 164, 200, 47);
+        SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
+        Date date=new Date();
+        a_student_date.setText(formatter.format(date));
+        a_student_date.setEditable(false);
         updateAttendance.add(a_student_date);
         a_student_date.setMargin(new Insets(5, 10, 5, 5));
         a_student_date.setFont(new Font("Segoe UI", Font.PLAIN, 18));
@@ -451,6 +461,14 @@ public class TeacherGUI extends JFrame {
         updateAttendance.add(present);
         updateAttendance.add(absent);
 
+
+        JComboBox<String> date_dd = new JComboBox<String>();
+        setDistinctAttendanceDates(date_dd);
+        date_dd.setBounds(550, 400, 200, 47);
+        date_dd.setBackground(Color.white);
+        date_dd.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        attendancepanel.add(date_dd);
+
         JButton updatebutton = new JButton("Update");
         updatebutton.setFont(new Font("Segoe UI", Font.BOLD, 16));
         updatebutton.setForeground(Color.WHITE);
@@ -462,7 +480,32 @@ public class TeacherGUI extends JFrame {
         updatebutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int index = a_stu_id.getSelectedIndex();
+                if (index != -1) {
+                    String date = a_student_date.getText();
+                    if (date.length() != 10) {
+                        a_date.setForeground(new Color(255, 0, 0));
+                    } else if (bg.getSelection() == null) {
+                        a_mark_p_or_ab.setForeground(new Color(255, 0, 0));
+                    } else {
+                        a_date.setForeground(Color.black);
+                        a_mark_p_or_ab.setForeground(Color.black);
+                        if (present.isSelected()) {
+                            TeacherDBHelper.markAttendance(a_stu_id.getItemAt(index), a_student_date.getText(), "Present");
+                            setDistinctAttendanceDates(date_dd);
+                        } else {
+                            TeacherDBHelper.markAttendance(a_stu_id.getItemAt(index), a_student_date.getText(), "Absent");
+                            setDistinctAttendanceDates(date_dd);
+                        }
+                        if (a_stu_id.getItemCount() == 1) {
+                            a_stu_id.removeAllItems();
+                        } else {
+                            a_stu_id.remove(index);
+                        }
 
+                        bg.clearSelection();
+                    }
+                }
             }
         });
         updateAttendance.add(updatebutton);
@@ -473,21 +516,30 @@ public class TeacherGUI extends JFrame {
         consolidated_att_lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
         attendancepanel.add(consolidated_att_lbl);
 
-        String pick_date[] = { "" };
-        JComboBox<String> date_dd = new JComboBox<>(pick_date);
-        date_dd.setBounds(550, 400, 200, 47);
-        date_dd.setBackground(Color.white);
-        date_dd.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        attendancepanel.add(date_dd);
 
-        String data[][] = { { "001", "Aisha", "P" }, { "102", "Jay", "P" }, { "101", "Steafn", "A" } };
-        String column[] = { "ID", "NAME", "P/A" };
-        JTable jt = new JTable(data, column);
-        jt.setModel(new DefaultTableModel(
-                new Object[][] { { "ID", "NAME", "P/A" }, { "001", "Aisha", "P" }, { "102", "Jay", "P" },
-                        { "101", "Stefan", "A" }, { null, null, null }, { null, null, null }, { null, null, null },
+//        String pick_date[]={""};
+//        JComboBox date_dd = new JComboBox(pick_date);
+//        date_dd.setBounds(550, 400, 200, 47);
+//        date_dd.setBackground(Color.white);
+//        date_dd.setFont(new Font("Segoe UI", Font.BOLD, 18));
+//        attendancepanel.add(date_dd);
 
-                }, new String[] { "ID", "NAME", "P/A" }));
+        date_dd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = date_dd.getSelectedIndex();
+                if (index != -1) {
+                    setAllConsolidatedAttendance(date_dd.getItemAt(index), teacher.gettClass());
+                }
+            }
+        });
+
+        String[] column = {"S.NO", "ID", "P/A"};
+        for (String s : column) {
+            dateDefModel.addColumn(s);
+        }
+        JTable jt = new JTable();
+        jt.setModel(dateDefModel);
         jt.setRowHeight(jt.getRowHeight() + 20);
         jt.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
         jt.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -536,23 +588,24 @@ public class TeacherGUI extends JFrame {
         assign_grade_btn.setBounds(970, 230, 200, 40);
         assign_grade_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                new AssignGradeForm();
+                new AssignGradeForm(TeacherGUI.this, teacher);
             }
         });
         gradespanel.add(assign_grade_btn);
 
-        // String grade_s_data[][] = { { "001", "Aisha", "98", "99", "100", "S", "Pass"
-        // } };
-        // String g_column[] = { "ID", "NAME", "Science", "Social", "Maths", "Grade",
-        // "Result" };
-        JTable grades_jt = new JTable(data, column);
-        grades_jt.setModel(new DefaultTableModel(
-                new Object[][] { { "ID", "NAME", "Science", "Social", "Maths", "Grade", "Result" },
-                        { "001", "Aisha", "98", "99", "100", "S", "Pass" }, { null, null, null }, { null, null, null },
-                        { null, null, null }, { null, null, null }, { null, null, null }, { null, null, null },
-                        { null, null, null }, { null, null, null },
+        ///Grades
 
-                }, new String[] { "ID", "NAME", "Science", "Social", "Maths", "Grade", "Result" }));
+
+        String g_column[] = {"Exam", "ID", "Science", "Maths", "Social", "Grade",
+                "Result"};
+
+        for (String g : g_column) {
+            gradeDefModel.addColumn(g);
+        }
+
+        JTable grades_jt = new JTable();
+        grades_jt.setModel(gradeDefModel);
+        setConsolidatedGrades();
         grades_jt.setRowHeight(jt.getRowHeight() + 20);
         grades_jt.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
         grades_jt.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -576,13 +629,13 @@ public class TeacherGUI extends JFrame {
         s_text1.setBounds(30, 10, 489, 40);
         panel.add(s_text1);
 
-        JLabel s_text2 = new JLabel("Class 10");
+        JLabel s_text2 = new JLabel("Class " + teacher.gettClass());
         s_text2.setForeground(Color.GRAY);
         s_text2.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         s_text2.setBounds(30, 60, 214, 30);
         panel.add(s_text2);
 
-        JLabel stu_panel_subhead = new JLabel("Consolidated Student Details of Class 10");
+        JLabel stu_panel_subhead = new JLabel("Consolidated Student Details of Class " + teacher.gettClass());
         stu_panel_subhead.setFont(new Font("Segeo UI", Font.BOLD, 24));
         stu_panel_subhead.setForeground(Color.black);
         stu_panel_subhead.setBorder(null);
@@ -599,24 +652,21 @@ public class TeacherGUI extends JFrame {
         add_btn.setBounds(1020, 210, 64, 64);
         add_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                new AddStudentForm();
+                new AddStudentForm(TeacherGUI.this);
             }
         });
         studentpanel.add(add_btn);
 
-        String s_data[][] = { { "19eucs001", "Abiraj", "10", "abi@gmail.com", "30-11-2001", "Male", "9655047766" } };
-        String s_column[] = { "ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE" };
-        JTable s_jt = new JTable(s_data, s_column);
-        s_jt.setModel(new DefaultTableModel(new Object[][] {
-                { "S.NO.", "ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE" },
-                { "1", "19eucs001", "Abiraj", "10", "abi@gmail.com", "30-11-2001", "Male", "9655047766" },
-                { null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
 
-        }, new String[] { "SNO", "ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE" }));
+        String s_column[] = {"ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE"};
+
+        for (String s : s_column) {
+            defModel.addColumn(s);
+        }
+
+        JTable s_jt = new JTable();
+        s_jt.setModel(defModel);
+        setStudentRecords();
         s_jt.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         s_jt.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
         s_jt.setBounds(30, 320, 1100, 390);
@@ -664,13 +714,14 @@ public class TeacherGUI extends JFrame {
         upload_btn.setBorder(null);
         learningpanel.add(upload_btn);
 
-        JTextArea assign_text_2 = new JTextArea("Bigger File?Please provide a Google Drive link in the box below...");
-        assign_text_2.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        assign_text_2.setBounds(100, 360, 400, 50);
-        assign_text_2.setWrapStyleWord(true);
-        assign_text_2.setForeground(Color.lightGray);
-        assign_text_2.setLineWrap(true);
-        learningpanel.add(assign_text_2);
+
+//        JTextArea assign_text_2 = new JTextArea("Bigger File?Please provide a Google Drive link in the box below...");
+//        assign_text_2.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+//        assign_text_2.setBounds(100, 360, 400, 50);
+//        assign_text_2.setWrapStyleWord(true);
+//        assign_text_2.setForeground(Color.lightGray);
+//        assign_text_2.setLineWrap(true);
+//        learningpanel.add(assign_text_2);
 
         JTextArea drive_link = new JTextArea("");
         drive_link.setFont(new Font("Segoe UI", Font.PLAIN, 18));
@@ -682,14 +733,37 @@ public class TeacherGUI extends JFrame {
         drive_link.setLineWrap(true);
         learningpanel.add(drive_link);
 
+        upload_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (drive_link.getText().length() != 0) {
+                    String material_text = drive_link.getText();
+                    if (TeacherDBHelper.postMaterials(teacher.getTeacher_id(), teacher.gettClass(), material_text)) {
+                        JOptionPane.showMessageDialog(TeacherGUI.this, "Material is Added");
+                        setUploadedMaterials();
+                    } else {
+                        JOptionPane.showMessageDialog(TeacherGUI.this, "Something Failed!");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(TeacherGUI.this, "Please enter something");
+                }
+            }
+        });
+
         // String material[][] = { { "1.", "science_material.pdf" } };
         // String mat_column[] = { "S.NO.", "MATERIAL" };
-        JTable material_jt = new JTable(data, column);
-        material_jt.setModel(new DefaultTableModel(new Object[][] { { "S.NO", "MATERIAL" }, { null, null, null },
-                { null, null, null }, { null, null, null }, { null, null, null }, { null, null, null },
-                { null, null, null }, { null, null, null }, { null, null, null }
+        materialModel.addColumn("S.NO");
+        materialModel.addColumn("MATERIAL");
 
-        }, new String[] { "S.NO.", "MATERIAL" }));
+
+        JTable material_jt = new JTable();
+        setUploadedMaterials();
+        material_jt.setModel(materialModel);
+//        material_jt.setModel(new DefaultTableModel(new Object[][]{{"S.NO", "MATERIAL"}, {null, null, null},
+//                {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null},
+//                {null, null, null}, {null, null, null}, {null, null, null}
+//
+//        }, new String[]{"S.NO.", "MATERIAL"}));
         material_jt.setRowHeight(jt.getRowHeight() + 20);
         material_jt.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
         material_jt.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -719,17 +793,20 @@ public class TeacherGUI extends JFrame {
         total_req_panel.setLayout(null);
         leave_info.add(total_req_panel);
 
-        JLabel no_of_req = new JLabel("3");
-        no_of_req.setForeground(Color.WHITE);
-        no_of_req.setFont(new Font("Segoe UI", Font.BOLD, 36));
-        no_of_req.setBounds(100, 10, 52, 67);
-        total_req_panel.add(no_of_req);
 
         JLabel tot_req_text = new JLabel("Total Requests");
         tot_req_text.setForeground(Color.WHITE);
         tot_req_text.setFont(new Font("Segoe UI", Font.BOLD, 16));
         tot_req_text.setBounds(50, 80, 123, 30);
         total_req_panel.add(tot_req_text);
+
+        JLabel no_of_req = new JLabel("...");
+        no_of_req.setForeground(Color.WHITE);
+        no_of_req.setFont(new Font("Segoe UI", Font.BOLD, 36));
+        no_of_req.setBounds(100, 10, 52, 67);
+        no_of_req.setText(TeacherDBHelper.getLeaveCount(teacher.getEmail()) + "");
+        total_req_panel.add(no_of_req);
+
 
         JPanel approved_req_panel = new JPanel();
         approved_req_panel.setBackground(new Color(250, 128, 114));
@@ -741,6 +818,7 @@ public class TeacherGUI extends JFrame {
         no_approved.setForeground(Color.WHITE);
         no_approved.setFont(new Font("Segoe UI", Font.BOLD, 36));
         no_approved.setBounds(100, 10, 52, 67);
+        no_approved.setText(TeacherDBHelper.approvedLeaveCount(teacher.getTeacher_id()) + "");
         approved_req_panel.add(no_approved);
 
         JLabel tot_approved_text = new JLabel("Approved");
@@ -755,17 +833,19 @@ public class TeacherGUI extends JFrame {
         disapproved_req_panel.setLayout(null);
         leave_info.add(disapproved_req_panel);
 
-        JLabel no_disapproved = new JLabel("1");
-        no_disapproved.setForeground(Color.WHITE);
-        no_disapproved.setFont(new Font("Segoe UI", Font.BOLD, 36));
-        no_disapproved.setBounds(100, 10, 52, 67);
-        disapproved_req_panel.add(no_disapproved);
 
-        JLabel tot_disapproved_text = new JLabel("Disapproved");
+        JLabel tot_disapproved_text = new JLabel("Pending");
         tot_disapproved_text.setForeground(Color.WHITE);
         tot_disapproved_text.setFont(new Font("Segoe UI", Font.BOLD, 16));
         tot_disapproved_text.setBounds(70, 80, 123, 30);
         disapproved_req_panel.add(tot_disapproved_text);
+
+        JLabel no_disapproved = new JLabel("..");
+        no_disapproved.setForeground(Color.WHITE);
+        no_disapproved.setFont(new Font("Segoe UI", Font.BOLD, 36));
+        no_disapproved.setBounds(100, 10, 52, 67);
+        no_disapproved.setText(TeacherDBHelper.PendingLeaveCount(teacher.getEmail()) + "");
+        disapproved_req_panel.add(no_disapproved);
 
         JPanel leave_apply_panel = new JPanel();
         leave_apply_panel.setBackground(Color.WHITE);
@@ -963,6 +1043,14 @@ public class TeacherGUI extends JFrame {
         inquiry_textarea_2.setForeground(Color.gray);
         inquiry_textarea_2.setMargin(new Insets(30, 30, 10, 10));
         inquiry_textarea_2.setBounds(14, 410, 540, 170);
+        inquiry_textarea_2.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                inquiry_textarea_2.setText("");
+            }
+
+        });
         forum_response_panel.add(inquiry_textarea_2);
 
         JButton respond_btn_2 = new JButton("Submit Response");
@@ -974,6 +1062,45 @@ public class TeacherGUI extends JFrame {
         respond_btn_2.setFocusPainted(false);
         respond_btn_2.setBorder(null);
         forum_response_panel.add(respond_btn_2);
+        JPanel inquiry_rec_panel = new JPanel();
+        inquiry_rec_panel.setBackground(new Color(255, 160, 122));
+        inquiry_rec_panel.setBounds(789, 250, 237, 154);
+        inquiry_rec_panel.setLayout(null);
+        forumpanel.add(inquiry_rec_panel);
+
+
+        JPanel inq_responded_panel = new JPanel();
+        inq_responded_panel.setBackground(new Color(255, 160, 122));
+        inq_responded_panel.setBounds(789, 450, 237, 154);
+        inq_responded_panel.setLayout(null);
+        forumpanel.add(inq_responded_panel);
+        JLabel tot_inq_text_1 = new JLabel("Total Inquiries");
+        tot_inq_text_1.setBounds(60, 90, 127, 28);
+        inquiry_rec_panel.add(tot_inq_text_1);
+        tot_inq_text_1.setForeground(new Color(255, 255, 255));
+        tot_inq_text_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
+
+        JLabel no_of_inq = new JLabel("0");
+        no_of_inq.setForeground(new Color(255, 255, 255));
+        no_of_inq.setFont(new Font("Segoe UI", Font.BOLD, 42));
+        no_of_inq.setBounds(114, 21, 43, 64);
+        no_of_inq.setText(TeacherDBHelper.totalInquiryCount() + "");
+        inquiry_rec_panel.add(no_of_inq);
+
+
+        JLabel responded_inq_text = new JLabel("Inquiries Responded");
+        responded_inq_text.setBounds(50, 90, 218, 28);
+        inq_responded_panel.add(responded_inq_text);
+        responded_inq_text.setForeground(new Color(255, 255, 255));
+        responded_inq_text.setFont(new Font("Segoe UI", Font.BOLD, 16));
+
+
+        JLabel responded_inq = new JLabel("0");
+        responded_inq.setBounds(114, 21, 45, 51);
+        inq_responded_panel.add(responded_inq);
+        responded_inq.setForeground(new Color(255, 255, 255));
+        responded_inq.setFont(new Font("Segoe UI", Font.BOLD, 42));
+        responded_inq.setText(TeacherDBHelper.respondedInquiryCount() + "");
         f_id_cb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1000,44 +1127,12 @@ public class TeacherGUI extends JFrame {
                     setInquiries();
                     JOptionPane.showMessageDialog(TeacherGUI.this, "Replied!");
                     inquiry_textarea_2.setText("");
+                    responded_inq.setText(TeacherDBHelper.respondedInquiryCount() + "");
+                    no_of_inq.setText(TeacherDBHelper.totalInquiryCount() + "");
                 }
             }
         });
-        JPanel inquiry_rec_panel = new JPanel();
-        inquiry_rec_panel.setBackground(new Color(255, 160, 122));
-        inquiry_rec_panel.setBounds(789, 250, 237, 154);
-        inquiry_rec_panel.setLayout(null);
-        forumpanel.add(inquiry_rec_panel);
 
-        JLabel no_of_inq = new JLabel("2");
-        no_of_inq.setForeground(new Color(255, 255, 255));
-        no_of_inq.setFont(new Font("Segoe UI", Font.BOLD, 42));
-        no_of_inq.setBounds(114, 21, 43, 64);
-        inquiry_rec_panel.add(no_of_inq);
-
-        JPanel inq_responded_panel = new JPanel();
-        inq_responded_panel.setBackground(new Color(255, 160, 122));
-        inq_responded_panel.setBounds(789, 450, 237, 154);
-        inq_responded_panel.setLayout(null);
-        forumpanel.add(inq_responded_panel);
-
-        JLabel tot_inq_text_1 = new JLabel("Total Inquiries");
-        tot_inq_text_1.setBounds(60, 90, 127, 28);
-        inquiry_rec_panel.add(tot_inq_text_1);
-        tot_inq_text_1.setForeground(new Color(255, 255, 255));
-        tot_inq_text_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
-
-        JLabel responded_inq = new JLabel("0");
-        responded_inq.setBounds(114, 21, 45, 51);
-        inq_responded_panel.add(responded_inq);
-        responded_inq.setForeground(new Color(255, 255, 255));
-        responded_inq.setFont(new Font("Segoe UI", Font.BOLD, 42));
-
-        JLabel responded_inq_text = new JLabel("Inquiries Responded");
-        responded_inq_text.setBounds(50, 90, 218, 28);
-        inq_responded_panel.add(responded_inq_text);
-        responded_inq_text.setForeground(new Color(255, 255, 255));
-        responded_inq_text.setFont(new Font("Segoe UI", Font.BOLD, 16));
 
         payrollpanel = new JPanel();
         payrollpanel.setBackground(Color.white);
@@ -1126,14 +1221,26 @@ public class TeacherGUI extends JFrame {
 
         access_pay_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String high_sec_pin = "1234";
+
+                String high_sec_pin = TeacherDBHelper.getpwd(teacher.getTeacher_id());
                 String pin = JOptionPane.showInputDialog("Enter your high security 4-digit pin");
 
-                if (pin.equals(high_sec_pin)) {
-                    JOptionPane.showMessageDialog(null,
-                            "Congratulations !!! your account isn credited with your new payroll");
-                    salary_amt.setText("  $3000.00");
-                } else {
+
+                    if (pin.equals(high_sec_pin)) {
+                        if(teacher.getPayroll()==1) {
+                        salary_amt.setText("  $" + teacher.getSalary());
+
+                        if(TeacherDBHelper.reAssign(0,teacher.getTeacher_id())){
+                            JOptionPane.showMessageDialog(null,
+                                    "Congratulations !!! your account isn credited with your new payroll");
+                            teacher.setPayroll(0);
+                        }
+                    }
+                        else{
+                            JOptionPane.showMessageDialog(null,"Payroll is yet to be Assigned!");
+                        }
+                }
+                    else {
                     JOptionPane.showMessageDialog(null, "Invalid pin number!!");
                 }
 
@@ -1147,14 +1254,23 @@ public class TeacherGUI extends JFrame {
         setLeaveDates();
         setInquiries();
 
+        homepanel.setVisible(true);
+        attendancepanel.setVisible(false);
+        gradespanel.setVisible(false);
+        leaveformpanel.setVisible(false);
+        studentpanel.setVisible(false);
+        learningpanel.setVisible(false);
+        forumpanel.setVisible(false);
+        payrollpanel.setVisible(false);
+
     }
 
     public static void main(String[] args) {
 
-        // new TeacherGUI(new TeacherDBHelper().getTeacherId("hari@gmail.com"));
+         new TeacherGUI( TeacherDBHelper.getTeacherId("abi@gmail.com"));
 
-        Teacher teacher = new Teacher("19eucs005", "12345", "12", "Ajai", "ajai@gmail", 3, "9545454545", 5000000);
-        new TeacherGUI(teacher);
+        //Teacher teacher = new Teacher("19eucs005", "12345", "12", "Ajai", "ajai@gmail", 3, "9545454545", 5000000);
+        //new TeacherGUI(teacher);
     }
 
     void setLeaveDates() {
@@ -1181,7 +1297,78 @@ public class TeacherGUI extends JFrame {
         }
     }
 
+    void setStudentRecords() {
+        defModel.setRowCount(0);
+
+        defModel.addRow(new Object[]{"ID", "NAME", "STD", "EMAIL", "DOB", "GENDER", "PHONE"});
+
+        ArrayList<Student> studentsAl = StudentDBHelper.allStudentsByClass(teacher.gettClass());
+        int i = 1;
+        for (Student st : studentsAl) {
+            defModel.addRow(new Object[]{i, st.getId(), st.getName(), st.getStd(), st.getEmail(), st.getDob(), st.getGender(), st.getPhone()});
+            i++;
+        }
+
+    }
+
     void setTeacher(String email) {
         teacher = TeacherDBHelper.getTeacherId(email);
+    }
+
+    void setTeacherComboBox(JComboBox<String> a_stu_id) {
+        a_stu_id.removeAllItems();
+        for (Student s : StudentDBHelper.allStudentsByClass(teacher.gettClass())) {
+            a_stu_id.addItem(s.getId());
+        }
+
+    }
+
+    void setDistinctAttendanceDates(JComboBox<String> jc) {
+        jc.removeAllItems();
+        for (String s : TeacherDBHelper.getDistinctDatesAttendance()) {
+            jc.addItem(s);
+        }
+    }
+
+    void setAllConsolidatedAttendance(String date, String std) {
+        dateDefModel.setRowCount(0);
+        setConsolidatedAttendanceHeader();
+        int i = 1;
+        for (Attendance at : TeacherDBHelper.getAttendanceByDate(date, std)) {
+            //  System.out.println(at.getStatus());
+            dateDefModel.addRow(new Object[]{i, at.getStudent_id(), at.getStatus()});
+            i++;
+        }
+
+    }
+
+    void setConsolidatedAttendanceHeader() {
+        dateDefModel.addRow(new Object[]{"S.NO", "ID", "P/A"});
+    }
+
+    void setConsolidatedGradeHeader() {
+//    String g_column[] = { "Exam", "ID", "Science", "Maths", "Social", "Grade",
+//            "Result" };
+        gradeDefModel.addRow(new Object[]{"Exam", "ID", "Science", "Maths", "Social", "Grade",
+                "Result"});
+    }
+
+    void setConsolidatedGrades() {
+        gradeDefModel.setRowCount(0);
+        setConsolidatedGradeHeader();
+        for (Marks m : TeacherDBHelper.getMarksByClass(teacher.gettClass())) {
+            String res = m.calcGrade().equals("F") ? "Fail" : "Pass";
+            gradeDefModel.addRow(new Object[]{m.getExam_title(), m.getStudent_id(), m.getSub1(), m.getSub2(), m.getSub3(), m.calcGrade(), res});
+        }
+    }
+
+    void setUploadedMaterials() {
+        materialModel.setRowCount(0);
+        materialModel.addRow(new Object[]{"S.No", "Material"});
+        int i = 1;
+        for (Materials m : TeacherDBHelper.getTeacherMaterials(teacher.getTeacher_id())) {
+            materialModel.addRow(new Object[]{i, m.getMaterialText()});
+            i++;
+        }
     }
 }

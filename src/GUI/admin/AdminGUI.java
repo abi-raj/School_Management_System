@@ -1,26 +1,23 @@
 package GUI.admin;
 
 import database.AdminDBHelper;
-import database.StudentDBHelper;
 import database.TeacherDBHelper;
-import models.*;
 import mailapi.Mailer;
 import GUI.utils.Btnlistener;
+import models.Attendance;
+import models.Exam;
+import models.Forum;
+import models.Teacher;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.event.MouseInputAdapter;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.font.TextAttribute;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Objects;
 
 public class AdminGUI extends JFrame {
@@ -55,12 +52,10 @@ public class AdminGUI extends JFrame {
     Color BG_GREEN = new Color(11, 138, 62);
     Color BG_BLUE = new Color(28, 133, 232);
     JList<String> a = new JList<>();
-    private JTextField a_stu_name;
-    private JTextField a_student_date;
+    DefaultTableModel defModel = new DefaultTableModel();
+    JTable s_jt;
 
-    public AdminGUI(Teacher teacher) {
-        this.teacher = teacher;
-        // setTeacher(email);
+    public AdminGUI() {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1336, 814);
@@ -97,10 +92,9 @@ public class AdminGUI extends JFrame {
                 homepanel.setVisible(true);
                 notification_panel.setVisible(false);
                 exampanel.setVisible(false);
-                // leaveformpanel.setVisible(false);
+
                 teacherpanel.setVisible(false);
-                // learningpanel.setVisible(false);
-                // forumpanel.setVisible(false);
+
                 payrollpanel.setVisible(false);
 
             }
@@ -112,10 +106,9 @@ public class AdminGUI extends JFrame {
                 homepanel.setVisible(false);
                 notification_panel.setVisible(true);
                 exampanel.setVisible(false);
-                // leaveformpanel.setVisible(false);
+
                 teacherpanel.setVisible(false);
-                // learningpanel.setVisible(false);
-                // forumpanel.setVisible(false);
+
                 payrollpanel.setVisible(false);
             }
 
@@ -136,10 +129,9 @@ public class AdminGUI extends JFrame {
                 homepanel.setVisible(false);
                 notification_panel.setVisible(false);
                 exampanel.setVisible(true);
-                // leaveformpanel.setVisible(false);
+
                 teacherpanel.setVisible(false);
-                // learningpanel.setVisible(false);
-                // forumpanel.setVisible(false);
+
                 payrollpanel.setVisible(false);
             }
         });
@@ -159,10 +151,7 @@ public class AdminGUI extends JFrame {
                 homepanel.setVisible(false);
                 notification_panel.setVisible(false);
                 exampanel.setVisible(false);
-                // leaveformpanel.setVisible(false);
                 teacherpanel.setVisible(true);
-                // learningpanel.setVisible(false);
-                // forumpanel.setVisible(false);
                 payrollpanel.setVisible(false);
             }
         });
@@ -174,78 +163,6 @@ public class AdminGUI extends JFrame {
         student.setBackground(BG_COLOR);
         student.setToolTipText("Teacher Details\r\n");
         sidebar.add(student);
-
-        // JButton leaveform = new JButton();
-        // leaveform.addActionListener(new ActionListener() {
-        // public void actionPerformed(ActionEvent arg0) {
-        //
-        // homepanel.setVisible(false);
-        // notification_panel.setVisible(false);
-        // exampanel.setVisible(false);
-        // // leaveformpanel.setVisible(true);
-        // teacherpanel.setVisible(false);
-        // //learningpanel.setVisible(false);
-        // /// forumpanel.setVisible(false);
-        // payrollpanel.setVisible(false);
-        // }
-        //
-        // });
-        // leaveform.setToolTipText("Leave Form");
-        // leaveform.setIcon(new
-        // ImageIcon(Objects.requireNonNull(getClass().getResource("../images/leave.png"))));
-        // leaveform.setLayout(null);
-        // leaveform.setBackground(BG_COLOR);
-        // leaveform.setFocusPainted(false);
-        // leaveform.setBorder(null);
-        // leaveform.setBounds(41, 475, 45, 56);
-        // sidebar.add(leaveform);
-        //
-        //// JButton inquiry = new JButton("");
-        //// inquiry.addActionListener(new ActionListener() {
-        //// public void actionPerformed(ActionEvent arg0) {
-        // homepanel.setVisible(false);
-        // notification_panel.setVisible(false);
-        // exampanel.setVisible(false);
-        // //leaveformpanel.setVisible(false);
-        // teacherpanel.setVisible(false);
-        // //learningpanel.setVisible(false);
-        // //forumpanel.setVisible(true);
-        // payrollpanel.setVisible(false);
-        // }
-        // });
-        // inquiry.setIcon(new
-        // ImageIcon(Objects.requireNonNull(getClass().getResource("../images/chat
-        // icon.png"))));
-        // inquiry.setToolTipText("Inquiry Forum");
-        // inquiry.setBackground(BG_COLOR);
-        // inquiry.setLayout(null);
-        // inquiry.setFocusPainted(false);
-        // inquiry.setBorder(null);
-        // inquiry.setBounds(39, 566, 45, 47);
-        // sidebar.add(inquiry);
-
-        // JButton learning = new JButton();
-        // learning.addActionListener(new ActionListener() {
-        // public void actionPerformed(ActionEvent arg0) {
-        // homepanel.setVisible(false);
-        // notification_panel.setVisible(false);
-        // exampanel.setVisible(false);
-        // //leaveformpanel.setVisible(false);
-        // teacherpanel.setVisible(false);
-        // //learningpanel.setVisible(true);
-        // //forumpanel.setVisible(false);
-        // payrollpanel.setVisible(false);
-        // }
-        // });
-        // learning.setIcon(new
-        // ImageIcon(Objects.requireNonNull(getClass().getResource("../images/learning.png"))));
-        // learning.setToolTipText("Learning Materials");
-        // learning.setBackground(BG_COLOR);
-        // learning.setLayout(null);
-        // learning.setFocusPainted(false);
-        // learning.setBorder(null);
-        // learning.setBounds(39, 389, 45, 63);
-        // sidebar.add(learning);
 
         homepanel = new JPanel();
         homepanel.setBounds(124, 0, 1336, 1000);
@@ -287,7 +204,7 @@ public class AdminGUI extends JFrame {
         addTeacherButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddTeacher();
+                new AddTeacher(AdminGUI.this);
             }
         });
 
@@ -304,13 +221,18 @@ public class AdminGUI extends JFrame {
         editTeacher.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ModTeacher();
+
+                new ModTeacher(AdminGUI.this);
             }
         });
 
+        s_jt = new JTable();
+        s_jt.setModel(defModel);
         String[] s_column = { "S.NO", "ID", "NAME", "CLASS", "EMAIL", "EXP", "PHONE", "SALARY" };
-        JTable s_jt = new JTable(teacherRecordArray, s_column);
-
+        for (String s : s_column) {
+            defModel.addColumn(s);
+        }
+        setTableRecords();
         s_jt.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         s_jt.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
         s_jt.setBounds(60, 312, 1100, 421);
@@ -318,16 +240,16 @@ public class AdminGUI extends JFrame {
         s_jt.setRowHeight(s_jt.getRowHeight() + 20);
         teacherpanel.add(s_jt);
 
+        //// pay
         JButton payroll = new JButton();
         payroll.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 homepanel.setVisible(false);
                 notification_panel.setVisible(false);
                 exampanel.setVisible(false);
-                // leaveformpanel.setVisible(false);
+
                 teacherpanel.setVisible(false);
-                // learningpanel.setVisible(false);
-                // forumpanel.setVisible(false);
+
                 payrollpanel.setVisible(true);
 
             }
@@ -344,48 +266,20 @@ public class AdminGUI extends JFrame {
         setVisible(true);
         setLayout(null);
         setResizable(false);
-        // setLeaveDates();
-        // setInquiries();
+
         defaultVisible();
 
     }
 
     public static void main(String[] args) {
 
-        new AdminGUI(TeacherDBHelper.getTeacherId("ajai@gmail.com"));
+        new AdminGUI();
 
     }
 
-    // void setLeaveDates() {
-    // cb_2.removeAllItems();
-    // ArrayList<String> dates = TeacherDBHelper.getDistinctDates();
-    // for (String s : dates) {
-    // cb_2.addItem(s);
-    // }
-    // }
-    //
-    // void setStudentsLeave(String date) {
-    // cb.removeAllItems();
-    // ArrayList<Leave> leaves = TeacherDBHelper.getPendingLeavesFromDate(date);
-    // for (Leave l : leaves) {
-    // cb.addItem(l.getStudent_id());
-    // }
-    // }
-    //
-    // void setInquiries() {
-    // f_id_cb.removeAllItems();
-    // inquiries = TeacherDBHelper.allUnrespondedQueries();
-    // for (int i = 1; i <= inquiries.size(); i++) {
-    // f_id_cb.addItem(i + "");
-    // }
-    // }
-    //
-    // void setTeacher(String email) {
-    // teacher = TeacherDBHelper.getTeacherId(email);
-    // }
-
     void addTeacherRecords() {
         ArrayList<Teacher> al = TeacherDBHelper.allTeachers();
+        System.out.println("Count INside all teacher records" + al.size());
         teacherRecordArray = new String[al.size() + 1][8];
 
         teacherRecordArray[0][0] = "S.NO";
@@ -478,11 +372,13 @@ public class AdminGUI extends JFrame {
         leavecount_label.setBounds(30, 10, 159, 30);
         leavecount_label.setForeground(Color.WHITE);
         leavecount_label.setFont(new Font("Segoe UI", Font.BOLD, 19));
+
         leave_panel.add(leavecount_label);
 
         JLabel leave_percentage = new JLabel("...........");
         leave_percentage.setForeground(Color.WHITE);
         leave_percentage.setFont(new Font("Segoe UI", Font.BOLD, 40));
+        leave_percentage.setText(AdminDBHelper.leaveCount());
         leave_percentage.setBounds(78, 39, 33, 74);
         leave_panel.add(leave_percentage);
 
@@ -550,10 +446,11 @@ public class AdminGUI extends JFrame {
         performance_label.setFont(new Font("Segoe UI", Font.BOLD, 19));
         performance_panel.add(performance_label);
 
-        JLabel percentage = new JLabel("...........");
+        JLabel percentage = new JLabel("");
+        percentage.setText("100%");
         percentage.setForeground(Color.WHITE);
         percentage.setFont(new Font("Segoe UI", Font.BOLD, 40));
-        percentage.setBounds(78, 39, 33, 74);
+        percentage.setBounds(78, 39, 45, 74);
         performance_panel.add(percentage);
 
         for (String s : AdminDBHelper.getAllClass()) {
@@ -571,12 +468,12 @@ public class AdminGUI extends JFrame {
                 int index = comboBox.getSelectedIndex();
                 if (index != -1) {
                     int classStudentCount = AdminDBHelper.getStudentCountByClass(comboBox.getItemAt(index));
-                    int presentTodayCount = AdminDBHelper.getPresentToday("23-08-2021", comboBox.getItemAt(index));
-                    double performanceCount = AdminDBHelper.attendancePercentage("23-08-2021",
-                            comboBox.getItemAt(index));
+                    String presentTodayCount = AdminDBHelper.todayPresent(comboBox.getItemAt(index));
+                    // double performanceCount = AdminDBHelper.attendancePercentage("23-08-2021",
+                    // comboBox.getItemAt(index));
+                    percentage.setText("10");
                     lblNewLabel.setText(classStudentCount + "");
                     present_count.setText(presentTodayCount + "");
-                    percentage.setText(performanceCount + "");
 
                 }
 
@@ -589,10 +486,9 @@ public class AdminGUI extends JFrame {
         homepanel.setVisible(true);
         notification_panel.setVisible(false);
         exampanel.setVisible(false);
-        // leaveformpanel.setVisible(false);
+
         teacherpanel.setVisible(false);
-        // learningpanel.setVisible(false);
-        // forumpanel.setVisible(false);
+
         payrollpanel.setVisible(false);
     }
 
@@ -734,6 +630,7 @@ public class AdminGUI extends JFrame {
                     }
                 }
             }
+
         });
         exams_combobox.addActionListener(new ActionListener() {
             @Override
@@ -1025,10 +922,10 @@ public class AdminGUI extends JFrame {
         id_lbl.setBounds(61, 106, 146, 30);
         assign_panel.add(id_lbl);
 
-        JComboBox comboBox = new JComboBox();
+        JComboBox<String> comboBox = new JComboBox<String>();
         comboBox.setBounds(217, 106, 181, 30);
         assign_panel.add(comboBox);
-
+        setTeacherCombo(comboBox);
         JLabel perf_lbl = new JLabel("Performance   :");
         perf_lbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
         perf_lbl.setBounds(61, 220, 149, 30);
@@ -1055,8 +952,65 @@ public class AdminGUI extends JFrame {
         assign_btn.setFont(new Font("Segoe UI", Font.BOLD, 20));
         assign_btn.setBounds(171, 406, 116, 35);
         assign_btn.setFocusPainted(false);
+
         assign_btn.setBorder(new LineBorder(Color.BLACK));
         assign_panel.add(assign_btn);
+
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = comboBox.getSelectedIndex();
+                if (index != -1) {
+                    performance_lbl.setText("96");
+                    Teacher teach = TeacherDBHelper.viewTeacher(comboBox.getItemAt(index));
+                    pay_calculatedlbl.setText(teach.getSalary() + "");
+                }
+            }
+        });
+        assign_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = comboBox.getSelectedIndex();
+                if (index != -1) {
+                    if (TeacherDBHelper.reAssign(1, comboBox.getItemAt(index))) {
+                        JOptionPane.showMessageDialog(AdminGUI.this, "Success");
+                        setTeacherCombo(comboBox);
+                    } else {
+                        JOptionPane.showMessageDialog(AdminGUI.this, "Failure");
+                    }
+
+                }
+            }
+        });
     }
 
+    void setTeacherCombo(JComboBox<String> cbx) {
+        cbx.removeAllItems();
+        for (String tid : database.AdminDBHelper.getTeachersWithoutPay()) {
+            cbx.addItem(tid);
+        }
+
+    }
+
+    void setTableRecords() {
+        clearAllRecords();
+
+        setTeachersTableHeader();
+        ArrayList<Teacher> alTeacher = TeacherDBHelper.allTeachers();
+        int i = 1;
+        for (Teacher teach : alTeacher) {
+            defModel.addRow(new Object[] { i, teach.getTeacher_id(), teach.getName(), teach.gettClass(),
+                    teach.getEmail(), teach.getExperience(), teach.getPhone(), teach.getSalary() });
+            i++;
+        }
+    }
+
+    void clearAllRecords() {
+        defModel.setRowCount(0);
+
+    }
+
+    void setTeachersTableHeader() {
+        defModel.addRow(new Object[] { "S.NO", "ID", "NAME", "CLASS", "EMAIL", "EXP", "PHONE", "SALARY" });
+    }
 }

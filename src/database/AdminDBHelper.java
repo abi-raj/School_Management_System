@@ -232,4 +232,55 @@ public class AdminDBHelper {
         }
         return alClass;
     }
+
+    public static String todayPresent(String std) {
+        String cnt = "";
+        try {
+            Connection con = Connector.getConnection();
+            String query = String.format(AdminTable.getCurrentLeave, std);
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                cnt = rs.getInt(1) + "";
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        System.out.println(cnt);
+        return cnt;
+    }
+
+    public static String leaveCount() {
+        String cnt = "";
+        try {
+            Connection con = Connector.getConnection();
+            String query = String.format(CountQueries.LeaveCount);
+            PreparedStatement stmt = con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                cnt = rs.getInt(1) + "";
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return cnt;
+    }
+
+    public static ArrayList<String> getTeachersWithoutPay() {
+        ArrayList<String> alTeachers = new ArrayList<>();
+
+        try {
+            Connection con = Connector.getConnection();
+            PreparedStatement stmt = con.prepareStatement(TeacherTable.getTeacherWithoutPayroll);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                alTeachers.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println("Exception occurred : " + e.getMessage());
+        }
+
+        return alTeachers;
+    }
 }

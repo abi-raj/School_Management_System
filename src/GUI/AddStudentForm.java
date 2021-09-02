@@ -1,24 +1,32 @@
 package GUI;
 
+import database.StudentDBHelper;
+import models.Student;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 //Util Input Box function
 class InputPanel extends JPanel {
 
+    JLabel l_name;
+    JTextField t_name;
+
     public InputPanel(String name) {
         BoxLayout boxlayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(boxlayout);
 
-        JLabel l_name = new JLabel(name + ":");
+        l_name = new JLabel(name + ":");
         l_name.setFont(new Font("Arial", Font.BOLD, 15));
         l_name.setForeground(Color.BLACK);
         l_name.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-
-        JTextField t_name = new JTextField(" Enter " + name);
+        t_name = new JTextField();
+        // t_name = new JTextField(" Enter " + name);
         t_name.setMaximumSize(new Dimension(200, 30));
         t_name.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         t_name.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -27,13 +35,13 @@ class InputPanel extends JPanel {
 
         t_name.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
-                t_name.setText("");
+                // t_name.setText("");
                 t_name.setForeground(Color.BLACK);
             }
 
             public void focusLost(FocusEvent e) {
                 if (t_name.getText().trim().equals("")) {
-                    t_name.setText(" Enter " + name);
+                    // t_name.setText(" Enter " + name);
                     t_name.setForeground(Color.decode("#808080"));
                 }
             }
@@ -61,9 +69,11 @@ class bottomPanel extends JPanel {
 }
 
 class AddStudentForm extends JFrame {
+    Student student = null;
+    TeacherGUI teacherGUI = null;
 
-    public AddStudentForm() {
-
+    public AddStudentForm(TeacherGUI teacherGUI) {
+        this.teacherGUI = teacherGUI;
         this.setTitle("Add form");
 
         JPanel main_panel = new JPanel();
@@ -79,16 +89,17 @@ class AddStudentForm extends JFrame {
         panel.setLayout(new GridLayout(4, 2));
         panel.setBackground(Color.white);
 
-        JPanel id = new InputPanel("ID");
-        JPanel name = new InputPanel("Name");
-        JPanel std = new InputPanel("STD");
-        JPanel email = new InputPanel("Email");
-        JPanel DOB = new InputPanel("DOB");
-        JPanel gender = new InputPanel("Gender");
-        JPanel phone = new InputPanel("Phone");
+        InputPanel id = new InputPanel("ID");
+        InputPanel pwd = new InputPanel("Password");
+        InputPanel name = new InputPanel("Name");
+        InputPanel std = new InputPanel("STD");
+        InputPanel email = new InputPanel("Email");
+        InputPanel DOB = new InputPanel("DOB");
+        InputPanel gender = new InputPanel("Gender");
+        InputPanel phone = new InputPanel("Phone");
 
         panel.add(id);
-        panel.add(new JLabel());
+        panel.add(pwd);
         panel.add(name);
         panel.add(std);
         panel.add(email);
@@ -120,11 +131,94 @@ class AddStudentForm extends JFrame {
         setContentPane(main_panel);
         setBounds(100, 100, 640, 500);
         setVisible(true);
+
+        find.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!id.t_name.getText().equals("")) {
+                    student = StudentDBHelper.viewProfile(id.t_name.getText());
+                    if (student != null) {
+                        name.t_name.setText(student.getName());
+                        std.t_name.setText(student.getStd());
+                        pwd.t_name.setText(student.getPassword());
+                        email.t_name.setText(student.getEmail());
+                        gender.t_name.setText(student.getGender());
+                        std.t_name.setText(student.getStd());
+                        DOB.t_name.setText(student.getDob());
+                        phone.t_name.setText(student.getPhone());
+                    } else {
+                        name.t_name.setText("");
+                        std.t_name.setText("");
+                        pwd.t_name.setText("");
+                        email.t_name.setText("");
+                        gender.t_name.setText("");
+                        std.t_name.setText("");
+                        DOB.t_name.setText("");
+                        phone.t_name.setText("");
+                    }
+                }
+
+            }
+        });
+        save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!id.t_name.getText().equals("") && !name.t_name.getText().equals("")
+                        && DOB.t_name.getText().length() != 10 && gender.t_name.getText() != ""
+                        && phone.t_name.getText().length() != 10 && std.t_name.getText() != ""
+                        && !email.t_name.getText().matches(".*@skcet\\.ac\\.in$")) {
+                    JOptionPane.showMessageDialog(AddStudentForm.this, "Enter valid values");
+                } else {
+                    if (StudentDBHelper.checkStudentExists(id.t_name.getText())) {
+                        Student st = new Student(student.getId(), student.getPassword(), name.t_name.getText(),
+                                std.t_name.getText(), email.t_name.getText(), gender.t_name.getText(),
+                                DOB.t_name.getText(), phone.t_name.getText(), student.getFees());
+                        if (StudentDBHelper.updateStudent(st)) {
+                            JOptionPane.showMessageDialog(AddStudentForm.this, "Updated !");
+                            teacherGUI.setStudentRecords();
+                        } else {
+                            JOptionPane.showMessageDialog(AddStudentForm.this, "Update failed !");
+                        }
+                    } else {
+                        Student st = new Student(id.t_name.getText(), pwd.t_name.getText(), name.t_name.getText(),
+                                std.t_name.getText(), email.t_name.getText(), gender.t_name.getText(),
+                                DOB.t_name.getText(), phone.t_name.getText(), 70000);
+                        if (StudentDBHelper.createStudent(st)) {
+                            JOptionPane.showMessageDialog(AddStudentForm.this, "Created !");
+                            teacherGUI.setStudentRecords();
+                        } else {
+                            JOptionPane.showMessageDialog(AddStudentForm.this, "Create failed !");
+                        }
+                    }
+
+                }
+
+            }
+        });
+        delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!id.t_name.getText().equals("")) {
+                    String id_Student = id.t_name.getText();
+                    if (StudentDBHelper.checkStudentExists(id_Student)) {
+                        if (StudentDBHelper.deleteStudent(id_Student)) {
+                            JOptionPane.showMessageDialog(AddStudentForm.this, "Deleted!");
+                            teacherGUI.setStudentRecords();
+                        } else {
+                            JOptionPane.showMessageDialog(AddStudentForm.this, "Error in deleting !");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(AddStudentForm.this, "Student doesn't exist!");
+                    }
+                }
+            }
+        });
+
     }
 
-    public static void main(String[] args) {
-        AddStudentForm t = new AddStudentForm();
-        t.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
+    // public static void main(String[] args) {
+    // AddStudentForm t = new AddStudentForm();
+    // t.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    // }
 
 }
