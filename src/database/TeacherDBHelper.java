@@ -12,8 +12,8 @@ public class TeacherDBHelper {
 
     public static void main(String[] args) throws Exception {
         // Teacher teacher = new Teacher("19eucs005", "12345", "Ajay", "12",
-        // "ajai@gmail", 3, "9545454545", 5000000);
-        // new TeacherDBHelper().createTeacher(teacher);
+        // "ajai@gmail", 3, "9545454545", 5000000, 0);
+        // System.out.println(TeacherDBHelper.allTeacherEmails().get(0));
 
     }
 
@@ -24,55 +24,60 @@ public class TeacherDBHelper {
 
             stmt.executeUpdate(CreateQueries.createTeacher);
             System.out.println("Table Teacher created");
-            //  conn.close();
         } catch (Exception e) {
-            System.out.println("Exception Occured: " + e);
+            System.out.println("Exception on createTable: " + e);
         }
     }
 
     public static boolean teacher_tableExists() {
-
         try {
-
             Connection con = Connector.getConnection();
-
             ResultSet tables = con.getMetaData().getTables(null, null, TeacherTable.tableName, null);
             if (tables.next()) {
                 System.out.println("Teacher table exists");
-//                con.close();
                 return true;
-            } else {
-                System.out.println("Teacher Table doesn't exist");
-                createTable();
-
             }
-//            con.close();
-            return true;
         } catch (Exception e) {
-            System.out.println("Exception occured: " + e.getMessage());
-        }
+            System.out.println("Exception occured on teacher_tableExists: " + e);
 
+        }
+        createTable();
         return false;
     }
 
+    public static ArrayList<String> allTeacherEmails() {
+        ArrayList<String> fin = new ArrayList<String>();
+        try {
+            Connection con = Connector.getConnection();
+            PreparedStatement stmt = con.prepareStatement("SELECT email from teacher_details");
+            ResultSet rs = stmt.executeQuery();
+            for (; rs.next();) {
+                String email = rs.getString("email");
+                fin.add(email);
+            }
 
+        } catch (Exception e) {
+            System.out.println("Exception occured on allTeacherEmails: " + e);
+
+        }
+        return fin;
+
+    }
 
     public static boolean createTeacher(Teacher user) {
-        //  teacher_tableExists();
+        // teacher_tableExists();
         String insertQuery = String.format(TeacherTable.createTeacher, user.getTeacher_id(), user.getPassword(),
                 user.gettClass(), user.getName(), user.getEmail(), user.getExperience(), user.getPhone(),
-                user.getSalary(),0);
+                user.getSalary(), 0);
 
         try {
             Connection conn = Connector.getConnection();
             PreparedStatement stmt = conn.prepareStatement(insertQuery);
-
             stmt.executeUpdate();
-            System.out.println("user record inserted");
-            //conn.close();
+            System.out.println("User Record inserted");
             return true;
         } catch (Exception e) {
-            System.out.println("Exception occured: create" + e.getMessage());
+            System.out.println("Exception occured on createTeacher:" + e.getMessage());
         }
         return false;
     }
@@ -84,7 +89,6 @@ public class TeacherDBHelper {
             Connection conn = Connector.getConnection();
             PreparedStatement stmt = conn.prepareStatement(selectQuery);
             ResultSet rs = stmt.executeQuery();
-            //  conn.close();
             return rs.next();
         } catch (Exception e) {
             System.out.println("Exception occurred " + e.getMessage());
@@ -93,22 +97,22 @@ public class TeacherDBHelper {
         return false;
     }
 
-    public static ArrayList<Materials> getTeacherMaterials(String id){
-        ArrayList<Materials > alMaterials = new ArrayList<>();
-        try{
+    public static ArrayList<Materials> getTeacherMaterials(String id) {
+        ArrayList<Materials> alMaterials = new ArrayList<>();
+        try {
             Connection con = Connector.getConnection();
-            String query = String.format(MaterialsTable.getTeacherMaterials,id);
+            String query = String.format(MaterialsTable.getTeacherMaterials, id);
             PreparedStatement stmt = con.prepareStatement(query);
-            ResultSet  rs = stmt.executeQuery();
-            while(rs.next()){
-                Materials material = new Materials(rs.getString(1),rs.getString(2),rs.getString(3));
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Materials material = new Materials(rs.getString(1), rs.getString(2), rs.getString(3));
                 alMaterials.add(material);
             }
 
-        }catch (Exception e){
-            System.out.println("Exception occurred : "+e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Exception occurred : " + e.getMessage());
         }
-        return  alMaterials;
+        return alMaterials;
     }
 
     public static Teacher viewTeacher(String id) {
@@ -120,8 +124,9 @@ public class TeacherDBHelper {
             PreparedStatement stmt = con.prepareStatement(selectUserQuery);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                user = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8),rs.getInt(9));
-//                System.out.println(rs.getString(3));
+                user = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+                        rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getInt(9));
+                // System.out.println(rs.getString(3));
             }
 
         } catch (Exception e) {
@@ -139,7 +144,6 @@ public class TeacherDBHelper {
                     user.getTeacher_id());
             PreparedStatement stmt = conn.prepareStatement(updateQuery);
             stmt.executeUpdate();
-            //conn.close();
             System.out.println("Updated");
             return true;
         } catch (Exception e) {
@@ -156,7 +160,6 @@ public class TeacherDBHelper {
             String deleteQuery = String.format(TeacherTable.deleteTeacher, id);
             PreparedStatement stmt = conn.prepareStatement(deleteQuery);
             stmt.executeUpdate();
-            //conn.close();
             System.out.println("Record Deleted");
             return true;
         } catch (Exception e) {
@@ -192,8 +195,7 @@ public class TeacherDBHelper {
                     std = rs.getString(4);
                 }
 
-
-//                System.out.println(rs.getString(1));
+                // System.out.println(rs.getString(1));
             } catch (Exception e) {
                 System.out.println("Exception:" + e);
             }
@@ -202,7 +204,6 @@ public class TeacherDBHelper {
             try {
                 PreparedStatement stmt = con.prepareStatement(attendanceQuery);
                 stmt.executeUpdate();
-//                con.close();
             } catch (Exception e) {
                 System.out.println("Exception occured:" + e.getMessage());
             }
@@ -264,7 +265,6 @@ public class TeacherDBHelper {
             PreparedStatement stmt = con.prepareStatement(insertQuery);
             stmt.executeUpdate();
             System.out.println(std.getStudent_id() + "'s Marks Entered");
-
 
         } catch (Exception e) {
             System.out.println("Exception:" + e);
@@ -401,8 +401,9 @@ public class TeacherDBHelper {
             PreparedStatement stmt = con.prepareStatement(selectUserQuery);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                user = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8),rs.getInt(9));
-//                System.out.println(rs.getString(3));
+                user = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+                        rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getInt(9));
+                // System.out.println(rs.getString(3));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -419,7 +420,8 @@ public class TeacherDBHelper {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
 
-                Teacher teacher = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8),rs.getInt(9));
+                Teacher teacher = new Teacher(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getInt(9));
                 alTeachers.add(teacher);
             }
 
@@ -523,7 +525,8 @@ public class TeacherDBHelper {
             PreparedStatement stmt = con.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Attendance attendance = new Attendance(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
+                Attendance attendance = new Attendance(rs.getString(1), rs.getString(2), rs.getString(3),
+                        rs.getString(4));
                 alAttendance.add(attendance);
             }
         } catch (Exception e) {
@@ -540,7 +543,8 @@ public class TeacherDBHelper {
             PreparedStatement stmt = con.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Marks mark = new Marks(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+                Marks mark = new Marks(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getString(6));
                 alMarks.add(mark);
             }
         } catch (Exception rx) {
@@ -550,32 +554,33 @@ public class TeacherDBHelper {
         return alMarks;
 
     }
-    public static String getpwd(String id){
-        String pwd="";
-        try{
-            Connection con=Connector.getConnection();
-            String pwdQuery=String.format(TeacherTable.getpwd,id);
-            PreparedStatement stmt=con.prepareStatement(pwdQuery);
-            ResultSet rs= stmt.executeQuery();
-            while(rs.next()){
-                pwd=rs.getString(1);
+
+    public static String getpwd(String id) {
+        String pwd = "";
+        try {
+            Connection con = Connector.getConnection();
+            String pwdQuery = String.format(TeacherTable.getpwd, id);
+            PreparedStatement stmt = con.prepareStatement(pwdQuery);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                pwd = rs.getString(1);
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         return pwd;
     }
 
-    public static boolean reAssign(int assigned,String id){
-        try{
-            Connection con=Connector.getConnection();
-            String query=String.format(TeacherTable.assignPayroll,assigned,id);
-            PreparedStatement stmt=con.prepareStatement(query);
+    public static boolean reAssign(int assigned, String id) {
+        try {
+            Connection con = Connector.getConnection();
+            String query = String.format(TeacherTable.assignPayroll, assigned, id);
+            PreparedStatement stmt = con.prepareStatement(query);
             stmt.executeUpdate();
             return true;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         return false;

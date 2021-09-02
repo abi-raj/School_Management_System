@@ -2,6 +2,8 @@ package GUI.admin;
 
 import database.AdminDBHelper;
 import database.TeacherDBHelper;
+import mailapi.Mailer;
+import GUI.utils.Btnlistener;
 import models.Attendance;
 import models.Exam;
 import models.Forum;
@@ -18,10 +20,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
 public class AdminGUI extends JFrame {
 
-    TeacherDBHelper teacherDBHelper = new TeacherDBHelper();
     JComboBox<String> cb_2;
     JComboBox<String> cb;
     JComboBox<String> std;
@@ -29,9 +29,9 @@ public class AdminGUI extends JFrame {
     JPanel homepanel, p;
     JPanel notification_panel;
     JPanel exampanel;
-    //JPanel leaveformpanel;
+    // JPanel leaveformpanel;
     JPanel teacherpanel;
-    //    JPanel learningpanel;
+    // JPanel learningpanel;
     // JPanel forumpanel;
     JPanel payrollpanel;
     JPanel total_studentspanel;
@@ -46,8 +46,7 @@ public class AdminGUI extends JFrame {
     String[][] teacherRecordArray;
     JComboBox<String> f_id_cb;
     ArrayList<Exam> alExams = new ArrayList<>();
-    //AdminDBHelper AdminDBHelper = new AdminDBHelper();
-
+    Teacher teacher = null;
     Attendance attendance = null;
     Color BG_COLOR = new Color(176, 0, 32);
     Color BG_GREEN = new Color(11, 138, 62);
@@ -55,8 +54,6 @@ public class AdminGUI extends JFrame {
     JList<String> a = new JList<>();
     DefaultTableModel defModel = new DefaultTableModel();
     JTable s_jt;
-    private JTextField a_stu_name;
-    private JTextField a_student_date;
 
     public AdminGUI() {
 
@@ -80,7 +77,6 @@ public class AdminGUI extends JFrame {
         sidebar.setLayout(null);
 
         UIManager.put("ToolTip.background", new Color(253, 253, 150));
-
 
         JButton home = new JButton();
         home.setBounds(41, 85, 43, 63);
@@ -168,7 +164,6 @@ public class AdminGUI extends JFrame {
         student.setToolTipText("Teacher Details\r\n");
         sidebar.add(student);
 
-
         homepanel = new JPanel();
         homepanel.setBounds(124, 0, 1336, 1000);
         homepanel.setBackground(Color.WHITE);
@@ -178,7 +173,6 @@ public class AdminGUI extends JFrame {
         examComponents();
         mailComponents();
         payrollComponents();
-
 
         teacherpanel = new JPanel();
         teacherpanel.setBackground(Color.white);
@@ -232,10 +226,9 @@ public class AdminGUI extends JFrame {
             }
         });
 
-
         s_jt = new JTable();
         s_jt.setModel(defModel);
-        String[] s_column = {"S.NO", "ID", "NAME", "CLASS", "EMAIL", "EXP", "PHONE", "SALARY"};
+        String[] s_column = { "S.NO", "ID", "NAME", "CLASS", "EMAIL", "EXP", "PHONE", "SALARY" };
         for (String s : s_column) {
             defModel.addColumn(s);
         }
@@ -247,7 +240,7 @@ public class AdminGUI extends JFrame {
         s_jt.setRowHeight(s_jt.getRowHeight() + 20);
         teacherpanel.add(s_jt);
 
-////pay
+        //// pay
         JButton payroll = new JButton();
         payroll.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -270,7 +263,6 @@ public class AdminGUI extends JFrame {
         payroll.setBackground(BG_COLOR);
         sidebar.add(payroll);
 
-
         setVisible(true);
         setLayout(null);
         setResizable(false);
@@ -279,16 +271,14 @@ public class AdminGUI extends JFrame {
 
     }
 
-
     public static void main(String[] args) {
 
         new AdminGUI();
 
     }
 
-
     void addTeacherRecords() {
-        ArrayList<Teacher> al = teacherDBHelper.allTeachers();
+        ArrayList<Teacher> al = TeacherDBHelper.allTeachers();
         System.out.println("Count INside all teacher records" + al.size());
         teacherRecordArray = new String[al.size() + 1][8];
 
@@ -313,7 +303,6 @@ public class AdminGUI extends JFrame {
             teacherRecordArray[i + 1][6] = al.get(i).getPhone();
             teacherRecordArray[i + 1][7] = String.valueOf(al.get(i).getSalary());
 
-
         }
 
     }
@@ -336,7 +325,6 @@ public class AdminGUI extends JFrame {
         text2.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         text2.setBounds(60, 77, 226, 26);
         welcometext.add(text2);
-
 
         total_studentspanel = new JPanel();
         total_studentspanel.setBackground(new Color(255, 109, 106));
@@ -466,14 +454,13 @@ public class AdminGUI extends JFrame {
         performance_panel.add(percentage);
 
         for (String s : AdminDBHelper.getAllClass()) {
-            //   System.out.println(s);
+            // System.out.println(s);
             comboBox.addItem(s);
         }
         int studentCount = AdminDBHelper.getTotalStudentCount();
         int teacherCount = AdminDBHelper.getTeacherCount();
         tot_students.setText(studentCount + "");
         teacher_count.setText(teacherCount + "");
-
 
         comboBox.addActionListener(new ActionListener() {
             @Override
@@ -482,11 +469,11 @@ public class AdminGUI extends JFrame {
                 if (index != -1) {
                     int classStudentCount = AdminDBHelper.getStudentCountByClass(comboBox.getItemAt(index));
                     String presentTodayCount = AdminDBHelper.todayPresent(comboBox.getItemAt(index));
-                    double performanceCount = AdminDBHelper.attendancePercentage("23-08-2021", comboBox.getItemAt(index));
+                    // double performanceCount = AdminDBHelper.attendancePercentage("23-08-2021",
+                    // comboBox.getItemAt(index));
                     percentage.setText("10");
                     lblNewLabel.setText(classStudentCount + "");
                     present_count.setText(presentTodayCount + "");
-
 
                 }
 
@@ -548,7 +535,7 @@ public class AdminGUI extends JFrame {
         Title_text.setToolTipText("Enter Exam title");
         Title_text.setBounds(222, 76, 192, 33);
         addExam_panel.add(Title_text);
-
+        // Title_text.setColumns(10);
 
         Start_text = new JTextField();
         Start_text.setToolTipText("Enter Start Date");
@@ -569,7 +556,6 @@ public class AdminGUI extends JFrame {
         addButton.setBounds(179, 325, 85, 33);
         addButton.setFocusPainted(false);
         addExam_panel.add(addButton);
-
 
         JPanel viewExam_panel = new JPanel();
         viewExam_panel.setBounds(560, 270, 555, 446);
@@ -615,7 +601,6 @@ public class AdminGUI extends JFrame {
         update_exambtn.setFocusPainted(false);
         update_exambtn.setBackground(new Color(136, 217, 242));
 
-
         update_exambtn.setBounds(77, 325, 111, 35);
         viewExam_panel.add(update_exambtn);
 
@@ -626,28 +611,27 @@ public class AdminGUI extends JFrame {
         removebtn.setFocusPainted(false);
         viewExam_panel.add(removebtn);
 
-
-        addButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (Title_text.getText().length() == 0 || Start_text.getText().length() != 10 || End_Text.getText().length() != 10) {
-                            JOptionPane.showMessageDialog(AdminGUI.this, "Enter all the fields correctly");
-                        } else {
-                            Exam exam = new Exam(Title_text.getText(), Start_text.getText(), End_Text.getText());
-                            if (AdminDBHelper.createExam(exam)) {
-                                JOptionPane.showMessageDialog(AdminGUI.this, "Exam added");
-                                Title_text.setText("");
-                                Start_text.setText("");
-                                End_Text.setText("");
-                                setComboExam(exams_combobox);
-                            } else {
-                                JOptionPane.showMessageDialog(AdminGUI.this, "Error in adding");
-                            }
-                        }
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Title_text.getText().length() == 0 || Start_text.getText().length() != 10
+                        || End_Text.getText().length() != 10) {
+                    JOptionPane.showMessageDialog(AdminGUI.this, "Enter all the fields correctly");
+                } else {
+                    Exam exam = new Exam(Title_text.getText(), Start_text.getText(), End_Text.getText());
+                    if (AdminDBHelper.createExam(exam)) {
+                        JOptionPane.showMessageDialog(AdminGUI.this, "Exam added");
+                        Title_text.setText("");
+                        Start_text.setText("");
+                        End_Text.setText("");
+                        setComboExam(exams_combobox);
+                    } else {
+                        JOptionPane.showMessageDialog(AdminGUI.this, "Error in adding");
                     }
                 }
-        );
+            }
+
+        });
         exams_combobox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -666,7 +650,8 @@ public class AdminGUI extends JFrame {
                 if (viewStart.getText().length() != 10 || viewEnd.getText().length() != 10) {
                     JOptionPane.showMessageDialog(AdminGUI.this, "Enter all the fields correctly");
                 } else {
-                    Exam exam = new Exam((exams_combobox.getItemAt(exams_combobox.getSelectedIndex())), viewStart.getText(), viewEnd.getText());
+                    Exam exam = new Exam((exams_combobox.getItemAt(exams_combobox.getSelectedIndex())),
+                            viewStart.getText(), viewEnd.getText());
                     if (AdminDBHelper.updateExam(exam)) {
                         JOptionPane.showMessageDialog(AdminGUI.this, "Exam Updated");
                         setComboExam(exams_combobox);
@@ -728,6 +713,8 @@ public class AdminGUI extends JFrame {
         notification_panel.add(select_ToOptionpanel);
         select_ToOptionpanel.setLayout(null);
 
+        txt_Toaddr = new JTextField();
+
         specific_radiobtn = new JRadioButton("Specific");
         specific_radiobtn.setFont(new Font("Segoe UI", Font.PLAIN, 20));
         bg.add(specific_radiobtn);
@@ -735,6 +722,7 @@ public class AdminGUI extends JFrame {
         specific_radiobtn.setBackground(new Color(244, 250, 221));
         specific_radiobtn.setBounds(62, 62, 239, 36);
         select_ToOptionpanel.add(specific_radiobtn);
+        specific_radiobtn.addMouseListener(new Btnlistener(specific_radiobtn, txt_Toaddr));
 
         Toall_radiobtn = new JRadioButton("To all Students");
         Toall_radiobtn.setFont(new Font("Segoe UI", Font.PLAIN, 20));
@@ -743,6 +731,7 @@ public class AdminGUI extends JFrame {
         Toall_radiobtn.setFocusPainted(false);
         Toall_radiobtn.setBackground(new Color(244, 250, 221));
         select_ToOptionpanel.add(Toall_radiobtn);
+        Toall_radiobtn.addMouseListener(new Btnlistener(Toall_radiobtn, txt_Toaddr));
 
         rdbtnToAllTeachers = new JRadioButton("To all Teachers");
         rdbtnToAllTeachers.setFont(new Font("Segoe UI", Font.PLAIN, 20));
@@ -751,6 +740,7 @@ public class AdminGUI extends JFrame {
         rdbtnToAllTeachers.setBackground(new Color(244, 250, 221));
         rdbtnToAllTeachers.setFocusPainted(false);
         select_ToOptionpanel.add(rdbtnToAllTeachers);
+        rdbtnToAllTeachers.addMouseListener(new Btnlistener(rdbtnToAllTeachers, txt_Toaddr));
 
         rdbtnBoth = new JRadioButton("Both");
         rdbtnBoth.setFont(new Font("Segoe UI", Font.PLAIN, 20));
@@ -759,6 +749,7 @@ public class AdminGUI extends JFrame {
         rdbtnBoth.setBackground(new Color(244, 250, 221));
         rdbtnBoth.setFocusPainted(false);
         select_ToOptionpanel.add(rdbtnBoth);
+        rdbtnBoth.addMouseListener(new Btnlistener(rdbtnBoth, txt_Toaddr));
 
         JPanel send_mailpanel = new JPanel();
         send_mailpanel.setBounds(500, 170, 621, 546);
@@ -766,29 +757,12 @@ public class AdminGUI extends JFrame {
         notification_panel.add(send_mailpanel);
         send_mailpanel.setLayout(null);
 
-        txt_Toaddr = new JTextField();
-        txt_Toaddr.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                txt_Toaddr.setText("");
-                txt_Toaddr.setForeground(Color.BLACK);
-                if (!specific_radiobtn.isSelected()) {
-                    txt_Toaddr.setEditable(false);
-                    txt_Toaddr.setText("To");
-                    txt_Toaddr.setForeground(Color.LIGHT_GRAY);
-                } else {
-                    txt_Toaddr.setEditable(true);
-                }
-            }
-
-        });
         txt_Toaddr.setForeground(Color.LIGHT_GRAY);
         txt_Toaddr.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         txt_Toaddr.setText("To");
         txt_Toaddr.setToolTipText("To Address");
         txt_Toaddr.setBounds(53, 50, 430, 40);
         send_mailpanel.add(txt_Toaddr);
-
 
         txtSubject = new JTextField();
         txtSubject.addMouseListener(new MouseAdapter() {
@@ -847,6 +821,18 @@ public class AdminGUI extends JFrame {
         send_btn.setBackground(new Color(255, 109, 106));
         send_btn.setBounds(381, 475, 93, 30);
         send_btn.setBorder(new LineBorder(Color.BLACK));
+        send_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String toAddr = txt_Toaddr.getText();
+                // TODO add checking for valid email address and non-empty specific mail field
+                if (!toAddr.equals("Both") && toAddr.split(" ").length == 1) {
+                    Mailer.send(toAddr, txtSubject.getText(), txt_Body.getText());
+                } else {
+                    Mailer.send(Mailer.getToAddresses(toAddr), txtSubject.getText(), txt_Body.getText());
+                }
+            }
+        });
         send_mailpanel.add(send_btn);
 
     }
@@ -881,7 +867,8 @@ public class AdminGUI extends JFrame {
         addevent_panel.add(New_eventlbl);
 
         JPanel event_panel = new JPanel();
-//        event_panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(0, 0, 0), Color.LIGHT_GRAY));
+        // event_panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(0, 0,
+        // 0), Color.LIGHT_GRAY));
         event_panel.setBackground(new Color(203, 245, 241));
         event_panel.setBounds(48, 101, 398, 432);
         addevent_panel.add(event_panel);
@@ -992,7 +979,6 @@ public class AdminGUI extends JFrame {
                         JOptionPane.showMessageDialog(AdminGUI.this, "Failure");
                     }
 
-
                 }
             }
         });
@@ -1013,7 +999,8 @@ public class AdminGUI extends JFrame {
         ArrayList<Teacher> alTeacher = TeacherDBHelper.allTeachers();
         int i = 1;
         for (Teacher teach : alTeacher) {
-            defModel.addRow(new Object[]{i, teach.getTeacher_id(), teach.getName(), teach.gettClass(), teach.getEmail(), teach.getExperience(), teach.getPhone(), teach.getSalary()});
+            defModel.addRow(new Object[] { i, teach.getTeacher_id(), teach.getName(), teach.gettClass(),
+                    teach.getEmail(), teach.getExperience(), teach.getPhone(), teach.getSalary() });
             i++;
         }
     }
@@ -1024,6 +1011,6 @@ public class AdminGUI extends JFrame {
     }
 
     void setTeachersTableHeader() {
-        defModel.addRow(new Object[]{"S.NO", "ID", "NAME", "CLASS", "EMAIL", "EXP", "PHONE", "SALARY"});
+        defModel.addRow(new Object[] { "S.NO", "ID", "NAME", "CLASS", "EMAIL", "EXP", "PHONE", "SALARY" });
     }
 }

@@ -1,6 +1,5 @@
 package GUI.admin;
 
-import GUI.LoginGUI;
 import database.TeacherDBHelper;
 import models.Teacher;
 
@@ -20,15 +19,15 @@ public class ModTeacher extends JFrame {
     JTextField t_pwd, t_class, t_name, t_email, t_exp, t_phone, t_salary;
     Font font = new Font("Times New Roman", 1, 21);
     JComboBox<String> teacher_box;
-    JPanel panel=new JPanel();
+    JPanel panel = new JPanel();
     JButton editButton = new JButton("Update");
     JButton deleteButton = new JButton("Delete");
-    TeacherDBHelper teacherDBHelper = new TeacherDBHelper();
     ArrayList<Teacher> alTeachers;
 
-    AdminGUI adminGUI=null;
+    AdminGUI adminGUI = null;
+
     public ModTeacher(AdminGUI adminGUI) {
-this.adminGUI = adminGUI;
+        this.adminGUI = adminGUI;
         setBounds(50, 50, 500, 600);
         setVisible(true);
         setLayout(null);
@@ -48,9 +47,9 @@ this.adminGUI = adminGUI;
 
     }
 
-//    public static void main(String[] args) {
-//        new ModTeacher();
-//    }
+    // public static void main(String[] args) {
+    // new ModTeacher();
+    // }
 
     void setLabelBounds() {
         l_id = new JLabel("ID ");
@@ -96,44 +95,44 @@ this.adminGUI = adminGUI;
     }
 
     void setTextFields() {
-//        t_id = new JTextField();
-//        t_id.setBounds(240, 50, 150, 30);
-//        add(t_id);
+        // t_id = new JTextField();
+        // t_id.setBounds(240, 50, 150, 30);
+        // add(t_id);
         teacher_box = new JComboBox<String>();
         teacher_box.setBounds(240, 50, 150, 30);
-        teacher_box.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        teacher_box.setBorder(new BasicBorders.FieldBorder(Color.gray, Color.gray, Color.gray, Color.gray));
         panel.add(teacher_box);
         t_pwd = new JTextField();
         t_pwd.setBounds(240, 100, 150, 30);
-        t_pwd.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        t_pwd.setBorder(new BasicBorders.FieldBorder(Color.gray, Color.gray, Color.gray, Color.gray));
         panel.add(t_pwd);
         t_name = new JTextField();
         t_name.setBounds(240, 150, 150, 30);
-        t_name.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        t_name.setBorder(new BasicBorders.FieldBorder(Color.gray, Color.gray, Color.gray, Color.gray));
         panel.add(t_name);
         t_class = new JTextField();
         t_class.setBounds(240, 200, 150, 30);
-        t_class.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        t_class.setBorder(new BasicBorders.FieldBorder(Color.gray, Color.gray, Color.gray, Color.gray));
         panel.add(t_class);
 
         t_email = new JTextField();
         t_email.setBounds(240, 250, 150, 30);
-        t_email.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        t_email.setBorder(new BasicBorders.FieldBorder(Color.gray, Color.gray, Color.gray, Color.gray));
         panel.add(t_email);
 
         t_exp = new JTextField();
         t_exp.setBounds(240, 300, 150, 30);
-        t_exp.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        t_exp.setBorder(new BasicBorders.FieldBorder(Color.gray, Color.gray, Color.gray, Color.gray));
         panel.add(t_exp);
 
         t_phone = new JTextField();
         t_phone.setBounds(240, 350, 150, 30);
-        t_phone.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        t_phone.setBorder(new BasicBorders.FieldBorder(Color.gray, Color.gray, Color.gray, Color.gray));
         panel.add(t_phone);
 
         t_salary = new JTextField();
         t_salary.setBounds(240, 400, 150, 30);
-        t_salary.setBorder(new BasicBorders.FieldBorder(Color.gray,Color.gray,Color.gray,Color.gray));
+        t_salary.setBorder(new BasicBorders.FieldBorder(Color.gray, Color.gray, Color.gray, Color.gray));
         panel.add(t_salary);
     }
 
@@ -144,7 +143,6 @@ this.adminGUI = adminGUI;
         editButton.setFocusPainted(false);
         editButton.setBackground(new Color(28, 133, 232));
         panel.add(editButton);
-
 
         editButton.addActionListener(new ActionListener() {
             @Override
@@ -157,16 +155,18 @@ this.adminGUI = adminGUI;
 
                         int index = teacher_box.getSelectedIndex();
                         Teacher teacher = alTeachers.get(index);
-                        Teacher user = new Teacher(teacher.getTeacher_id(), t_pwd.getText(), t_class.getText(), t_name.getText(), t_email.getText(), Integer.parseInt(t_exp.getText()), t_phone.getText(), Integer.parseInt(t_salary.getText()),0);
+                        Teacher user = new Teacher(teacher.getTeacher_id(), t_pwd.getText(), t_class.getText(),
+                                t_name.getText(), t_email.getText(), Integer.parseInt(t_exp.getText()),
+                                t_phone.getText(), Integer.parseInt(t_salary.getText()), 0);
 
-                        if (new TeacherDBHelper().updateTeacher(user)) {
+                        if (TeacherDBHelper.updateTeacher(user)) {
                             JOptionPane.showMessageDialog(ModTeacher.this, "Teacher Updated successfully");
                             setTeacherBox();
                             adminGUI.setTableRecords();
-                            //dispose();
+                            // dispose();
                         } else {
                             JOptionPane.showMessageDialog(ModTeacher.this, "Failure updating teacher");
-                            //dispose();
+                            // dispose();
                         }
                     } else {
                         JOptionPane.showMessageDialog(ModTeacher.this, "Enter valid values");
@@ -186,19 +186,17 @@ this.adminGUI = adminGUI;
             public void actionPerformed(ActionEvent e) {
                 int index = teacher_box.getSelectedIndex();
                 if (index != -1) {
-                    int logout_result = JOptionPane.showConfirmDialog(panel,"Are you sure want to Delete?","",
-                            JOptionPane.YES_NO_OPTION,
-                            JOptionPane.QUESTION_MESSAGE);
-                    if(logout_result == JOptionPane.YES_OPTION){
-                        if(teacherDBHelper.deleteTeacher(alTeachers.get(index).getTeacher_id())){
-                            JOptionPane.showMessageDialog(ModTeacher.this,"Deleted Succesfully");
+                    int logout_result = JOptionPane.showConfirmDialog(panel, "Are you sure want to Delete?", "",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (logout_result == JOptionPane.YES_OPTION) {
+                        if (TeacherDBHelper.deleteTeacher(alTeachers.get(index).getTeacher_id())) {
+                            JOptionPane.showMessageDialog(ModTeacher.this, "Deleted Succesfully");
                             setEmpty();
                             adminGUI.setTableRecords();
-                        }else{
-                            JOptionPane.showMessageDialog(ModTeacher.this,"Deletion Failed");
+                        } else {
+                            JOptionPane.showMessageDialog(ModTeacher.this, "Deletion Failed");
                         }
                     }
-
 
                     setTeacherBox();
                 }
@@ -216,10 +214,15 @@ this.adminGUI = adminGUI;
         l_email.setForeground(Color.BLACK);
         l_exp.setForeground(Color.BLACK);
     }
-    public void setEmpty(){
-        t_salary.setText("");t_name.setText("");
-        t_email.setText("");t_exp.setText("");
-        t_class.setText("");t_phone.setText("");t_pwd.setText("");
+
+    public void setEmpty() {
+        t_salary.setText("");
+        t_name.setText("");
+        t_email.setText("");
+        t_exp.setText("");
+        t_class.setText("");
+        t_phone.setText("");
+        t_pwd.setText("");
     }
 
     public boolean validatempty() {
@@ -295,7 +298,7 @@ this.adminGUI = adminGUI;
 
     void setTeacherBox() {
         teacher_box.removeAllItems();
-        alTeachers = teacherDBHelper.allTeachers();
+        alTeachers = TeacherDBHelper.allTeachers();
         for (Teacher t : alTeachers) {
             teacher_box.addItem(t.getTeacher_id());
         }
