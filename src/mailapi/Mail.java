@@ -39,7 +39,8 @@ class Mailer {
 public class Mail {
 	public static void main(String[] args) {
 		// from,password,to,subject,message
-		Mailer.send("samjerub@gmail.com", "You thought i committed", "19eucs117@skcet.ac.in", "hello >_>", "How r u?");
+		//Mailer.send("from", "password", "to", "Works may be", "Done and Dusted");
 		// change from, password and to
+		//"samjerub@gmail.com"
 	}
 }
