@@ -7,13 +7,9 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicBorders;
-import javax.swing.plaf.multi.MultiPanelUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class AddTeacher extends JFrame {
@@ -21,11 +17,12 @@ public class AddTeacher extends JFrame {
     JLabel l_id, l_pwd, l_class, l_name, l_email, l_exp, l_phone, l_salary;
     JTextField t_id, t_pwd, t_class, t_name, t_email, t_exp, t_phone, t_salary;
     Font font = new Font("Times New Roman", 1, 21);
-    JPanel panel=new JPanel();
+    JPanel panel = new JPanel();
     JButton addButton = new JButton("Add");
+    AdminGUI adminGUI = null;
 
-    public AddTeacher() {
-
+    public AddTeacher(AdminGUI admingui) {
+        this.adminGUI = admingui;
         setBounds(50, 50, 500, 600);
 
         panel.setBounds(50, 50, 500, 600);
@@ -45,9 +42,7 @@ public class AddTeacher extends JFrame {
 
     }
 
-    public static void main(String[] args) {
-        new AddTeacher();
-    }
+
 
     void setLabelBounds() {
         l_id = new JLabel("ID ");
@@ -145,18 +140,20 @@ public class AddTeacher extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Teacher teacher;
                 if (validatempty()) {
                     JOptionPane.showMessageDialog(AddTeacher.this, "Enter all Details");
                 } else {
                     setColor();
                     if (validateEmail() && validatePhone() && validatePwd() && validateName()) {
-                        Teacher teacher = new Teacher(t_id.getText(), t_pwd.getText(),  t_class.getText(),t_name.getText(), t_email.getText(), Integer.parseInt(t_exp.getText()), t_phone.getText(), Integer.parseInt(t_salary.getText()));
-                        System.out.println(teacher.getName());
-                        System.out.println(teacher.gettClass());
+                         teacher = new Teacher(t_id.getText(), t_pwd.getText(),  t_class.getText(),t_name.getText(), t_email.getText(), Integer.parseInt(t_exp.getText()), t_phone.getText(), Integer.parseInt(t_salary.getText()),0);
+//                        System.out.println(teacher.getName());
+//                        System.out.println(teacher.gettClass());
 
-                        if (new TeacherDBHelper().createTeacher(teacher)) {
+                        if (TeacherDBHelper.createTeacher(teacher)) {
                             JOptionPane.showMessageDialog(AddTeacher.this, "Teacher added successfully");
-                            //dispose();
+                            adminGUI.setTableRecords();
+                            dispose();
                         } else {
                             JOptionPane.showMessageDialog(AddTeacher.this, "Failure adding teacher");
                             //dispose();

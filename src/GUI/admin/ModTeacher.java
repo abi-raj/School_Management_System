@@ -26,8 +26,9 @@ public class ModTeacher extends JFrame {
     TeacherDBHelper teacherDBHelper = new TeacherDBHelper();
     ArrayList<Teacher> alTeachers;
 
-    public ModTeacher() {
-
+    AdminGUI adminGUI=null;
+    public ModTeacher(AdminGUI adminGUI) {
+this.adminGUI = adminGUI;
         setBounds(50, 50, 500, 600);
         setVisible(true);
         setLayout(null);
@@ -47,9 +48,9 @@ public class ModTeacher extends JFrame {
 
     }
 
-    public static void main(String[] args) {
-        new ModTeacher();
-    }
+//    public static void main(String[] args) {
+//        new ModTeacher();
+//    }
 
     void setLabelBounds() {
         l_id = new JLabel("ID ");
@@ -140,6 +141,7 @@ public class ModTeacher extends JFrame {
         editButton.setBounds(100, 460, 100, 30);
         editButton.setBorder(new EtchedBorder());
         editButton.setForeground(Color.white);
+        editButton.setFocusPainted(false);
         editButton.setBackground(new Color(28, 133, 232));
         panel.add(editButton);
 
@@ -155,11 +157,12 @@ public class ModTeacher extends JFrame {
 
                         int index = teacher_box.getSelectedIndex();
                         Teacher teacher = alTeachers.get(index);
-                        Teacher user = new Teacher(teacher.getTeacher_id(), t_pwd.getText(), t_class.getText(), t_name.getText(), t_email.getText(), Integer.parseInt(t_exp.getText()), t_phone.getText(), Integer.parseInt(t_salary.getText()));
+                        Teacher user = new Teacher(teacher.getTeacher_id(), t_pwd.getText(), t_class.getText(), t_name.getText(), t_email.getText(), Integer.parseInt(t_exp.getText()), t_phone.getText(), Integer.parseInt(t_salary.getText()),0);
 
                         if (new TeacherDBHelper().updateTeacher(user)) {
                             JOptionPane.showMessageDialog(ModTeacher.this, "Teacher Updated successfully");
                             setTeacherBox();
+                            adminGUI.setTableRecords();
                             //dispose();
                         } else {
                             JOptionPane.showMessageDialog(ModTeacher.this, "Failure updating teacher");
@@ -176,6 +179,7 @@ public class ModTeacher extends JFrame {
         deleteButton.setBorder(new EtchedBorder());
         deleteButton.setBackground(new Color(176, 0, 32));
         deleteButton.setForeground(Color.white);
+        deleteButton.setFocusPainted(false);
         panel.add(deleteButton);
         deleteButton.addActionListener(new ActionListener() {
             @Override
@@ -189,6 +193,7 @@ public class ModTeacher extends JFrame {
                         if(teacherDBHelper.deleteTeacher(alTeachers.get(index).getTeacher_id())){
                             JOptionPane.showMessageDialog(ModTeacher.this,"Deleted Succesfully");
                             setEmpty();
+                            adminGUI.setTableRecords();
                         }else{
                             JOptionPane.showMessageDialog(ModTeacher.this,"Deletion Failed");
                         }
